@@ -12,7 +12,7 @@ Future<void> main() async {
   );
 
   runApp(const MaterialApp(
-    title: 'Navigation Basics',
+    title: 'KICKO!',
     home: KickoApp(),
   ));
 }

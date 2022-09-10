@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "146910550883",
+    "project_id": "kicko-b75db",
+    "storage_bucket": "kicko-b75db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146910550883:android:2be33f8c777979fb76d156",
+        "android_client_info": {
+          "package_name": "com.example.kicko"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146910550883-eadr18tk22vgihid9vfqpujseo0mtgti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCxHy0JMG-a8GBnZbOSRDweM2YUFQwXIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146910550883-eadr18tk22vgihid9vfqpujseo0mtgti.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
