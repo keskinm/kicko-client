@@ -1,3 +1,4 @@
+import 'package:kicko/pages/login/login_page.dart';
 import 'package:kicko/professional/main.dart';
 import 'package:flutter/material.dart';
 // import 'dio.dart';
@@ -52,7 +53,7 @@ class _KickoApp extends State<KickoApp>{
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const ProHome()),
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
                       );
                     },
                   ),
