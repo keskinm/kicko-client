@@ -17,7 +17,7 @@ class FirstRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('None'),
+          title: const Text('KICKO'),
         ),
 
 
@@ -28,7 +28,7 @@ class FirstRoute extends StatelessWidget {
                 children: [
 
                   ElevatedButton(
-                    child: const Text('Professional'),
+                    child: const Text('Je suis professionel'),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -38,7 +38,7 @@ class FirstRoute extends StatelessWidget {
                   ),
 
                   ElevatedButton(
-                    child: const Text('Export'),
+                    child: const Text('Je suis candidat'),
                     onPressed: () {
                       Navigator.push(
                         context,
