@@ -9,7 +9,7 @@ import '../../services/app_state.dart';
 //@todo how to refactor it in professional home logic?
 Future<List> getJobOffers() async {
   String userId = appState.currentUser.id;
-  String body = '{"id": "$userId"}';
+  String body = '{"user_id": "$userId"}';
   Response response = await dioHttpPost(
     route: 'get_job_offers',
     jsonData: body,
