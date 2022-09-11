@@ -24,7 +24,7 @@ void addJobOffer(
   String userId = appState.currentUser.id;
   String body = '{"name": "$jobOffer", "description":"$jobOffer", "requires":"$jobOffer", "id": "$userId"}';
   Response response =await dioHttpPost(
-    route: 'update_job_offers',
+    route: 'add_job_offer',
     jsonData: body,
     token: false,
   );
