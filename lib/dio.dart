@@ -1,15 +1,16 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:kicko/services/app_state.dart';
 
 Future<Response> dioHttpGet(
     {required String route, required bool token}) async {
   Dio dio = getDio(token: token);
   String serverUrl;
   if (kIsWeb) {
-    serverUrl = 'http://127.0.0.1:8000/api/';
+    serverUrl = 'http://127.0.0.1:5000/api/';
   } else {
-    serverUrl = 'http://10.0.2.2:8000/api/';
+    serverUrl = 'http://10.0.2.2:5000/api/';
   }
   return await dio.get(serverUrl + route);
 }
@@ -34,7 +35,7 @@ Dio getDio({required bool token}) {
       followRedirects: false,
       headers: token
           ? {
-        // HttpHeaders.authorizationHeader: 'Bearer ${appState.currentUser.token}',
+        HttpHeaders.authorizationHeader: 'Bearer ${appState.currentUser.token}',
         HttpHeaders.contentTypeHeader: 'application/json'
       }
           : {'content-Type': 'application/json'},

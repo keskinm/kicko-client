@@ -46,7 +46,6 @@ class AuthMethods {
   Future getCurrentUser({required String token}) async {
     Response response = await dioHttpGet(route: 'user', token: true);
 
-    print('CurrentUser ${response.statusCode}');
     if (response.statusCode == 200) {
       return response.data;
     } else {
