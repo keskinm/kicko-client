@@ -52,20 +52,30 @@ class _ProHome extends State<ProHome> {
       Widget body;
       if (snapshot.hasData){
         body = ListView.builder(
-          // Let the ListView know how many items it needs to build.
           itemCount: snapshot.data!.length,
-          // Provide a builder function. This is where the magic happens.
-          // Convert each item into a widget based on the type of item it is.
           itemBuilder: (context, index) {
             final jobOffer = snapshot.data![index];
-            return ListTile(
-              title: Text(jobOffer['name']),
-              subtitle: ListTile(
-                title: Text('Description: ' + jobOffer["description"] + '\n'),
-                subtitle: ListTile(
-                  title: Text('Requires: ' + jobOffer["requires"]),
+            return ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(8),
+              children: <Widget>[
+                Container(
+                  height: 50,
+                  color: Colors.amber[600],
+                  child: Text(jobOffer['name']),
                 ),
-              ),
+                Container(
+                  height: 50,
+                  color: Colors.amber[500],
+                  child: Text(jobOffer['description']),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.amber[100],
+                  child: Text(jobOffer['requires']),
+                ),
+              ],
             );
           },
         );
@@ -83,21 +93,21 @@ class _ProHome extends State<ProHome> {
 
   Column buildAddJobOffer() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      // mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        TextField(
-          controller: _controller,
-          decoration: const InputDecoration(hintText: 'Enter Backlog'),
-        ),
-        ElevatedButton(
-          onPressed: () {
+      TextField(
+        controller: _controller,
+        decoration: const InputDecoration(hintText: 'Entrez une nouvelle offre d\'emploi'),
+      ),
+      ElevatedButton(
+        onPressed: () {
 
-            addJobOffer(jobOffer: _controller.text);
+          addJobOffer(jobOffer: _controller.text);
 
-          },
-          child: const Text('Merge Backlog'),
-        ),
-      ],
+        },
+        child: const Text('Valider'),
+      ),
+    ],
     );
   }
 
@@ -107,8 +117,8 @@ class _ProHome extends State<ProHome> {
         appBar: AppBar(
           title: const Text('Bienvenu dans votre tableau de bord !'),
         ),
-        
-        body: buildAddJobOffer()
+
+      body: buildAddJobOffer()
       // body: buildJobOffers()
       // body: Wrap(spacing: 100,
       // children: [buildJobOffers(), buildAddJobOffer()],)
