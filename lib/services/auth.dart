@@ -12,18 +12,18 @@ class AuthMethods {
       {required String username,
         required String password,
         required String email,
-        required String uid}) async {
+        required String firebaseUid}) async {
 
     String json =
-        '{"username": "$username","password":"$password", "email":"$email", "id": "$uid"}';
+        '{"username": "$username","password":"$password", "email":"$email", "firebase_id": "$firebaseUid"}';
     print('/userRegister');
     Response response =
-    await dioHttpPost(route: 'register', jsonData: json, token: false);
+    await dioHttpPost(route: 'user_register', jsonData: json, token: false);
     print(response.data);
     if (response.statusCode == 200) {
 
       appState.addCredentials(
-          keys: {'username': username, 'password': password,'email': email, 'id': uid});
+          keys: {'username': username, 'password': password,'email': email, 'id': firebaseUid});
 
       return response;
     } else {

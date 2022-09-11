@@ -58,10 +58,10 @@ class RegisterLogic {
         const SnackBar(content: Text('Inscription')),
       );
 
-      String uid = await createUserFromFireBase(email, password);
+      String firebaseUid = await createUserFromFireBase(email, password);
       //Formulaire ok requete /register
       Response response = await appState.authMethods.userRegister(
-          username: username, password: password, email: email, uid: uid);
+          username: username, password: password, email: email, firebaseUid: firebaseUid);
       //Compte créé
       if (response.statusCode == 200) {
 
