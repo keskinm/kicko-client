@@ -56,7 +56,7 @@ class _ProHome extends State<ProHome> {
 
   Widget buildPopupDialog(BuildContext context, String message) {
     return AlertDialog(
-      title: const Text('Popup example'),
+      title: const Text('Oups !'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +69,7 @@ class _ProHome extends State<ProHome> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Close'),
+          child: const Text('Fermer'),
         ),
       ],
     );
@@ -138,7 +138,7 @@ class _ProHome extends State<ProHome> {
               );
             }
             else {
-              buildPopupDialog(context, "A problem occurred.");
+              buildPopupDialog(context, "Nous avons rencontré un problème lors de la validation de votre offre d'emploi.");
             }
           },
           child: const Text('Valider'),
