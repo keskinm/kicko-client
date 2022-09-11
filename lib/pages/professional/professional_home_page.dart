@@ -3,23 +3,29 @@ import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 
+import '../../services/app_state.dart';
+
 
 //@todo how to refactor it in professional home logic?
 Future<List> getJobOffers() async {
-  Response response = await dioHttpGet(
+  String userId = appState.currentUser.id;
+  String body = '{"id": "$userId"}';
+  Response response = await dioHttpPost(
     route: 'get_job_offers',
+    jsonData: body,
     token: false,
   );
   return response.data;
 }
 
 
-void updateJobOffers(
-    {required String jobOffers}) async {
-  String body = '{"name": "$jobOffers", "description":"$jobOffers", "requires":"$jobOffers"}';
-  await dioHttpPost(
+void addJobOffer(
+    {required String jobOffer}) async {
+  String userId = appState.currentUser.id;
+  String body = '{"name": "$jobOffer", "description":"$jobOffer", "requires":"$jobOffer", "id": "$userId"}';
+  Response response =await dioHttpPost(
     route: 'update_job_offers',
-    jsonData: jobOffers,
+    jsonData: body,
     token: false,
   );
 }
@@ -86,7 +92,7 @@ class _ProHome extends State<ProHome> {
         ElevatedButton(
           onPressed: () {
 
-            updateJobOffers(jobOffers: _controller.text);
+            addJobOffer(jobOffer: _controller.text);
 
           },
           child: const Text('Merge Backlog'),
