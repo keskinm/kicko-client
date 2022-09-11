@@ -22,7 +22,7 @@ Future<List> getJobOffers() async {
 void addJobOffer(
     {required String jobOffer}) async {
   String userId = appState.currentUser.id;
-  String body = '{"name": "$jobOffer", "description":"$jobOffer", "requires":"$jobOffer", "id": "$userId"}';
+  String body = '{"name": "$jobOffer", "description":"$jobOffer", "requires":"$jobOffer", "user_id": "$userId"}';
   Response response =await dioHttpPost(
     route: 'add_job_offer',
     jsonData: body,
