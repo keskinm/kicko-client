@@ -5,9 +5,7 @@ import 'package:kicko/services/app_state.dart';
 import 'package:kicko/widgets/forms/validator.dart';
 import 'package:kicko/pages/professional/professional_home_page.dart';
 
-
 class RegisterLogic {
-
   final formKey = GlobalKey<FormState>();
   Validator validator = Validator();
 
@@ -23,6 +21,7 @@ class RegisterLogic {
       return null;
     }
   }
+
   String? validateUsername({required String? value}) {
     if (!validator.validateUsername(value: value)) {
       return 'Doit contenir au moins 4 caractères.';
@@ -31,6 +30,7 @@ class RegisterLogic {
       return null;
     }
   }
+
   String? validateEmail({required String? value}) {
     if (!validator.validateEmail(value: value)) {
       return 'Email invalide';
@@ -42,13 +42,15 @@ class RegisterLogic {
 
   Future<String> createUserFromFireBase(String email, String password) async {
     try {
-      UserCredential fireBaseResponse = await appState.authMethods.fAuth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential fireBaseResponse = await appState.authMethods.fAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
       User? fireBaseResponseUser = fireBaseResponse.user;
-      dynamic uid = fireBaseResponseUser!=null ? fireBaseResponseUser.uid:appState.currentUser.id;
+      dynamic uid = fireBaseResponseUser != null
+          ? fireBaseResponseUser.uid
+          : appState.currentUser.id;
       return uid;
-    }
-    catch(e){
-      throw(e.toString());
+    } catch (e) {
+      throw (e.toString());
     }
   }
 
@@ -61,14 +63,17 @@ class RegisterLogic {
       String firebaseUid = await createUserFromFireBase(email, password);
       //Formulaire ok requete /register
       Response response = await appState.authMethods.userRegister(
-          username: username, password: password, email: email, firebaseUid: firebaseUid);
+          username: username,
+          password: password,
+          email: email,
+          firebaseUid: firebaseUid);
       //Compte créé
       if (response.statusCode == 200) {
+        await appState.authMethods
+            .firebaseSignInWithEmailAndPassword(email, password);
 
-        await appState.authMethods.firebaseSignInWithEmailAndPassword(email, password);
-
-        if (appState.checkToken(await appState.authMethods.authenticationToken(
-            username: username, password: password))) {
+        if (appState.checkToken(await appState.authMethods
+            .authenticationToken(username: username, password: password))) {
           appState.appStatus = AppStatus.connected;
           Navigator.push(
             context,
@@ -80,9 +85,9 @@ class RegisterLogic {
           );
         }
         //Erreur création compte, (email / username deja utilisé )
-      } else{
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('error ${response.data}'),
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('error ${response.data}'),
         ));
       }
     }

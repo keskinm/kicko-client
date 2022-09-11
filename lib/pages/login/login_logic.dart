@@ -4,7 +4,6 @@ import 'package:kicko/widgets/forms/validator.dart';
 import 'package:kicko/pages/professional/professional_home_page.dart';
 
 class LoginLogic {
-
   final formKey = GlobalKey<FormState>();
   late String username;
   late String password;
@@ -29,19 +28,20 @@ class LoginLogic {
     }
   }
 
-  Future<void >validateLogin({required BuildContext context}) async {
+  Future<void> validateLogin({required BuildContext context}) async {
     if (formKey.currentState!.validate()) {
-
-      final bool res = appState.checkToken(
-          await appState.authMethods.authenticationToken(username: username, password: password));
+      final bool res = appState.checkToken(await appState.authMethods
+          .authenticationToken(username: username, password: password));
 
       if (res) {
         //Stockage des infos pour connexion auto
-        appState.addCredentials(
-            keys: {'username': username, 'password': password});
-        final res = await appState.authMethods.getCurrentUser(token: appState.currentUser.token);
+        appState
+            .addCredentials(keys: {'username': username, 'password': password});
+        final res = await appState.authMethods
+            .getCurrentUser(token: appState.currentUser.token);
 
-        await appState.authMethods.firebaseSignInWithEmailAndPassword(res['email'], password);
+        await appState.authMethods
+            .firebaseSignInWithEmailAndPassword(res['email'], password);
 
         appState.currentUser.setParameters(res);
         appState.appStatus = AppStatus.connected;
@@ -57,9 +57,4 @@ class LoginLogic {
       }
     }
   }
-
-
 }
-
-
-

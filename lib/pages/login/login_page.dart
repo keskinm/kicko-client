@@ -12,7 +12,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   LoginLogic logic = LoginLogic();
   LoginStyle style = LoginStyle();
 
@@ -21,7 +20,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
-          child: SizedBox(width: MediaQuery.of(context).size.width/3,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 3,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -49,8 +49,8 @@ class _LoginPageState extends State<LoginPage> {
                         TextFormField(
                           validator: (value) =>
                               logic.validateUsername(value: value),
-                          decoration:
-                          style.inputDecoration(hintText: 'Nom d\'utilisateur'),
+                          decoration: style.inputDecoration(
+                              hintText: 'Nom d\'utilisateur'),
                         ),
                         Container(
                           decoration: const BoxDecoration(
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                             validator: (value) =>
                                 logic.validatePassword(value: value),
                             decoration:
-                            style.inputDecoration(hintText: 'Mot de passe'),
+                                style.inputDecoration(hintText: 'Mot de passe'),
                           ),
                         )
                       ],
@@ -100,7 +100,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 AnimatedTextKit(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
                       return RegisterPage();
                     }));
                   },

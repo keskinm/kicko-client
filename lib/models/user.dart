@@ -7,10 +7,10 @@ class User {
 
   User(
       {this.username = '',
-        this.email = '',
-        this.password = '',
-        this.token = '',
-        this.id = '0'});
+      this.email = '',
+      this.password = '',
+      this.token = '',
+      this.id = '0'});
 
   void setId(value) {
     id = value;
@@ -34,7 +34,7 @@ class User {
 
   Map<String, dynamic> setPropsMap() {
     return {
-      'id' : setId,
+      'id': setId,
       'username': setUsername,
       'email': setEmail,
       'password': setPassword,
@@ -43,27 +43,25 @@ class User {
   }
 
   factory User.fromJson(Map<dynamic, dynamic> json) => User(
-    id: json['id'],
-    username: json['username'],
-    email: json['email'],
-  );
+        id: json['id'],
+        username: json['username'],
+        email: json['email'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'username': username,
-    'email': email,
-    'password': password,
-  };
+        'username': username,
+        'email': email,
+        'password': password,
+      };
 
   void setParameters(Map<String, dynamic> json) {
     Map<String, dynamic> map = setPropsMap();
 
     for (final dynamic key in json.keys) {
-      if (map.containsKey(key)){
+      if (map.containsKey(key)) {
         Function func = map[key];
         func(json[key]);
       }
     }
-
   }
-
 }

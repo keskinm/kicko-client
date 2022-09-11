@@ -2,7 +2,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kicko/services/auth.dart';
 import 'package:kicko/models/user.dart';
 
-
 AppState appState = AppState();
 
 enum AppStatus {
@@ -27,26 +26,27 @@ class AppState {
   AuthMethods authMethods = AuthMethods();
 
   Future<AppStatus> init() async {
-      if (await getCredentials()) {
-        appStatus = AppStatus.login;
+    if (await getCredentials()) {
+      appStatus = AppStatus.login;
 
-        await authMethods.firebaseSignInWithEmailAndPassword(currentUser.email, currentUser.password);
+      await authMethods.firebaseSignInWithEmailAndPassword(
+          currentUser.email, currentUser.password);
 
-        if (checkToken(await authMethods.authenticationToken(
-            username: currentUser.username, password: currentUser.password))) {
-          final res = await authMethods.getCurrentUser(token: currentUser.token);
-          currentUser.setParameters(res);
-          appStatus = AppStatus.connected;
-          return AppStatus.connected;
-        } else {
-          appStatus = AppStatus.disconnected;
-          print('Can\'t reach token');
-          return AppStatus.disconnected;
-        }
+      if (checkToken(await authMethods.authenticationToken(
+          username: currentUser.username, password: currentUser.password))) {
+        final res = await authMethods.getCurrentUser(token: currentUser.token);
+        currentUser.setParameters(res);
+        appStatus = AppStatus.connected;
+        return AppStatus.connected;
       } else {
         appStatus = AppStatus.disconnected;
+        print('Can\'t reach token');
         return AppStatus.disconnected;
       }
+    } else {
+      appStatus = AppStatus.disconnected;
+      return AppStatus.disconnected;
+    }
   }
 
   Future<bool> getCredentials() async {

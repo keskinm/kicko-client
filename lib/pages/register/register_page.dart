@@ -50,8 +50,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     Container(
                       decoration: const BoxDecoration(
-                          border: Border(
-                              top: BorderSide(color: Colors.purple))),
+                          border:
+                              Border(top: BorderSide(color: Colors.purple))),
                       child: TextFormField(
                         validator: (value) => logic.validateEmail(value: value),
                         decoration: const InputDecoration(
@@ -69,13 +69,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         obscureText: obscureText,
                         validator: (value) =>
                             logic.validatePassword(value: value),
-                        decoration:  InputDecoration(suffixIcon: GestureDetector(
-                                onTap: (){
+                        decoration: InputDecoration(
+                            suffixIcon: GestureDetector(
+                                onTap: () {
                                   setState(() {
                                     obscureText = !obscureText;
                                   });
                                 },
-                                child: Icon(obscureText ? Icons.visibility_off_rounded : Icons.visibility_rounded)),
+                                child: Icon(obscureText
+                                    ? Icons.visibility_off_rounded
+                                    : Icons.visibility_rounded)),
                             border: InputBorder.none,
                             hintText: 'Mot de passe',
                             hintStyle: const TextStyle(color: Colors.purple)),

@@ -25,7 +25,6 @@ class LoginStyle {
     fontFamily: 'Horizon',
   );
 
-
   InputDecoration inputDecoration({required String hintText}) {
     return InputDecoration(
         border: InputBorder.none,

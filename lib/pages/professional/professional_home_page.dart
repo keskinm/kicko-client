@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/pages/professional/professional_home_style.dart';
 
-
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
-
 
   @override
   State<StatefulWidget> createState() {
@@ -38,49 +36,48 @@ class _ProHome extends State<ProHome> {
     );
   }
 
-  Widget buildJobOffers() {return FutureBuilder<List<dynamic>>(
-    future: logic.getJobOffers(),
-    builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-      Widget body;
-      if (snapshot.hasData){
-        body = ListView.builder(
-          itemCount: snapshot.data!.length,
-          itemBuilder: (context, index) {
-            final jobOffer = snapshot.data![index];
-            return ListView(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(8),
-              children: <Widget>[
-                Container(
-                  height: 50,
-                  color: Colors.amber[600],
-                  child: Text(jobOffer['name']),
-                ),
-                Container(
-                  height: 50,
-                  color: Colors.amber[500],
-                  child: Text(jobOffer['description']),
-                ),
-                Container(
-                  height: 50,
-                  color: Colors.amber[100],
-                  child: Text(jobOffer['requires']),
-                ),
-              ],
-            );
-          },
-        );
-      }
-      else if (snapshot.hasError) {
-        body = Text('Error: ${snapshot.error}');
-      }
-      else {
-        body = const Text('Awaiting result...');
-      }
-      return Scaffold(body: body);
-    },
-  );
+  Widget buildJobOffers() {
+    return FutureBuilder<List<dynamic>>(
+      future: logic.getJobOffers(),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        Widget body;
+        if (snapshot.hasData) {
+          body = ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              final jobOffer = snapshot.data![index];
+              return ListView(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(8),
+                children: <Widget>[
+                  Container(
+                    height: 50,
+                    color: Colors.amber[600],
+                    child: Text(jobOffer['name']),
+                  ),
+                  Container(
+                    height: 50,
+                    color: Colors.amber[500],
+                    child: Text(jobOffer['description']),
+                  ),
+                  Container(
+                    height: 50,
+                    color: Colors.amber[100],
+                    child: Text(jobOffer['requires']),
+                  ),
+                ],
+              );
+            },
+          );
+        } else if (snapshot.hasError) {
+          body = Text('Error: ${snapshot.error}');
+        } else {
+          body = const Text('Awaiting result...');
+        }
+        return Scaffold(body: body);
+      },
+    );
   }
 
   Column buildAddJobOffer(BuildContext context) {
@@ -98,11 +95,10 @@ class _ProHome extends State<ProHome> {
                         top: BorderSide(color: Colors.purple))),
                 child: TextFormField(
                   validator: (value) =>
-                      logic.nonNullable(value: value, key:"jobOfferName"),
-                      // logic.validateJobOfferName(value: value),
-
-                  decoration:
-                  style.inputDecoration(hintText: 'Nom de l\'offre d\'emploi'),                ),
+                      logic.nonNullable(value: value, key: "jobOfferName"),
+                  decoration: style.inputDecoration(
+                      hintText: 'Nom de l\'offre d\'emploi'),
+                ),
               ),
               Container(
                 decoration: const BoxDecoration(
@@ -110,11 +106,9 @@ class _ProHome extends State<ProHome> {
                         bottom: BorderSide(color: Colors.purple),
                         top: BorderSide(color: Colors.purple))),
                 child: TextFormField(
-                  validator: (value) =>
-                      logic.nonNullable(value: value, key:"jobOfferDescription"),
-                      // logic.validateJobOfferDescription(value: value),
-                  decoration:
-                  style.inputDecoration(hintText: 'Description'),
+                  validator: (value) => logic.nonNullable(
+                      value: value, key: "jobOfferDescription"),
+                  decoration: style.inputDecoration(hintText: 'Description'),
                 ),
               ),
               Container(
@@ -124,11 +118,9 @@ class _ProHome extends State<ProHome> {
                         top: BorderSide(color: Colors.purple))),
                 child: TextFormField(
                   validator: (value) =>
-                      logic.nonNullable(value: value, key:"jobOfferRequires"),
-                      // logic.validateJobOfferRequires(value: value),
-
-                  decoration:
-                  style.inputDecoration(hintText: 'Compétences ou points imports requis'),
+                      logic.nonNullable(value: value, key: "jobOfferRequires"),
+                  decoration: style.inputDecoration(
+                      hintText: 'Compétences ou points imports requis'),
                 ),
               ),
               MaterialButton(
@@ -162,22 +154,18 @@ class _ProHome extends State<ProHome> {
         appBar: AppBar(
           title: const Text('Bienvenu dans votre tableau de bord !'),
         ),
-
-        body: Wrap(spacing: 100,
+        body: Wrap(
+          spacing: 100,
           children: [
             SizedBox(
-                width: MediaQuery.of(context).size.width/4,
-                height: MediaQuery.of(context).size.height/4,
-                child:buildJobOffers()),
-
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.height / 4,
+                child: buildJobOffers()),
             SizedBox(
-                width: MediaQuery.of(context).size.width/4,
-                height: MediaQuery.of(context).size.height/4,
-                child:buildAddJobOffer(context))
-          ],)
-
-    );
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.height / 4,
+                child: buildAddJobOffer(context))
+          ],
+        ));
   }
-
-
 }

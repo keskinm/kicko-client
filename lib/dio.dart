@@ -17,8 +17,8 @@ Future<Response> dioHttpGet(
 
 Future<Response> dioHttpPost(
     {required String route,
-      required String jsonData,
-      required bool token}) async {
+    required String jsonData,
+    required bool token}) async {
   Dio dio = getDio(token: token);
   String serverUrl;
   if (kIsWeb) {
@@ -35,9 +35,10 @@ Dio getDio({required bool token}) {
       followRedirects: false,
       headers: token
           ? {
-        HttpHeaders.authorizationHeader: 'Bearer ${appState.currentUser.token}',
-        HttpHeaders.contentTypeHeader: 'application/json'
-      }
+              HttpHeaders.authorizationHeader:
+                  'Bearer ${appState.currentUser.token}',
+              HttpHeaders.contentTypeHeader: 'application/json'
+            }
           : {'content-Type': 'application/json'},
       validateStatus: (status) {
         return status! <= 500;

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -25,18 +24,15 @@ class KickoApp extends StatefulWidget {
   _KickoApp createState() => _KickoApp();
 }
 
-class _KickoApp extends State<KickoApp>{
-
+class _KickoApp extends State<KickoApp> {
   @override
   void initState() {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     Container container;
-
 
     return Scaffold(
         appBar: AppBar(
@@ -44,33 +40,25 @@ class _KickoApp extends State<KickoApp>{
         ),
         body: Container(
             alignment: Alignment.center,
-            child: Wrap(
-                spacing: 100,
-                children: [
-
-                  ElevatedButton(
-                    child: const Text('Je suis professionel'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const LoginPage()),
-                      );
-                    },
-                  ),
-
-                  ElevatedButton(
-                    child: const Text('Je suis candidat'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const KickoApp()),
-                      );
-                    },
-                  ),
-
-                ])
-
-        ));
+            child: Wrap(spacing: 100, children: [
+              ElevatedButton(
+                child: const Text('Je suis professionel'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                  );
+                },
+              ),
+              ElevatedButton(
+                child: const Text('Je suis candidat'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const KickoApp()),
+                  );
+                },
+              ),
+            ])));
   }
 }
-

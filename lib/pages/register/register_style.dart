@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class RegisterStyle {
-
   final colorizeColors = [
     Colors.purple,
     Colors.indigo,
@@ -16,5 +15,4 @@ class RegisterStyle {
       fontFamily: 'Horizon',
     );
   }
-
 }
