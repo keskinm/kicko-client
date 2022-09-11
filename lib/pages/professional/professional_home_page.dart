@@ -81,7 +81,7 @@ class _ProHome extends State<ProHome> {
   );
   }
 
-  Column buildUpdateJobOffer() {
+  Column buildAddJobOffer() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -107,8 +107,12 @@ class _ProHome extends State<ProHome> {
         appBar: AppBar(
           title: const Text('Bienvenu dans votre tableau de bord !'),
         ),
-        body: Wrap(spacing: 100,
-        children: [buildJobOffers(), buildUpdateJobOffer()],)
+        
+        body: buildAddJobOffer()
+      // body: buildJobOffers()
+      // body: Wrap(spacing: 100,
+      // children: [buildJobOffers(), buildAddJobOffer()],)
+
     );
   }
 
