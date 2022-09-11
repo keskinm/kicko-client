@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/widgets/forms/validator.dart';
-import 'package:kicko/professional/main.dart';
+import 'package:kicko/pages/professional/professional_home_page.dart';
 
 
 class RegisterLogic {

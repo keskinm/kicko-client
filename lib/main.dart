@@ -1,5 +1,5 @@
 import 'package:kicko/pages/login/login_page.dart';
-import 'package:kicko/professional/main.dart';
+import 'package:kicko/pages/professional/professional_home_page.dart';
 import 'package:flutter/material.dart';
 // import 'dio.dart';
 import 'package:firebase_core/firebase_core.dart';
