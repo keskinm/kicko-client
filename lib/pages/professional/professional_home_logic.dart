@@ -96,6 +96,23 @@ class ProfessionalHomeLogic {
     return response.data;
   }
 
+  Future<bool> deleteJobOffer(String jobOfferId) async {
+    String userId = appState.currentUser.id;
+    String body = '{"user_id": "$userId", "id": "$jobOfferId"}';
+    Response response = await dioHttpPost(
+      route: 'delete_job_offer',
+      jsonData: body,
+      token: false,
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
   Future<bool> addJobOffer(
       {required String jobOfferName,
       required String jobOfferDescription,

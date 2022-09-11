@@ -15,26 +15,6 @@ class _ProHome extends State<ProHome> {
   ProfessionalHomeLogic logic = ProfessionalHomeLogic();
   ProfessionalHomeStyle style = ProfessionalHomeStyle();
 
-  Widget buildPopupDialog(BuildContext context, String message) {
-    return AlertDialog(
-      title: const Text('Oups !'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(message),
-        ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text('Fermer'),
-        ),
-      ],
-    );
-  }
 
   Widget buildJobOffers() {
     return FutureBuilder<List<dynamic>>(
@@ -66,6 +46,23 @@ class _ProHome extends State<ProHome> {
                     color: Colors.amber[100],
                     child: Text(jobOffer['requires']),
                   ),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () async {
+                      bool success = await logic.deleteJobOffer(jobOffer["id"]);
+
+                      if (success) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const ProHome()),
+                        );
+                      } else {
+                        logic.buildPopupDialog(context,
+                            "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.");
+                      }
+
+                    },
+                  )
                 ],
               );
             },
