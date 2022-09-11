@@ -47,7 +47,7 @@ class AuthMethods {
     Response response = await dioHttpGet(route: 'user', token: true);
 
     if (response.statusCode == 200) {
-      return response.data;
+      return response.data["data"];
     } else {
       return {'error' : 'user not found'};
     }
