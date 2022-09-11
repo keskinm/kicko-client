@@ -19,7 +19,7 @@ Future<List> getJobOffers() async {
 }
 
 
-void addJobOffer(
+Future<bool> addJobOffer(
     {required String jobOffer}) async {
   String userId = appState.currentUser.id;
   String body = '{"name": "$jobOffer", "description":"$jobOffer", "requires":"$jobOffer", "user_id": "$userId"}';
@@ -28,6 +28,14 @@ void addJobOffer(
     jsonData: body,
     token: false,
   );
+
+  if (response.statusCode == 200) {
+
+    return true;
+  } else {
+    return false;
+  }
+
 }
 
 
@@ -45,6 +53,27 @@ class _ProHome extends State<ProHome> {
   final TextEditingController _controller = TextEditingController();
 
   Future<List<dynamic>> items = getJobOffers();
+
+  Widget buildPopupDialog(BuildContext context, String message) {
+    return AlertDialog(
+      title: const Text('Popup example'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(message),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
 
   Widget buildJobOffers() {return FutureBuilder<List<dynamic>>(
     future: items,
@@ -91,23 +120,30 @@ class _ProHome extends State<ProHome> {
   );
   }
 
-  Column buildAddJobOffer() {
+  Column buildAddJobOffer(BuildContext context) {
     return Column(
       // mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-      TextField(
-        controller: _controller,
-        decoration: const InputDecoration(hintText: 'Entrez une nouvelle offre d\'emploi'),
-      ),
-      ElevatedButton(
-        onPressed: () {
-
-          addJobOffer(jobOffer: _controller.text);
-
-        },
-        child: const Text('Valider'),
-      ),
-    ],
+        TextField(
+          controller: _controller,
+          decoration: const InputDecoration(hintText: 'Entrez une nouvelle offre d\'emploi'),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            bool success = await addJobOffer(jobOffer: _controller.text);
+            if (success) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProHome()),
+              );
+            }
+            else {
+              buildPopupDialog(context, "A problem occurred.");
+            }
+          },
+          child: const Text('Valider'),
+        ),
+      ],
     );
   }
 
@@ -128,7 +164,7 @@ class _ProHome extends State<ProHome> {
             SizedBox(
                 width: 200.0,
                 height: 300.0,
-                child:buildAddJobOffer())
+                child:buildAddJobOffer(context))
           ],)
 
     );
