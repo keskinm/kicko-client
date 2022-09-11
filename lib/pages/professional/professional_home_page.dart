@@ -118,10 +118,18 @@ class _ProHome extends State<ProHome> {
           title: const Text('Bienvenu dans votre tableau de bord !'),
         ),
 
-      body: buildAddJobOffer()
-      // body: buildJobOffers()
-      // body: Wrap(spacing: 100,
-      // children: [buildJobOffers(), buildAddJobOffer()],)
+        body: Wrap(spacing: 100,
+          children: [
+            SizedBox(
+                width: 200.0,
+                height: 300.0,
+                child:buildJobOffers()),
+
+            SizedBox(
+                width: 200.0,
+                height: 300.0,
+                child:buildAddJobOffer())
+          ],)
 
     );
   }
