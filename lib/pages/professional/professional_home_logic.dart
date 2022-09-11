@@ -76,8 +76,11 @@ class ProfessionalHomeLogic{
   }
 
   Future<List> getJobOffers() async {
-    Response response = await dioHttpGet(
+    String userId = appState.currentUser.id;
+    String body = '{"user_id": "$userId"}';
+    Response response = await dioHttpPost(
       route: 'get_job_offers',
+      jsonData: body,
       token: false,
     );
     return response.data;
