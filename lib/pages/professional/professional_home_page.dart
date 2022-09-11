@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/pages/professional/professional_home_logic.dart';
-import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 
-import '../../services/app_state.dart';
+import 'package:kicko/pages/professional/professional_home_logic.dart';
+import 'package:kicko/pages/professional/professional_home_style.dart';
+import 'package:kicko/dio.dart';
+import 'package:kicko/services/app_state.dart';
 
 
 //@todo how to refactor it in professional home logic?
@@ -19,26 +20,6 @@ Future<List> getJobOffers() async {
 }
 
 
-Future<bool> addJobOffer(
-    {required String jobOffer}) async {
-  String userId = appState.currentUser.id;
-  String body = '{"name": "$jobOffer", "description":"$jobOffer", "requires":"$jobOffer", "user_id": "$userId"}';
-  Response response =await dioHttpPost(
-    route: 'add_job_offer',
-    jsonData: body,
-    token: false,
-  );
-
-  if (response.statusCode == 200) {
-
-    return true;
-  } else {
-    return false;
-  }
-
-}
-
-
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
 
@@ -50,7 +31,8 @@ class ProHome extends StatefulWidget {
 }
 
 class _ProHome extends State<ProHome> {
-  final TextEditingController _controller = TextEditingController();
+  ProfessionalHomeLogic logic = ProfessionalHomeLogic();
+  ProfessionalHomeStyle style = ProfessionalHomeStyle();
 
   Future<List<dynamic>> items = getJobOffers();
 
@@ -124,25 +106,71 @@ class _ProHome extends State<ProHome> {
     return Column(
       // mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        TextField(
-          controller: _controller,
-          decoration: const InputDecoration(hintText: 'Entrez une nouvelle offre d\'emploi'),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            bool success = await addJobOffer(jobOffer: _controller.text);
-            if (success) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProHome()),
-              );
-            }
-            else {
-              buildPopupDialog(context, "Nous avons rencontré un problème lors de la validation de votre offre d'emploi.");
-            }
-          },
-          child: const Text('Valider'),
-        ),
+        Form(
+          key: logic.formKey,
+          child: Column(
+            children: <Widget>[
+              Container(
+                decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: Colors.purple),
+                        top: BorderSide(color: Colors.purple))),
+                child: TextFormField(
+                  validator: (value) =>
+                      logic.nonNullable(value: value, key:"jobOfferName"),
+                      // logic.validateJobOfferName(value: value),
+
+                  decoration:
+                  style.inputDecoration(hintText: 'Nom de l\'offre d\'emploi'),                ),
+              ),
+              Container(
+                decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: Colors.purple),
+                        top: BorderSide(color: Colors.purple))),
+                child: TextFormField(
+                  validator: (value) =>
+                      logic.nonNullable(value: value, key:"jobOfferDescription"),
+                      // logic.validateJobOfferDescription(value: value),
+                  decoration:
+                  style.inputDecoration(hintText: 'Description'),
+                ),
+              ),
+              Container(
+                decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: Colors.purple),
+                        top: BorderSide(color: Colors.purple))),
+                child: TextFormField(
+                  validator: (value) =>
+                      logic.nonNullable(value: value, key:"jobOfferRequires"),
+                      // logic.validateJobOfferRequires(value: value),
+
+                  decoration:
+                  style.inputDecoration(hintText: 'Compétences ou points imports requis'),
+                ),
+              ),
+              MaterialButton(
+                onPressed: () => logic.validateJobOffer(context: context),
+                child: Container(
+                  height: 50,
+                  width: 200,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: const LinearGradient(
+                          colors: [Colors.purple, Colors.red])),
+                  child: const Center(
+                    child: Text(
+                      'Valider',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        )
       ],
     );
   }
@@ -157,13 +185,13 @@ class _ProHome extends State<ProHome> {
         body: Wrap(spacing: 100,
           children: [
             SizedBox(
-                width: 200.0,
-                height: 300.0,
+                width: MediaQuery.of(context).size.width/4,
+                height: MediaQuery.of(context).size.height/4,
                 child:buildJobOffers()),
 
             SizedBox(
-                width: 200.0,
-                height: 300.0,
+                width: MediaQuery.of(context).size.width/4,
+                height: MediaQuery.of(context).size.height/4,
                 child:buildAddJobOffer(context))
           ],)
 

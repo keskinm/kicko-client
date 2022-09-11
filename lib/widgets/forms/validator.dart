@@ -2,6 +2,14 @@ import 'package:email_validator/email_validator.dart';
 
 class Validator {
 
+  bool nonNullable({required String? value}) {
+    if (value == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   bool validatePassword({required String? value}) {
     if (value == null || value.length < 8) {
       return false;
