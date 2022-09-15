@@ -1,7 +1,8 @@
+import 'package:kicko/pages/candidate/professional_home_page.dart';
 import 'package:kicko/pages/login/login_page.dart';
 import 'package:kicko/pages/professional/professional_home_page.dart';
 import 'package:flutter/material.dart';
-// import 'dio.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -46,7 +47,7 @@ class _KickoApp extends State<KickoApp> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    MaterialPageRoute(builder: (context) => const LoginPage(pushTo: ProHome())),
                   );
                 },
               ),
@@ -55,7 +56,7 @@ class _KickoApp extends State<KickoApp> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const KickoApp()),
+                    MaterialPageRoute(builder: (context) => const LoginPage(pushTo: CandidateHome())),
                   );
                 },
               ),

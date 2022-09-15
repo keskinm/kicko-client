@@ -28,7 +28,7 @@ class LoginLogic {
     }
   }
 
-  Future<void> validateLogin({required BuildContext context}) async {
+  Future<void> validateLogin({required BuildContext context, required pushTo}) async {
     if (formKey.currentState!.validate()) {
       final bool res = appState.checkToken(await appState.authMethods
           .authenticationToken(username: username, password: password));
@@ -48,7 +48,7 @@ class LoginLogic {
         //Lancement app
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const ProHome()),
+          MaterialPageRoute(builder: (context) => pushTo),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

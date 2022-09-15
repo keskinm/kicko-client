@@ -54,7 +54,7 @@ class RegisterLogic {
     }
   }
 
-  void validateRegister({required BuildContext context}) async {
+  void validateRegister({required BuildContext context, required pushTo}) async {
     if (formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Inscription')),
@@ -77,7 +77,7 @@ class RegisterLogic {
           appState.appStatus = AppStatus.connected;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const ProHome()),
+            MaterialPageRoute(builder: (context) => pushTo),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(

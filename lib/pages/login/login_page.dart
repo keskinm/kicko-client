@@ -4,8 +4,10 @@ import 'package:kicko/pages/register/register_page.dart';
 import 'package:kicko/pages/login/login_logic.dart';
 import 'package:kicko/pages/login/login_style.dart';
 
+
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final StatefulWidget pushTo;
+  const LoginPage({Key? key, required this.pushTo}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -69,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 MaterialButton(
-                  onPressed: () => logic.validateLogin(context: context),
+                  onPressed: () => logic.validateLogin(context: context, pushTo: widget.pushTo),
                   child: Container(
                     height: 50,
                     width: 200,
@@ -102,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return RegisterPage();
+                      return RegisterPage(pushTo: widget.pushTo);
                     }));
                   },
                   repeatForever: true,
