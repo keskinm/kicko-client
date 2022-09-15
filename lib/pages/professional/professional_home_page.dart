@@ -76,16 +76,7 @@ class _ProHome extends State<ProHome> {
           }
 
           else {
-            locationChild = MaterialApp(
-              home: Scaffold(
-                appBar: AppBar(
-                  title: const Text('Autocomplete Basic'),
-                ),
-                body: const Center(
-                  child: LocationAutocompletion(),
-                ),
-              ),
-            );
+            locationChild = const LocationAutocompletion();
           }
 
 
@@ -244,10 +235,10 @@ class _ProHome extends State<ProHome> {
         body: Wrap(
           spacing: 100,
           children: [
-            // SizedBox(
-            //     width: MediaQuery.of(context).size.width / 4,
-            //     height: MediaQuery.of(context).size.height / 4,
-            //     child: buildBusiness()),
+            SizedBox(
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.height / 4,
+                child: buildBusiness()),
             SizedBox(
                 width: MediaQuery.of(context).size.width / 4,
                 height: MediaQuery.of(context).size.height / 4,
