@@ -2,6 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/pages/professional/professional_home_style.dart';
 
+
+class LocationAutocompletion extends StatelessWidget {
+  const LocationAutocompletion({Key? key}) : super(key: key);
+
+  static const List<String> _kOptions = <String>[
+    'Paris',
+    'Lyon',
+    'Saint-Etienne',
+    'Andrézieux-Bouthéon',
+    'Lille',
+    'Bordeaux',
+    'Clermont-Ferrand',
+    'Gerzat',
+    'Cébazat'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Autocomplete<String>(
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        if (textEditingValue.text == '') {
+          return const Iterable<String>.empty();
+        }
+        return _kOptions.where((String option) {
+          return option.contains(textEditingValue.text.toLowerCase());
+        });
+      },
+      onSelected: (String selection) {
+        debugPrint('You just selected $selection');
+      },
+    );
+  }
+}
+
+
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
 
@@ -15,6 +50,61 @@ class _ProHome extends State<ProHome> {
   ProfessionalHomeLogic logic = ProfessionalHomeLogic();
   ProfessionalHomeStyle style = ProfessionalHomeStyle();
 
+  Widget buildBusiness() {
+    return FutureBuilder<Map<String, dynamic>>(
+      future: logic.getBusiness(),
+      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        Widget body;
+        if (snapshot.hasData) {
+
+          List<Widget> regularFields = [];
+          List<String> fields = ["name"];
+          for (final String field in fields) {
+
+            // regularFields.add(value);
+          }
+
+          Widget locationChild;
+          if (snapshot.data!.containsKey("location")) {
+            locationChild = Container(
+              decoration: const BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(color: Colors.purple),
+                      top: BorderSide(color: Colors.purple))),
+              child: Text(snapshot.data!["location"]),
+            );
+          }
+
+          else {
+            locationChild = MaterialApp(
+              home: Scaffold(
+                appBar: AppBar(
+                  title: const Text('Autocomplete Basic'),
+                ),
+                body: const Center(
+                  child: LocationAutocompletion(),
+                ),
+              ),
+            );
+          }
+
+
+          return ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(8),
+              children: <Widget>[
+                locationChild
+              ]);
+        } else if (snapshot.hasError) {
+          body = Text('Error: ${snapshot.error}');
+        } else {
+          body = const Text('Awaiting result...');
+        }
+        return Scaffold(body: body);
+      },
+    );
+  }
 
   Widget buildJobOffers() {
     return FutureBuilder<List<dynamic>>(
@@ -154,6 +244,10 @@ class _ProHome extends State<ProHome> {
         body: Wrap(
           spacing: 100,
           children: [
+            // SizedBox(
+            //     width: MediaQuery.of(context).size.width / 4,
+            //     height: MediaQuery.of(context).size.height / 4,
+            //     child: buildBusiness()),
             SizedBox(
                 width: MediaQuery.of(context).size.width / 4,
                 height: MediaQuery.of(context).size.height / 4,

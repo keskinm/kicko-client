@@ -85,6 +85,17 @@ class ProfessionalHomeLogic {
     }
   }
 
+  Future<Map<String, dynamic>> getBusiness() async {
+    String userId = appState.currentUser.id;
+    String body = '{"user_id": "$userId"}';
+    Response response = await dioHttpPost(
+      route: 'get_business',
+      jsonData: body,
+      token: false,
+    );
+    return response.data;
+  }
+
   Future<List> getJobOffers() async {
     String userId = appState.currentUser.id;
     String body = '{"user_id": "$userId"}';

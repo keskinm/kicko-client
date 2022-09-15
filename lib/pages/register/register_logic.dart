@@ -73,6 +73,11 @@ class RegisterLogic {
 
         if (appState.checkToken(await appState.authMethods
             .authenticationToken(username: username, password: password))) {
+
+          final res = await appState.authMethods
+              .getCurrentUser(token: appState.currentUser.token);
+
+          appState.currentUser.setParameters(res);
           appState.appStatus = AppStatus.connected;
           Navigator.push(
             context,
