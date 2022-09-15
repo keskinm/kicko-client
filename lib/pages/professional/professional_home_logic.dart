@@ -93,6 +93,7 @@ class ProfessionalHomeLogic {
       jsonData: body,
       token: false,
     );
+    // Map<String, String> jsonResponse = json.decode(response.data);
     return response.data;
   }
 

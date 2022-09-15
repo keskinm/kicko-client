@@ -53,6 +53,19 @@ class RegisterLogic {
     }
   }
 
+  Future deleteUserFromFireBase(String email, String password) async {
+    try {
+      UserCredential firebaseUser = await appState.authMethods.fAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      firebaseUser.user!.delete();
+      await appState.authMethods.fAuth.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        print('The user must reauthenticate before this operation can be executed.');
+      }
+    }
+  }
+
   void validateRegister({required BuildContext context, required pushTo}) async {
     if (formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -61,38 +74,49 @@ class RegisterLogic {
 
       String firebaseUid = await createUserFromFireBase(email, password);
       //Formulaire ok requete /register
-      Response response = await appState.authMethods.userRegister(
+      Response? response = await appState.authMethods.userRegister(
           username: username,
           password: password,
           email: email,
           firebaseUid: firebaseUid);
-      //Compte créé
-      if (response.statusCode == 200) {
-        await appState.authMethods
-            .firebaseSignInWithEmailAndPassword(email, password);
 
-        if (appState.checkToken(await appState.authMethods
-            .authenticationToken(username: username, password: password))) {
-
-          final res = await appState.authMethods
-              .getCurrentUser(token: appState.currentUser.token);
-
-          appState.currentUser.setParameters(res);
-          appState.appStatus = AppStatus.connected;
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => pushTo),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Connexion impossible')),
-          );
-        }
-        //Erreur création compte, (email / username deja utilisé )
-      } else {
+      if (response == null) {
+        await deleteUserFromFireBase(email, password);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('error ${response.data}'),
+          content: Text('XMLHttpRequest error.'),
         ));
+      }
+
+      else {
+        //Compte créé
+        if (response.statusCode == 200) {
+          await appState.authMethods
+              .firebaseSignInWithEmailAndPassword(email, password);
+
+          if (appState.checkToken(await appState.authMethods
+              .authenticationToken(username: username, password: password))) {
+
+            final res = await appState.authMethods
+                .getCurrentUser(token: appState.currentUser.token);
+
+            appState.currentUser.setParameters(res);
+            appState.appStatus = AppStatus.connected;
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => pushTo),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Connexion impossible')),
+            );
+          }
+          //Erreur création compte, (email / username deja utilisé )
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('error ${response.data}'),
+          ));
+      }
+
       }
     }
   }
