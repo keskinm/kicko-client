@@ -10,7 +10,7 @@ class User {
       this.email = '',
       this.password = '',
       this.token = '',
-      this.id = '0'});
+      this.id = ''});
 
   void setId(value) {
     id = value;
@@ -52,7 +52,8 @@ class User {
         'username': username,
         'email': email,
         'password': password,
-      };
+        'id': id,
+  };
 
   void setParameters(Map<String, dynamic> json) {
     Map<String, dynamic> map = setPropsMap();
