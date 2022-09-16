@@ -4,7 +4,8 @@ import 'package:kicko/pages/professional/professional_home_style.dart';
 
 
 class LocationAutocompletion extends StatelessWidget {
-  const LocationAutocompletion({Key? key}) : super(key: key);
+  final _ProHome parent;
+  const LocationAutocompletion({Key? key, required this.parent}) : super(key: key);
 
   static const List<String> _kOptions = <String>[
     'Paris',
@@ -31,6 +32,7 @@ class LocationAutocompletion extends StatelessWidget {
       },
       onSelected: (String selection) {
         debugPrint('You just selected $selection');
+        parent.logic.nonNullable(value: selection, key: "location", jsonModel: parent.logic.businessJson);
       },
     );
   }
@@ -50,6 +52,16 @@ class _ProHome extends State<ProHome> {
   ProfessionalHomeLogic logic = ProfessionalHomeLogic();
   ProfessionalHomeStyle style = ProfessionalHomeStyle();
 
+  Container buildContainerWithText(String text) {
+    return Container(
+      decoration: const BoxDecoration(
+          border: Border(
+              bottom: BorderSide(color: Colors.purple),
+              top: BorderSide(color: Colors.purple))),
+      child: Text(text),
+    );
+  }
+
   Widget buildBusiness() {
     return FutureBuilder<Map<String, dynamic>>(
       future: logic.getBusiness(),
@@ -65,32 +77,55 @@ class _ProHome extends State<ProHome> {
           }
 
           Widget locationChild;
+          Widget nameChild;
           if (snapshot.data!.containsKey("location")) {
-            locationChild = Container(
-              decoration: const BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(color: Colors.purple),
-                      top: BorderSide(color: Colors.purple))),
-              child: Text(snapshot.data!["location"]),
+            locationChild = buildContainerWithText(snapshot.data!["location"]);
+          }
+          else {
+            locationChild = LocationAutocompletion(parent: this);
+          }
+
+          if (snapshot.data!.containsKey("name")) {
+            nameChild = buildContainerWithText(snapshot.data!["name"]);
+          }
+          else {
+            nameChild = TextFormField(
+              validator: (value) =>
+                  logic.nonNullable(value: value, key: "name", jsonModel: logic.businessJson),
+              decoration: style.inputDecoration(
+                  hintText: 'Nom de votre entreprise'),
             );
           }
 
-          else {
-            locationChild = const LocationAutocompletion();
-          }
+          MaterialButton endChild = MaterialButton(
+            onPressed: () => logic.validateBusiness(context: context),
+            child: Container(
+              height: 50,
+              width: 200,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: const LinearGradient(
+                      colors: [Colors.purple, Colors.red])),
+              child: const Center(
+                child: Text(
+                  'Enregistrer les modifications',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          );
 
-
-          return ListView(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(8),
+          return Column(
               children: <Widget>[
-                locationChild
+                nameChild,
+                locationChild,
+                endChild
               ]);
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
-          body = const Text('Awaiting result...');
+          body = const Text('Chargement...');
         }
         return Scaffold(body: body);
       },

@@ -12,6 +12,25 @@ class ProfessionalHomeLogic {
 
   Validator validator = Validator();
   Map<String, dynamic> jobOfferJson = {};
+  Map<String, dynamic> businessJson = {};
+
+  Future<void> validateBusiness({required BuildContext context}) async {
+    if (formKey.currentState!.validate()) {
+
+      Business business = Business.fromJson(businessJson);
+      bool success = await business.updateFields(userId: appState.currentUser.id);
+
+      if (success) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProHome()),
+        );
+      } else {
+        buildPopupDialog(context,
+            "Nous avons rencontré un problème lors de la validation de votre offre d'emploi.");
+      }
+    }
+  }
 
   Future<void> validateJobOffer({required BuildContext context}) async {
     if (formKey.currentState!.validate()) {

@@ -61,6 +61,107 @@ class JobOffer {
       return false;
     }
   }
+}
+
+class Business {
+  List<String> attrs = ["name", "location"];
+  late String? name;
+  late String? location;
+
+  Business(
+      {this.name,
+        this.location});
+
+  void setAttr(String name, value) {
+    switch (name) {
+      case "name":
+        {
+          name = value;
+        }
+        break;
+
+      case "location":
+        {
+          location = value;
+        }
+        break;
+    }
+  }
+
+  String? getAttr(String key) {
+    switch (key) {
+      case "name":
+        {
+          return name;
+        }
+
+      case "location":
+        {
+          return location;
+        }
+    }
+    return null;
+  }
+
+  factory Business.fromJson(Map<dynamic, dynamic> json) {
+    Business business = Business();
+    for (final dynamic key in json.keys) {
+      business.setAttr(key, json[key]);
+    }
+
+  return Business(
+
+  name: json['name'],
+  location: json['location'],
+  );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'location': location,
+  };
+
+  Future<bool> updateFields({required String userId}) async {
+    String body = '{"user_id": "$userId", ';
+    for (final attr in attrs) {
+      dynamic attrValue = getAttr(attr);
+      if (getAttr(attr) != null) {
+        body = body + '"$attr":"$attrValue"';
+      }
+    }
+    body = body + '}';
+
+    Response response = await dioHttpPost(
+      route: 'update_business_fields',
+      jsonData: body,
+      token: false,
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  Future<bool> updateField(
+      {required String userId, required String key, required String value}) async {
+    String body =
+        '{"user_id": "$userId", "$key":"$value"}';
+    Response response = await dioHttpPost(
+      route: 'update_business_field',
+      jsonData: body,
+      token: false,
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 
 }
+
