@@ -64,13 +64,13 @@ class JobOffer {
 }
 
 class Business {
-  List<String> attrs = ["name", "location"];
+  List<String> attrs = ["name", "city"];
   late String? name;
-  late String? location;
+  late String? city;
 
   Business(
       {this.name,
-        this.location});
+        this.city});
 
   void setAttr(String name, value) {
     switch (name) {
@@ -80,9 +80,9 @@ class Business {
         }
         break;
 
-      case "location":
+      case "city":
         {
-          location = value;
+          city = value;
         }
         break;
     }
@@ -95,9 +95,9 @@ class Business {
           return name;
         }
 
-      case "location":
+      case "city":
         {
-          return location;
+          return city;
         }
     }
     return null;
@@ -112,13 +112,13 @@ class Business {
   return Business(
 
   name: json['name'],
-  location: json['location'],
+  city: json['city'],
   );
   }
 
   Map<String, dynamic> toJson() => {
     'name': name,
-    'location': location,
+    'city': city,
   };
 
   Future<bool> updateFields({required String userId}) async {

@@ -3,9 +3,9 @@ import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/pages/professional/professional_home_style.dart';
 
 
-class LocationAutocompletion extends StatelessWidget {
+class CityAutocompletion extends StatelessWidget {
   final _ProHome parent;
-  const LocationAutocompletion({Key? key, required this.parent}) : super(key: key);
+  const CityAutocompletion({Key? key, required this.parent}) : super(key: key);
 
   static const List<String> _kOptions = <String>[
     'Paris',
@@ -32,7 +32,7 @@ class LocationAutocompletion extends StatelessWidget {
       },
       onSelected: (String selection) {
         debugPrint('You just selected $selection');
-        parent.logic.nonNullable(value: selection, key: "location", jsonModel: parent.logic.businessJson);
+        parent.logic.nonNullable(value: selection, key: "city", jsonModel: parent.logic.businessJson);
       },
     );
   }
@@ -76,13 +76,13 @@ class _ProHome extends State<ProHome> {
             // regularFields.add(value);
           }
 
-          Widget locationChild;
+          Widget cityChild;
           Widget nameChild;
-          if (snapshot.data!.containsKey("location")) {
-            locationChild = buildContainerWithText(snapshot.data!["location"]);
+          if (snapshot.data!.containsKey("city")) {
+            cityChild = buildContainerWithText(snapshot.data!["city"]);
           }
           else {
-            locationChild = LocationAutocompletion(parent: this);
+            cityChild = CityAutocompletion(parent: this);
           }
 
           if (snapshot.data!.containsKey("name")) {
@@ -119,7 +119,7 @@ class _ProHome extends State<ProHome> {
           return Column(
               children: <Widget>[
                 nameChild,
-                locationChild,
+                cityChild,
                 endChild
               ]);
         } else if (snapshot.hasError) {

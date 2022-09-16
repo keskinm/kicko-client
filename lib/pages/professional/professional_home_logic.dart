@@ -120,25 +120,4 @@ class ProfessionalHomeLogic {
 
   }
 
-
-  Future<bool> addBusiness(
-      {required String name,
-        required String location}) async {
-    String userId = appState.currentUser.id;
-    String body =
-        '{"name": "$name", "location":"$location", "user_id": "$userId"}';
-    Response response = await dioHttpPost(
-      route: 'add_business',
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-
 }
