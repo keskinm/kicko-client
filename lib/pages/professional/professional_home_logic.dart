@@ -8,14 +8,15 @@ import 'package:kicko/widgets/forms/validator.dart';
 import '../../services/app_state.dart';
 
 class ProfessionalHomeLogic {
-  final formKey = GlobalKey<FormState>();
+  final jobOfferForm = GlobalKey<FormState>();
+  final businessForm = GlobalKey<FormState>();
 
   Validator validator = Validator();
   Map<String, dynamic> jobOfferJson = {};
   Map<String, dynamic> businessJson = {};
 
   Future<void> validateBusiness({required BuildContext context}) async {
-    if (formKey.currentState!.validate()) {
+    if (businessForm.currentState!.validate()) {
 
       Business business = Business.fromJson(businessJson);
       bool success = await business.updateFields(userId: appState.currentUser.id);
@@ -33,7 +34,7 @@ class ProfessionalHomeLogic {
   }
 
   Future<void> validateJobOffer({required BuildContext context}) async {
-    if (formKey.currentState!.validate()) {
+    if (jobOfferForm.currentState!.validate()) {
 
       JobOffer jobOffer = JobOffer.fromJson(jobOfferJson);
       bool success = await jobOffer.addJobOffer(userId: appState.currentUser.id);

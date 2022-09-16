@@ -31,7 +31,6 @@ class CityAutocompletion extends StatelessWidget {
         });
       },
       onSelected: (String selection) {
-        debugPrint('You just selected $selection');
         parent.logic.nonNullable(value: selection, key: "city", jsonModel: parent.logic.businessJson);
       },
     );
@@ -89,11 +88,17 @@ class _ProHome extends State<ProHome> {
             nameChild = buildContainerWithText(snapshot.data!["name"]);
           }
           else {
-            nameChild = TextFormField(
-              validator: (value) =>
-                  logic.nonNullable(value: value, key: "name", jsonModel: logic.businessJson),
-              decoration: style.inputDecoration(
-                  hintText: 'Nom de votre entreprise'),
+            nameChild = Container(
+              decoration: const BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(color: Colors.purple),
+                      top: BorderSide(color: Colors.purple))),
+              child: TextFormField(
+                validator: (value) =>
+                    logic.nonNullable(value: value, key: "name", jsonModel: logic.businessJson),
+                decoration: style.inputDecoration(
+                    hintText: 'Nom de votre entreprise'),
+              ),
             );
           }
 
@@ -116,12 +121,14 @@ class _ProHome extends State<ProHome> {
             ),
           );
 
-          return Column(
+          return Form(
+              key: logic.businessForm,
+              child: Column(
               children: <Widget>[
                 nameChild,
                 cityChild,
                 endChild
-              ]);
+              ]));
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
@@ -198,7 +205,7 @@ class _ProHome extends State<ProHome> {
       // mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Form(
-          key: logic.formKey,
+          key: logic.jobOfferForm,
           child: Column(
             children: <Widget>[
               Container(
