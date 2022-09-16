@@ -122,11 +122,11 @@ class Business {
   };
 
   Future<bool> updateFields({required String userId}) async {
-    String body = '{"user_id": "$userId", ';
+    String body = '{"user_id": "$userId"';
     for (final attr in attrs) {
       dynamic attrValue = getAttr(attr);
       if (getAttr(attr) != null) {
-        body = body + '"$attr":"$attrValue"';
+        body = body + ', "$attr":"$attrValue"';
       }
     }
     body = body + '}';
