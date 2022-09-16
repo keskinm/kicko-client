@@ -22,13 +22,22 @@ class ProfessionalHomeLogic {
       bool success = await business.updateFields(userId: appState.currentUser.id);
 
       if (success) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ProHome()),
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) {
+            return buildPopupDialog(context, "Vos paramètres ont été mise à jour avec succes !", "Bonne nouvelle !", "Fermer");
+          }
         );
       } else {
-        buildPopupDialog(context,
-            "Nous avons rencontré un problème lors de la validation de votre offre d'emploi.");
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) {
+              return buildPopupDialog(context,
+                  "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
+                  "oups",
+                  "fermer");
+            }
+        );
       }
     }
   }
@@ -45,15 +54,22 @@ class ProfessionalHomeLogic {
           MaterialPageRoute(builder: (context) => const ProHome()),
         );
       } else {
-        buildPopupDialog(context,
-            "Nous avons rencontré un problème lors de la validation de votre offre d'emploi.");
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) {
+              return buildPopupDialog(context,
+                  "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
+                  "oups",
+                  "fermer");
+            }
+        );
       }
     }
   }
 
-  Widget buildPopupDialog(BuildContext context, String message) {
+  Widget buildPopupDialog(BuildContext context, String message, String title, String close) {
     return AlertDialog(
-      title: const Text('Oups !'),
+      title: Text(title),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +82,7 @@ class ProfessionalHomeLogic {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Fermer'),
+          child: Text(close),
         ),
       ],
     );

@@ -5,7 +5,8 @@ import 'package:kicko/pages/professional/professional_home_style.dart';
 
 class CityAutocompletion extends StatelessWidget {
   final _ProHome parent;
-  const CityAutocompletion({Key? key, required this.parent}) : super(key: key);
+  final String initialValue;
+  const CityAutocompletion({Key? key, required this.parent, required this.initialValue}) : super(key: key);
 
   static const List<String> _kOptions = <String>[
     'Paris',
@@ -22,6 +23,7 @@ class CityAutocompletion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Autocomplete<String>(
+      initialValue: TextEditingValue(text: initialValue),
       optionsBuilder: (TextEditingValue textEditingValue) {
         if (textEditingValue.text == '') {
           return const Iterable<String>.empty();
@@ -75,32 +77,32 @@ class _ProHome extends State<ProHome> {
             // regularFields.add(value);
           }
 
-          Widget cityChild;
-          Widget nameChild;
+          String cityInitialValue = '';
+          String nameInitialValue = '';
+
           if (snapshot.data!.containsKey("city")) {
-            cityChild = buildContainerWithText(snapshot.data!["city"]);
+            cityInitialValue = snapshot.data!["city"];
           }
-          else {
-            cityChild = CityAutocompletion(parent: this);
-          }
+          Widget cityChild = CityAutocompletion(parent: this, initialValue: cityInitialValue);
 
           if (snapshot.data!.containsKey("name")) {
-            nameChild = buildContainerWithText(snapshot.data!["name"]);
+            nameInitialValue = snapshot.data!["name"];
           }
-          else {
-            nameChild = Container(
-              decoration: const BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(color: Colors.purple),
-                      top: BorderSide(color: Colors.purple))),
-              child: TextFormField(
-                validator: (value) =>
-                    logic.nonNullable(value: value, key: "name", jsonModel: logic.businessJson),
-                decoration: style.inputDecoration(
-                    hintText: 'Nom de votre entreprise'),
-              ),
-            );
-          }
+
+          Widget nameChild = Container(
+            decoration: const BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(color: Colors.purple),
+                    top: BorderSide(color: Colors.purple))),
+            child: TextFormField(
+              initialValue: nameInitialValue,
+              validator: (value) =>
+                  logic.nonNullable(value: value, key: "name", jsonModel: logic.businessJson),
+              decoration: style.inputDecoration(
+                  hintText: 'Nom de votre entreprise'),
+            ),
+          );
+
 
           MaterialButton endChild = MaterialButton(
             onPressed: () => logic.validateBusiness(context: context),
@@ -180,8 +182,15 @@ class _ProHome extends State<ProHome> {
                           MaterialPageRoute(builder: (context) => const ProHome()),
                         );
                       } else {
-                        logic.buildPopupDialog(context,
-                            "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.");
+                        showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return logic.buildPopupDialog(context,
+                                  "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
+                                  "oups",
+                                  "fermer");
+                            }
+                        );
                       }
 
                     },
