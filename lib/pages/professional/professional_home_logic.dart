@@ -1,6 +1,7 @@
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:kicko/pages/professional/models.dart';
 import 'package:kicko/pages/professional/professional_home_page.dart';
 import 'package:kicko/widgets/forms/validator.dart';
 
@@ -10,38 +11,13 @@ class ProfessionalHomeLogic {
   final formKey = GlobalKey<FormState>();
 
   Validator validator = Validator();
-  late String jobOfferName;
-  late String jobOfferDescription;
-  late String jobOfferRequires;
-
-  void setAttr(String name, value) {
-    switch (name) {
-      case "jobOfferName":
-        {
-          jobOfferName = value;
-        }
-        break;
-
-      case "jobOfferDescription":
-        {
-          jobOfferDescription = value;
-        }
-        break;
-
-      case "jobOfferRequires":
-        {
-          jobOfferRequires = value;
-        }
-        break;
-    }
-  }
+  Map<String, dynamic> jobOfferJson = {};
 
   Future<void> validateJobOffer({required BuildContext context}) async {
     if (formKey.currentState!.validate()) {
-      bool success = await addJobOffer(
-          jobOfferName: jobOfferName,
-          jobOfferDescription: jobOfferDescription,
-          jobOfferRequires: jobOfferRequires);
+
+      JobOffer jobOffer = JobOffer.fromJson(jobOfferJson);
+      bool success = await jobOffer.addJobOffer(userId: appState.currentUser.id);
 
       if (success) {
         Navigator.push(
@@ -76,11 +52,11 @@ class ProfessionalHomeLogic {
     );
   }
 
-  String? nonNullable({required String? value, required String key}) {
+  String? nonNullable({required String? value, required String key, required Map jsonModel}) {
     if (!validator.nonNullable(value: value)) {
       return 'Le champ ne doit pas être vide.';
     } else {
-      setAttr(key, value);
+      jsonModel[key] = value;
       return null;
     }
   }
@@ -125,15 +101,15 @@ class ProfessionalHomeLogic {
 
   }
 
-  Future<bool> addJobOffer(
-      {required String jobOfferName,
-      required String jobOfferDescription,
-      required String jobOfferRequires}) async {
+
+  Future<bool> addBusiness(
+      {required String name,
+        required String location}) async {
     String userId = appState.currentUser.id;
     String body =
-        '{"name": "$jobOfferName", "description":"$jobOfferDescription", "requires":"$jobOfferRequires", "user_id": "$userId"}';
+        '{"name": "$name", "location":"$location", "user_id": "$userId"}';
     Response response = await dioHttpPost(
-      route: 'add_job_offer',
+      route: 'add_business',
       jsonData: body,
       token: false,
     );
@@ -144,4 +120,6 @@ class ProfessionalHomeLogic {
       return false;
     }
   }
+
+
 }

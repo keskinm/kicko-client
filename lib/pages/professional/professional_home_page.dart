@@ -173,7 +173,7 @@ class _ProHome extends State<ProHome> {
                         top: BorderSide(color: Colors.purple))),
                 child: TextFormField(
                   validator: (value) =>
-                      logic.nonNullable(value: value, key: "jobOfferName"),
+                      logic.nonNullable(value: value, key: "name", jsonModel: logic.jobOfferJson),
                   decoration: style.inputDecoration(
                       hintText: 'Nom de l\'offre d\'emploi'),
                 ),
@@ -185,7 +185,7 @@ class _ProHome extends State<ProHome> {
                         top: BorderSide(color: Colors.purple))),
                 child: TextFormField(
                   validator: (value) => logic.nonNullable(
-                      value: value, key: "jobOfferDescription"),
+                      value: value, key: "description", jsonModel: logic.jobOfferJson),
                   decoration: style.inputDecoration(hintText: 'Description'),
                 ),
               ),
@@ -196,7 +196,7 @@ class _ProHome extends State<ProHome> {
                         top: BorderSide(color: Colors.purple))),
                 child: TextFormField(
                   validator: (value) =>
-                      logic.nonNullable(value: value, key: "jobOfferRequires"),
+                      logic.nonNullable(value: value, key: "requires", jsonModel: logic.jobOfferJson),
                   decoration: style.inputDecoration(
                       hintText: 'Compétences ou points imports requis'),
                 ),
