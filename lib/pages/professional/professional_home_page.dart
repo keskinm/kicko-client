@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/pages/professional/professional_home_style.dart';
 
+import 'images.dart';
+
 
 class CityAutocompletion extends StatelessWidget {
   final _ProHome parent;
@@ -123,14 +125,63 @@ class _ProHome extends State<ProHome> {
             ),
           );
 
+          Widget businessAvatar = Stack(
+            children: [
+              CircleAvatar(
+                radius: 75,
+                backgroundColor: Colors.grey.shade200,
+                child: const CircleAvatar(
+                  radius: 70,
+                  // backgroundImage: AssetImage('assets/images/default.png'),
+                ),
+              ),
+              Positioned(
+                bottom: 1,
+                right: 1,
+                child: Container(
+                  child: IconButton(
+                    icon: const Icon(Icons.add_a_photo, color: Colors.black),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoadFirebaseStorageImage()),
+                      );
+                  },
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 3,
+                        color: Colors.white,
+                      ),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(
+                          50,
+                        ),
+                      ),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: const Offset(2, 4),
+                          color: Colors.black.withOpacity(
+                            0.3,
+                          ),
+                          blurRadius: 3,
+                        ),
+                      ]),
+                ),
+              ),
+            ],
+          );
+
           return Form(
               key: logic.businessForm,
-              child: Column(
-              children: <Widget>[
-                nameChild,
-                cityChild,
-                endChild
-              ]));
+              child: ListView(
+                  children: <Widget>[
+                    businessAvatar,
+                    nameChild,
+                    cityChild,
+                    endChild
+                  ]));
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
