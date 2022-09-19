@@ -4,6 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/widgets/forms/validator.dart';
 
+import '../../syntax.dart';
+import '../candidate/candidate_home_page.dart';
+import '../professional/professional_home_page.dart';
+
 class RegisterLogic {
   final formKey = GlobalKey<FormState>();
   Validator validator = Validator();
@@ -66,15 +70,16 @@ class RegisterLogic {
     }
   }
 
-  void validateRegister({required BuildContext context, required pushTo}) async {
+  void validateRegister({required BuildContext context, required userGroup}) async {
     if (formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Inscription')),
       );
-
+      appState.userGroup = userGroup;
       String firebaseUid = await createUserFromFireBase(email, password);
       //Formulaire ok requete /register
       Response? response = await appState.authMethods.userRegister(
+          userGroup: userGroup,
           username: username,
           password: password,
           email: email,
@@ -82,7 +87,7 @@ class RegisterLogic {
 
       if (response == null) {
         await deleteUserFromFireBase(email, password);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('XMLHttpRequest error.'),
         ));
       }
@@ -94,16 +99,24 @@ class RegisterLogic {
               .firebaseSignInWithEmailAndPassword(email, password);
 
           if (appState.checkToken(await appState.authMethods
-              .authenticationToken(username: username, password: password))) {
+              .authenticationToken(username: username, password: password, userGroup: userGroup))) {
 
             final res = await appState.authMethods
-                .getCurrentUser(token: appState.currentUser.token);
+                .getCurrentUser(token: appState.currentUser.token, userGroup: userGroup);
 
             appState.currentUser.setParameters(res);
             appState.appStatus = AppStatus.connected;
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => pushTo),
+              MaterialPageRoute(builder: (context) {
+                if (userGroup==userGroupSyntax.professional) {
+                  return const ProHome();
+                }
+                else if (userGroup==userGroupSyntax.candidate) {
+                  return const CandidateHome();
+                }
+                else {return Text("unknown user group $userGroup");}
+              }),
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(

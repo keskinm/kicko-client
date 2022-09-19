@@ -7,7 +7,9 @@ class AuthMethods {
   final FirebaseAuth fAuth = FirebaseAuth.instance;
 
   Future<Response?> userRegister(
-      {required String username,
+      {
+      required String userGroup,
+      required String username,
       required String password,
       required String email,
       required String firebaseUid}) async {
@@ -16,7 +18,7 @@ class AuthMethods {
 
     try {
       Response response =
-      await dioHttpPost(route: 'professional_register', jsonData: json, token: false);
+      await dioHttpPost(route: '${userGroup}_register', jsonData: json, token: false);
       print(response.data);
       if (response.statusCode == 200) {
         appState.addCredentials(keys: {
@@ -39,18 +41,18 @@ class AuthMethods {
   }
 
   Future authenticationToken(
-      {required String username, required String password}) async {
+      {required String username, required String password, required String userGroup}) async {
     String body = '{"username": "$username" ,"password":"$password"}';
     Response response = await dioHttpPost(
-      route: 'authentication-token',
+      route: '$userGroup-authentication-token',
       jsonData: body,
       token: false,
     );
     return response.data;
   }
 
-  Future getCurrentUser({required String token}) async {
-    Response response = await dioHttpGet(route: 'professional', token: true);
+  Future getCurrentUser({required String token, required String userGroup}) async {
+    Response response = await dioHttpGet(route: userGroup, token: true);
 
     if (response.statusCode == 200) {
       return response.data["data"];

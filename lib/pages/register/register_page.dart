@@ -7,8 +7,8 @@ import 'package:kicko/pages/register/register_style.dart';
 import '../professional/professional_home_page.dart';
 
 class RegisterPage extends StatefulWidget {
-  final StatefulWidget pushTo;
-  const RegisterPage({Key? key, required this.pushTo}) : super(key: key);
+  final String userGroup;
+  const RegisterPage({Key? key, required this.userGroup}) : super(key: key);
 
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -92,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             MaterialButton(
-              onPressed: () => logic.validateRegister(context: context, pushTo: const ProHome()),
+              onPressed: () => logic.validateRegister(context: context, userGroup: widget.userGroup),
               child: Container(
                 height: 50,
                 width: 200,
@@ -112,7 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
             AnimatedTextKit(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return LoginPage(pushTo: widget.pushTo);
+                  return LoginPage(userGroup: widget.userGroup);
                 }));
               },
               repeatForever: true,

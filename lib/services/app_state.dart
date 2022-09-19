@@ -20,6 +20,8 @@ class AppState {
   late String serverUrl;
 
   late User currentUser = User();
+  late String userGroup;
+
   late SharedPreferences sharedPreferences;
   AppStatus appStatus = AppStatus.init;
 
@@ -33,8 +35,8 @@ class AppState {
           currentUser.email, currentUser.password);
 
       if (checkToken(await authMethods.authenticationToken(
-          username: currentUser.username, password: currentUser.password))) {
-        final res = await authMethods.getCurrentUser(token: currentUser.token);
+          username: currentUser.username, password: currentUser.password, userGroup: userGroup))) {
+        final res = await authMethods.getCurrentUser(token: currentUser.token, userGroup: userGroup);
         currentUser.setParameters(res);
         appStatus = AppStatus.connected;
         return AppStatus.connected;
