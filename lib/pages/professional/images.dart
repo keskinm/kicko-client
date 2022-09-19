@@ -70,7 +70,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages>{
 
   getProfileImages() async {
     String currentUsername = appState.currentUser.username;
-    String bucket = 'profile_images/$currentUsername';
+    String bucket = 'business_images/$currentUsername';
     return dataBaseMethods.downloadFiles(bucket);
   }
 
@@ -109,7 +109,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages>{
       String imageName = "post_$postId.jpg";
       String currentUsername = appState.currentUser.username;
       await dataBaseMethods.uploadFile(
-          'profile_images/$currentUsername', imageName, image);
+          'business_images/$currentUsername', imageName, image);
       bool res = await dataBaseMethods.updateTableField(imageName, "image_id", "update_business_fields");
       if (res) {
         print("popup succesfully uploaded");

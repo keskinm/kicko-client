@@ -48,7 +48,7 @@ class JobOffer {
   Future<bool> addJobOffer(
       {required String userId}) async {
     String body =
-        '{"name": "$name", "description":"$description", "requires":"$requires", "user_id": "$userId"}';
+        '{"name": "$name", "description":"$description", "requires":"$requires", "professional_id": "$userId"}';
     Response response = await dioHttpPost(
       route: 'add_job_offer',
       jsonData: body,
@@ -122,7 +122,7 @@ class Business {
   };
 
   Future<bool> updateFields({required String userId}) async {
-    String body = '{"user_id": "$userId"';
+    String body = '{"professional_id": "$userId"';
     for (final attr in attrs) {
       dynamic attrValue = getAttr(attr);
       if (getAttr(attr) != null) {
@@ -148,7 +148,7 @@ class Business {
   Future<bool> updateField(
       {required String userId, required String key, required String value}) async {
     String body =
-        '{"user_id": "$userId", "$key":"$value"}';
+        '{"professional_id": "$userId", "$key":"$value"}';
     Response response = await dioHttpPost(
       route: 'update_business_field',
       jsonData: body,

@@ -100,7 +100,7 @@ class ProfessionalHomeLogic {
 
   Future<Map<String, dynamic>> getBusiness() async {
     String userId = appState.currentUser.id;
-    String body = '{"user_id": "$userId"}';
+    String body = '{"professional_id": "$userId"}';
     Response response = await dioHttpPost(
       route: 'get_business',
       jsonData: body,
@@ -118,11 +118,11 @@ class ProfessionalHomeLogic {
     String? profileImageId = businessJson['image_id'];
 
     if (profileImageId == null) {
-      bucket = 'profile_images';
+      bucket = 'business_images';
       profileImageId = 'ca_default_profile.jpg';
     } else {
       String currentUsername = appState.currentUser.username;
-      bucket = 'profile_images/$currentUsername';
+      bucket = 'business_images/$currentUsername';
     }
 
     return DatabaseMethods().downloadFile(bucket, profileImageId);
@@ -130,7 +130,7 @@ class ProfessionalHomeLogic {
 
   Future<List> getJobOffers() async {
     String userId = appState.currentUser.id;
-    String body = '{"user_id": "$userId"}';
+    String body = '{"professional_id": "$userId"}';
     Response response = await dioHttpPost(
       route: 'get_job_offers',
       jsonData: body,
@@ -141,7 +141,7 @@ class ProfessionalHomeLogic {
 
   Future<bool> deleteJobOffer(String jobOfferId) async {
     String userId = appState.currentUser.id;
-    String body = '{"user_id": "$userId", "id": "$jobOfferId"}';
+    String body = '{"professional_id": "$userId", "id": "$jobOfferId"}';
     Response response = await dioHttpPost(
       route: 'delete_job_offer',
       jsonData: body,

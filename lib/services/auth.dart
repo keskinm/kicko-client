@@ -16,7 +16,7 @@ class AuthMethods {
 
     try {
       Response response =
-      await dioHttpPost(route: 'user_register', jsonData: json, token: false);
+      await dioHttpPost(route: 'professional_register', jsonData: json, token: false);
       print(response.data);
       if (response.statusCode == 200) {
         appState.addCredentials(keys: {
@@ -50,7 +50,7 @@ class AuthMethods {
   }
 
   Future getCurrentUser({required String token}) async {
-    Response response = await dioHttpGet(route: 'user', token: true);
+    Response response = await dioHttpGet(route: 'professional', token: true);
 
     if (response.statusCode == 200) {
       return response.data["data"];

@@ -119,7 +119,7 @@ class DatabaseMethods {
       String route) async {
     String userId = appState.currentUser.id;
 
-    String jsonData = '{"user_id": "$userId", "$field": "$value"}';
+    String jsonData = '{"professional_id": "$userId", "$field": "$value"}';
 
     Response response =
     await dioHttpPost(route: route, jsonData: jsonData, token: true);
@@ -132,7 +132,7 @@ class DatabaseMethods {
   }
 
   getTableField(String userId, String route) async {
-    String body = '{"user_id": "$userId"}';
+    String body = '{"professional_id": "$userId"}';
     Response response = await dioHttpPost(
       route: route,
       jsonData: body,
