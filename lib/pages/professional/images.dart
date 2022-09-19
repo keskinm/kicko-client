@@ -8,6 +8,15 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kicko/services/app_state.dart';
 
 
+Widget goBack(BuildContext context) {
+  return ElevatedButton(
+    onPressed: () {
+      Navigator.pop(context);},
+    child: const Text('Go back!'),
+  );
+}
+
+
 Future<String> getProfileImage() async {
   String bucket;
 
@@ -50,45 +59,44 @@ class _LoadFirebaseStorageImageState extends State<LoadFirebaseStorageImage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               dynamic im = snapshot.data;
-              return Container(
-                child: Column(
-                  children: [
-                    Container(
-                      child: kIsWeb
-                          ? Image.network(
-                        im,
-                        fit: BoxFit.fill,
-                      )
-                          : Image.file(
-                        File(im),
-                        fit: BoxFit.fill,
-                      ),
-                      width: 200,
-                      height: 200,
+              return Column(
+                children: [
+                  SizedBox(
+                    child: kIsWeb
+                        ? Image.network(
+                      im,
+                      fit: BoxFit.fill,
+                    )
+                        : Image.file(
+                      File(im),
+                      fit: BoxFit.fill,
                     ),
-                    ElevatedButton(
-                      onPressed: () => addProfileImage(),
-                      child: const Text('Ajouter photo de profile'),
-                    ),
-                    ElevatedButton(
-                      child: const Text('Changer photo de profile'),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DisplayProfileImages()),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                    width: MediaQuery.of(context).size.width / 4,
+                    height: MediaQuery.of(context).size.height / 4,
+                  ),
+                  ElevatedButton(
+                    onPressed: () => addProfileImage(),
+                    child: const Text('Ajouter photo de profile'),
+                  ),
+                  ElevatedButton(
+                    child: const Text('Changer photo de profile'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DisplayProfileImages()),
+                      );
+                    },
+                  ),
+                  goBack(context),
+                ],
               );
             }
 
             else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+              return Column(children: [Text('Error: ${snapshot.error}'), goBack(context)],);
             } else {
-              return const Text('Chargement...');
+              return Column(children: [const Text('Chargement...'), goBack(context)],);
             }
           })
     ]);
@@ -233,11 +241,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages>{
         ),
 
 
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);},
-          child: const Text('Go back!'),
-        ),
+        goBack(context),
 
 
       ],
