@@ -5,7 +5,8 @@ import 'package:kicko/pages/professional/models.dart';
 import 'package:kicko/pages/professional/professional_home_page.dart';
 import 'package:kicko/widgets/forms/validator.dart';
 
-import '../../services/app_state.dart';
+import 'package:kicko/services/app_state.dart';
+import 'package:kicko/services/database.dart';
 
 class ProfessionalHomeLogic {
   final jobOfferForm = GlobalKey<FormState>();
@@ -107,6 +108,24 @@ class ProfessionalHomeLogic {
     );
     // Map<String, String> jsonResponse = json.decode(response.data);
     return response.data;
+  }
+
+  Future<String> getProfileImage(Future<Map<String, dynamic>> futureBusinessJson) async {
+    String bucket;
+
+    Map<String, dynamic> businessJson = await futureBusinessJson;
+
+    String? profileImageId = businessJson['image_id'];
+
+    if (profileImageId == null) {
+      bucket = 'profile_images';
+      profileImageId = 'ca_default_profile.jpg';
+    } else {
+      String currentUsername = appState.currentUser.username;
+      bucket = 'profile_images/$currentUsername';
+    }
+
+    return DatabaseMethods().downloadFile(bucket, profileImageId);
   }
 
   Future<List> getJobOffers() async {

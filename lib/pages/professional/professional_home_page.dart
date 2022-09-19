@@ -54,6 +54,15 @@ class ProHome extends StatefulWidget {
 class _ProHome extends State<ProHome> {
   ProfessionalHomeLogic logic = ProfessionalHomeLogic();
   ProfessionalHomeStyle style = ProfessionalHomeStyle();
+  late Future<Map<String, dynamic>> business;
+  late Future<String> imageDownloadURL;
+
+  @override
+  void initState() {
+    super.initState();
+     business = logic.getBusiness();
+     imageDownloadURL = logic.getProfileImage(business);
+  }
 
   Container buildContainerWithText(String text) {
     return Container(
@@ -66,12 +75,11 @@ class _ProHome extends State<ProHome> {
   }
 
   Widget buildBusiness() {
-    return FutureBuilder<Map<String, dynamic>>(
-      future: logic.getBusiness(),
-      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+    return FutureBuilder<List<dynamic>>(
+      future: Future.wait([business, imageDownloadURL]),
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         Widget body;
         if (snapshot.hasData) {
-
           List<Widget> regularFields = [];
           List<String> fields = ["name"];
           for (final String field in fields) {
@@ -82,13 +90,13 @@ class _ProHome extends State<ProHome> {
           String cityInitialValue = '';
           String nameInitialValue = '';
 
-          if (snapshot.data!.containsKey("city")) {
-            cityInitialValue = snapshot.data!["city"];
+          if (snapshot.data![0].containsKey("city")) {
+            cityInitialValue = snapshot.data![0]["city"];
           }
           Widget cityChild = CityAutocompletion(parent: this, initialValue: cityInitialValue);
 
-          if (snapshot.data!.containsKey("name")) {
-            nameInitialValue = snapshot.data!["name"];
+          if (snapshot.data![0].containsKey("name")) {
+            nameInitialValue = snapshot.data![0]["name"];
           }
 
           Widget nameChild = Container(
@@ -130,9 +138,13 @@ class _ProHome extends State<ProHome> {
               CircleAvatar(
                 radius: 75,
                 backgroundColor: Colors.grey.shade200,
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 70,
-                  // backgroundImage: AssetImage('assets/images/default.png'),
+                  child: ClipOval(
+                    child: Image.network(
+                      snapshot.data![1],
+                    ),
+                  ),
                 ),
               ),
               Positioned(
@@ -144,7 +156,7 @@ class _ProHome extends State<ProHome> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoadFirebaseStorageImage()),
+                        MaterialPageRoute(builder: (context) => const DisplayProfileImages()),
                       );
                   },
                   ),

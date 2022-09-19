@@ -17,135 +17,6 @@ Widget goBack(BuildContext context) {
 }
 
 
-Future<String> getProfileImage() async {
-  String bucket;
-
-  dynamic jsonResp = await ProfessionalHomeLogic().getBusiness();
-  String? profileImageId = jsonResp['image_id'];
-
-  if (profileImageId == null) {
-    bucket = 'profile_images';
-    profileImageId = 'ca_default_profile.jpg';
-  } else {
-    String currentUsername = appState.currentUser.username;
-    bucket = 'profile_images/$currentUsername';
-  }
-
-  return DatabaseMethods().downloadFile(bucket, profileImageId);
-}
-
-class LoadFirebaseStorageImage extends StatefulWidget {
-  const LoadFirebaseStorageImage({Key? key}) : super(key: key);
-
-  @override
-  _LoadFirebaseStorageImageState createState() =>
-      _LoadFirebaseStorageImageState();
-}
-
-class _LoadFirebaseStorageImageState extends State<LoadFirebaseStorageImage> {
-  bool inProcess = false;
-  DatabaseMethods dataBaseMethods = DatabaseMethods();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      FutureBuilder<String>(
-          future: getProfileImage(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              dynamic im = snapshot.data;
-              return Column(
-                children: [
-                  SizedBox(
-                    child: kIsWeb
-                        ? Image.network(
-                      im,
-                      fit: BoxFit.fill,
-                    )
-                        : Image.file(
-                      File(im),
-                      fit: BoxFit.fill,
-                    ),
-                    width: MediaQuery.of(context).size.width / 4,
-                    height: MediaQuery.of(context).size.height / 4,
-                  ),
-                  ElevatedButton(
-                    onPressed: () => addProfileImage(),
-                    child: const Text('Ajouter photo de profile'),
-                  ),
-                  ElevatedButton(
-                    child: const Text('Changer photo de profile'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DisplayProfileImages()),
-                      );
-                    },
-                  ),
-                  goBack(context),
-                ],
-              );
-            }
-
-            else if (snapshot.hasError) {
-              return Column(children: [Text('Error: ${snapshot.error}'), goBack(context)],);
-            } else {
-              return Column(children: [const Text('Chargement...'), goBack(context)],);
-            }
-          })
-    ]);
-  }
-
-
-  Future<void> addProfileImage() async {
-    XFile? image = await selectImageFromGallery();
-
-    if (image == null) {
-      throw Exception('an exception occured');
-    } else {
-      String postId = DateTime.now().millisecondsSinceEpoch.toString();
-      String imageName = "post_$postId.jpg";
-      String currentUsername = appState.currentUser.username;
-      await dataBaseMethods.uploadFile(
-          'profile_images/$currentUsername', imageName, image);
-      bool res = await dataBaseMethods.updateTableField(imageName, "image_id", "update_business_fields");
-      if (res) {
-        print("popup succesfully uploaded");
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LoadFirebaseStorageImage()),
-        );
-      }
-      else {
-
-      }
-    }
-  }
-
-  Future<XFile?> selectImageFromGallery() async {
-    final picker = ImagePicker();
-
-    setState(() {
-      inProcess = true;
-    });
-
-    Future<XFile?> xFile = picker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      inProcess = false;
-    });
-
-    return xFile;
-  }
-}
-
-
 
 
 class DisplayProfileImages extends StatefulWidget {
@@ -211,6 +82,49 @@ class _DisplayProfileImages extends State<DisplayProfileImages>{
   }
 
 
+  Future<XFile?> selectImageFromGallery() async {
+    final picker = ImagePicker();
+
+    setState(() {
+      inProcess = true;
+    });
+
+    Future<XFile?> xFile = picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      inProcess = false;
+    });
+
+    return xFile;
+  }
+
+
+  Future<void> addProfileImage() async {
+    XFile? image = await selectImageFromGallery();
+
+    if (image == null) {
+      throw Exception('an exception occured');
+    } else {
+      String postId = DateTime.now().millisecondsSinceEpoch.toString();
+      String imageName = "post_$postId.jpg";
+      String currentUsername = appState.currentUser.username;
+      await dataBaseMethods.uploadFile(
+          'profile_images/$currentUsername', imageName, image);
+      bool res = await dataBaseMethods.updateTableField(imageName, "image_id", "update_business_fields");
+      if (res) {
+        print("popup succesfully uploaded");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const DisplayProfileImages()),
+        );
+      }
+      else {
+
+      }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,13 +147,21 @@ class _DisplayProfileImages extends State<DisplayProfileImages>{
 
             }
 
+            else if (snapshot.hasError) {
+              return Column(children: [Text('Error: ${snapshot.error}'), goBack(context)],);
+            }
+
             else {
-              return const Text('Chargement..');
+              return Column(children: [const Text('Chargement...'), goBack(context)],);
             }
 
           },
         ),
 
+        ElevatedButton(
+          onPressed: () => addProfileImage(),
+          child: const Text('Ajouter photo de profile'),
+        ),
 
         goBack(context),
 
