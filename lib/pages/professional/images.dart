@@ -2,7 +2,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/services/database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kicko/services/app_state.dart';
