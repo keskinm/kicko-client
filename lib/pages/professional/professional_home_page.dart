@@ -65,7 +65,7 @@ class _ProHome extends State<ProHome> {
           }
 
           Widget cityChild =
-              CityAutocompletion(parent: this, initialValue: cityInitialValue, selectionCallback: selectionCallback);
+              CityAutocompletion(initialValue: cityInitialValue, selectionCallback: selectionCallback);
 
           if (snapshot.data![0].containsKey("name")) {
             nameInitialValue = snapshot.data![0]["name"];

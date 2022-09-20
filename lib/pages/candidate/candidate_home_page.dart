@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:kicko/pages/common.dart';
+import 'package:kicko/syntax.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
 
@@ -33,24 +34,39 @@ class _CandidateHome extends State<CandidateHome> {
     return FutureBuilder<List<dynamic>>(
       future: jobOffers,
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-        Widget cityFilter = TextField(
-          controller: jobOfferFilters["city"],
-          decoration: InputDecoration(
-            hintText: 'Filtrer par ville',
-            suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  onReBuild();
-                });
-              },
-              icon: const Icon(Icons.check_box),
-            ),
-          ),
-        );
 
         Widget body;
         if (snapshot.hasData) {
-          if (snapshot.data![0].containsKey("error")) {
+
+          print("ici");
+          print(snapshot.data);
+
+          selectionCallback(String selection) {
+            jobOfferFilters["city"] = selection;
+          }
+
+          Widget cityFilter =
+          CityAutocompletion(initialValue: '', selectionCallback: selectionCallback);
+          Widget validateCityFilter = IconButton(
+            onPressed: () {
+              setState(() {
+                onReBuild();
+              });
+            },
+            icon: const Icon(Icons.check_box),
+          );
+          Widget cityChild = Wrap(children: [cityFilter, validateCityFilter]);
+
+
+          if (snapshot.data!.isEmpty) {
+            body = Column(children: [cityChild, const Text("Aucune offre d'emploi ne correspond à vos critères de recherches.")]);
+          }
+
+
+          else if (snapshot.data![0].containsKey("error")) {
+
+            body = const Text('Error');
+
             showDialog<String>(
                 context: context,
                 builder: (BuildContext context) {
@@ -62,43 +78,50 @@ class _CandidateHome extends State<CandidateHome> {
                 });
           }
 
-          ListView listView = ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              final jobOffer = snapshot.data![index];
-              return ListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(8),
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    color: Colors.amber[600],
-                    child: Text(jobOffer['name']),
-                  ),
-                  Container(
-                    height: 50,
-                    color: Colors.amber[500],
-                    child: Text(jobOffer['description']),
-                  ),
-                  Container(
-                    height: 50,
-                    color: Colors.amber[100],
-                    child: Text(jobOffer['requires']),
-                  ),
-                  IconButton(
-                    // APPLYING TO THE JOB
-                    icon: const Icon(Icons.add_call),
-                    onPressed: () async {},
-                  )
-                ],
-              );
-            },
-          );
-          body = Column(children: [cityFilter, Expanded(child: listView)]);
-        } else if (snapshot.hasError) {
+          else {
+            ListView listView = ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final jobOffer = snapshot.data![index];
+                return ListView(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(8),
+                  children: <Widget>[
+                    Container(
+                      height: 50,
+                      color: Colors.amber[600],
+                      child: Text(jobOffer['name']),
+                    ),
+                    Container(
+                      height: 50,
+                      color: Colors.amber[500],
+                      child: Text(jobOffer['description']),
+                    ),
+                    Container(
+                      height: 50,
+                      color: Colors.amber[100],
+                      child: Text(jobOffer['requires']),
+                    ),
+                    IconButton(
+                      // APPLYING TO THE JOB
+                      icon: const Icon(Icons.add_call),
+                      onPressed: () async {},
+                    )
+                  ],
+                );
+              },
+            );
+            body = Column(children: [cityChild, Expanded(child: listView)]);
+          }
+
+        }
+
+        else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
-        } else {
+        }
+
+        else {
           body = const Text('Awaiting result...');
         }
         return Scaffold(body: body);
