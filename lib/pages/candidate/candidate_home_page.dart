@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/pages/candidate/rebuild_future.dart';
 
-import '../common.dart';
+import 'package:kicko/pages/common.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
 
