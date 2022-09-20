@@ -71,7 +71,7 @@ class Candidate {
     body = body + '}';
 
     Response response = await dioHttpPost(
-      route: 'update_Candidate_fields',
+      route: 'update_candidate_fields',
       jsonData: body,
       token: false,
     );

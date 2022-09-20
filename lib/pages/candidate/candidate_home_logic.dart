@@ -6,6 +6,7 @@ import 'package:kicko/widgets/forms/validator.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
 
+import '../common.dart';
 import 'models.dart';
 
 
@@ -40,28 +41,6 @@ class CandidateHomeLogic {
         );
       }
     }
-  }
-
-
-  Widget buildPopupDialog(BuildContext context, String message, String title, String close) {
-    return AlertDialog(
-      title: Text(title),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(message),
-        ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text(close),
-        ),
-      ],
-    );
   }
 
   String? nonNullable({required String? value, required String key, required Map jsonModel}) {
@@ -100,15 +79,39 @@ class CandidateHomeLogic {
     return DatabaseMethods().downloadFile(bucket, profileImageId);
   }
 
-  Future<List> getJobOffers() async {
-    String userId = appState.currentUser.id;
-    String body = '{"professional_id": "$userId"}';
+  Future<List> getJobOffers(Map jobOfferFilters) async {
+    String body = '{';
+
+    jobOfferFilters.forEach((key, value) {
+      if (value is TextEditingController) {
+        value = value.text;
+      }
+      if (!value.isEmpty)
+      {
+        body = body + '"$key":"$value", ';
+      }
+    });
+
+    if (body.endsWith(", "))
+       // THROW THE COMMA
+       {
+         body = body.substring(0, body.length - 2);
+       }
+
+    body = body + '}';
+    print("BODY"+body+"\n\n\n\n\n\n");
+
     Response response = await dioHttpPost(
       route: 'candidate_get_job_offers',
       jsonData: body,
       token: false,
     );
-    return response.data;
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      return [{"error": true}];
+    }
   }
 
 }
