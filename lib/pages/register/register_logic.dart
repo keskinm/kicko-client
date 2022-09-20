@@ -59,18 +59,20 @@ class RegisterLogic {
 
   Future deleteUserFromFireBase(String email, String password) async {
     try {
-      UserCredential firebaseUser = await appState.authMethods.fAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential firebaseUser = await appState.authMethods.fAuth
+          .signInWithEmailAndPassword(email: email, password: password);
       firebaseUser.user!.delete();
       await appState.authMethods.fAuth.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        print('The user must reauthenticate before this operation can be executed.');
+        print(
+            'The user must reauthenticate before this operation can be executed.');
       }
     }
   }
 
-  void validateRegister({required BuildContext context, required userGroup}) async {
+  void validateRegister(
+      {required BuildContext context, required userGroup}) async {
     if (formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Inscription')),
@@ -90,32 +92,32 @@ class RegisterLogic {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('XMLHttpRequest error.'),
         ));
-      }
-
-      else {
+      } else {
         //Compte créé
         if (response.statusCode == 200) {
           await appState.authMethods
               .firebaseSignInWithEmailAndPassword(email, password);
 
           if (appState.checkToken(await appState.authMethods
-              .authenticationToken(username: username, password: password, userGroup: userGroup))) {
-
-            final res = await appState.authMethods
-                .getCurrentUser(token: appState.currentUser.token, userGroup: userGroup);
+              .authenticationToken(
+                  username: username,
+                  password: password,
+                  userGroup: userGroup))) {
+            final res = await appState.authMethods.getCurrentUser(
+                token: appState.currentUser.token, userGroup: userGroup);
 
             appState.currentUser.setParameters(res);
             appState.appStatus = AppStatus.connected;
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) {
-                if (userGroup==userGroupSyntax.professional) {
+                if (userGroup == userGroupSyntax.professional) {
                   return const ProHome();
-                }
-                else if (userGroup==userGroupSyntax.candidate) {
+                } else if (userGroup == userGroupSyntax.candidate) {
                   return const CandidateHome();
+                } else {
+                  return Text("unknown user group $userGroup");
                 }
-                else {return Text("unknown user group $userGroup");}
               }),
             );
           } else {
@@ -128,8 +130,7 @@ class RegisterLogic {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('error ${response.data}'),
           ));
-      }
-
+        }
       }
     }
   }

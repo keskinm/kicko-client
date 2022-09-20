@@ -35,8 +35,11 @@ class AppState {
           currentUser.email, currentUser.password);
 
       if (checkToken(await authMethods.authenticationToken(
-          username: currentUser.username, password: currentUser.password, userGroup: userGroup))) {
-        final res = await authMethods.getCurrentUser(token: currentUser.token, userGroup: userGroup);
+          username: currentUser.username,
+          password: currentUser.password,
+          userGroup: userGroup))) {
+        final res = await authMethods.getCurrentUser(
+            token: currentUser.token, userGroup: userGroup);
         currentUser.setParameters(res);
         appStatus = AppStatus.connected;
         return AppStatus.connected;

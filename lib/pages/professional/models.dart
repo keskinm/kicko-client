@@ -7,9 +7,7 @@ class JobOffer {
   late String requires;
 
   JobOffer(
-      {required this.requires,
-        required this.description,
-        required this.name});
+      {required this.requires, required this.description, required this.name});
 
   void setAttr(String name, value) {
     switch (name) {
@@ -34,19 +32,18 @@ class JobOffer {
   }
 
   factory JobOffer.fromJson(Map<dynamic, dynamic> json) => JobOffer(
-    name: json['name'],
-    description: json['description'],
-    requires: json['requires'],
-  );
+        name: json['name'],
+        description: json['description'],
+        requires: json['requires'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'description': description,
-    'requires': requires,
-  };
+        'name': name,
+        'description': description,
+        'requires': requires,
+      };
 
-  Future<bool> addJobOffer(
-      {required String userId}) async {
+  Future<bool> addJobOffer({required String userId}) async {
     String body =
         '{"name": "$name", "description":"$description", "requires":"$requires", "professional_id": "$userId"}';
     Response response = await dioHttpPost(
@@ -68,9 +65,7 @@ class Business {
   late String? name;
   late String? city;
 
-  Business(
-      {this.name,
-        this.city});
+  Business({this.name, this.city});
 
   void setAttr(String name, value) {
     switch (name) {
@@ -109,17 +104,16 @@ class Business {
       business.setAttr(key, json[key]);
     }
 
-  return Business(
-
-  name: json['name'],
-  city: json['city'],
-  );
+    return Business(
+      name: json['name'],
+      city: json['city'],
+    );
   }
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'city': city,
-  };
+        'name': name,
+        'city': city,
+      };
 
   Future<bool> updateFields({required String userId}) async {
     String body = '{"professional_id": "$userId"';
@@ -144,11 +138,11 @@ class Business {
     }
   }
 
-
   Future<bool> updateField(
-      {required String userId, required String key, required String value}) async {
-    String body =
-        '{"professional_id": "$userId", "$key":"$value"}';
+      {required String userId,
+      required String key,
+      required String value}) async {
+    String body = '{"professional_id": "$userId", "$key":"$value"}';
     Response response = await dioHttpPost(
       route: 'update_business_field',
       jsonData: body,
@@ -161,7 +155,4 @@ class Business {
       return false;
     }
   }
-
-
 }
-

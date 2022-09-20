@@ -4,7 +4,6 @@ import 'package:kicko/pages/register/register_page.dart';
 import 'package:kicko/pages/login/login_logic.dart';
 import 'package:kicko/pages/login/login_style.dart';
 
-
 class LoginPage extends StatefulWidget {
   final String userGroup;
   const LoginPage({Key? key, required this.userGroup}) : super(key: key);
@@ -71,7 +70,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 MaterialButton(
-                  onPressed: () => logic.validateLogin(context: context, userGroup: widget.userGroup),
+                  onPressed: () => logic.validateLogin(
+                      context: context, userGroup: widget.userGroup),
                   child: Container(
                     height: 50,
                     width: 200,

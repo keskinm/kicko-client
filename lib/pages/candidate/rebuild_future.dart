@@ -36,25 +36,24 @@ class _RebuildFuture extends State<RebuildFuture> {
       future: futureFlag,
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         bool? checkBoxValue = true;
-        Widget flagChanger = Checkbox(value: checkBoxValue,
-          activeColor: Colors.green,
-          onChanged:(bool? newValue) async {
-            setState(() {
-              _counter = _counter + 1;
-              print("4");
-              // onReBuild();
-              print("5");
-              futureFlag = Future<String>.value(_counter.toString());
+        Widget flagChanger = Checkbox(
+            value: checkBoxValue,
+            activeColor: Colors.green,
+            onChanged: (bool? newValue) async {
+              setState(() {
+                _counter = _counter + 1;
+                print("4");
+                // onReBuild();
+                print("5");
+                futureFlag = Future<String>.value(_counter.toString());
+              });
             });
-        });
 
         if (snapshot.hasData) {
-
           return Wrap(
             children: [Text(snapshot.data!), flagChanger],
           );
-        }
-        else {
+        } else {
           return Wrap(
             children: [Text("No data ;( ? .."), flagChanger],
           );
@@ -70,13 +69,13 @@ class _RebuildFuture extends State<RebuildFuture> {
           title: const Text('Bienvenu dans votre tableau de bord !'),
         ),
         body: Wrap(
-            spacing: 100,
-            children: [
-        SizedBox(
-        width: MediaQuery.of(context).size.width / 4,
-        height: MediaQuery.of(context).size.height / 4,
-        child: buildJobOffers()),
-    ],
-    ));
-    }
+          spacing: 100,
+          children: [
+            SizedBox(
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.height / 4,
+                child: buildJobOffers()),
+          ],
+        ));
   }
+}

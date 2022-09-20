@@ -3,5 +3,4 @@ class UserGroupSyntax {
   String candidate = "candidate";
 }
 
-
 UserGroupSyntax userGroupSyntax = UserGroupSyntax();

@@ -92,7 +92,8 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             MaterialButton(
-              onPressed: () => logic.validateRegister(context: context, userGroup: widget.userGroup),
+              onPressed: () => logic.validateRegister(
+                  context: context, userGroup: widget.userGroup),
               child: Container(
                 height: 50,
                 width: 200,

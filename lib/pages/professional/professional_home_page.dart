@@ -4,11 +4,12 @@ import 'package:kicko/pages/professional/professional_home_style.dart';
 
 import 'images.dart';
 
-
 class CityAutocompletion extends StatelessWidget {
   final _ProHome parent;
   final String initialValue;
-  const CityAutocompletion({Key? key, required this.parent, required this.initialValue}) : super(key: key);
+  const CityAutocompletion(
+      {Key? key, required this.parent, required this.initialValue})
+      : super(key: key);
 
   static const List<String> _kOptions = <String>[
     'Paris',
@@ -35,12 +36,14 @@ class CityAutocompletion extends StatelessWidget {
         });
       },
       onSelected: (String selection) {
-        parent.logic.nonNullable(value: selection, key: "city", jsonModel: parent.logic.businessJson);
+        parent.logic.nonNullable(
+            value: selection,
+            key: "city",
+            jsonModel: parent.logic.businessJson);
       },
     );
   }
 }
-
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
@@ -60,8 +63,8 @@ class _ProHome extends State<ProHome> {
   @override
   void initState() {
     super.initState();
-     business = logic.getBusiness();
-     imageDownloadURL = logic.getProfileImage(business);
+    business = logic.getBusiness();
+    imageDownloadURL = logic.getProfileImage(business);
   }
 
   Container buildContainerWithText(String text) {
@@ -83,7 +86,6 @@ class _ProHome extends State<ProHome> {
           List<Widget> regularFields = [];
           List<String> fields = ["name"];
           for (final String field in fields) {
-
             // regularFields.add(value);
           }
 
@@ -93,7 +95,8 @@ class _ProHome extends State<ProHome> {
           if (snapshot.data![0].containsKey("city")) {
             cityInitialValue = snapshot.data![0]["city"];
           }
-          Widget cityChild = CityAutocompletion(parent: this, initialValue: cityInitialValue);
+          Widget cityChild =
+              CityAutocompletion(parent: this, initialValue: cityInitialValue);
 
           if (snapshot.data![0].containsKey("name")) {
             nameInitialValue = snapshot.data![0]["name"];
@@ -106,13 +109,12 @@ class _ProHome extends State<ProHome> {
                     top: BorderSide(color: Colors.purple))),
             child: TextFormField(
               initialValue: nameInitialValue,
-              validator: (value) =>
-                  logic.nonNullable(value: value, key: "name", jsonModel: logic.businessJson),
-              decoration: style.inputDecoration(
-                  hintText: 'Nom de votre entreprise'),
+              validator: (value) => logic.nonNullable(
+                  value: value, key: "name", jsonModel: logic.businessJson),
+              decoration:
+                  style.inputDecoration(hintText: 'Nom de votre entreprise'),
             ),
           );
-
 
           MaterialButton endChild = MaterialButton(
             onPressed: () => logic.validateBusiness(context: context),
@@ -156,9 +158,10 @@ class _ProHome extends State<ProHome> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const DisplayProfileImages()),
+                        MaterialPageRoute(
+                            builder: (context) => const DisplayProfileImages()),
                       );
-                  },
+                    },
                   ),
                   decoration: BoxDecoration(
                       border: Border.all(
@@ -187,13 +190,12 @@ class _ProHome extends State<ProHome> {
 
           return Form(
               key: logic.businessForm,
-              child: ListView(
-                  children: <Widget>[
-                    businessAvatar,
-                    nameChild,
-                    cityChild,
-                    endChild
-                  ]));
+              child: ListView(children: <Widget>[
+                businessAvatar,
+                nameChild,
+                cityChild,
+                endChild
+              ]));
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
@@ -242,20 +244,20 @@ class _ProHome extends State<ProHome> {
                       if (success) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const ProHome()),
+                          MaterialPageRoute(
+                              builder: (context) => const ProHome()),
                         );
                       } else {
                         showDialog<String>(
                             context: context,
                             builder: (BuildContext context) {
-                              return logic.buildPopupDialog(context,
+                              return logic.buildPopupDialog(
+                                  context,
                                   "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
                                   "oups",
                                   "fermer");
-                            }
-                        );
+                            });
                       }
-
                     },
                   )
                 ],
@@ -286,8 +288,8 @@ class _ProHome extends State<ProHome> {
                         bottom: BorderSide(color: Colors.purple),
                         top: BorderSide(color: Colors.purple))),
                 child: TextFormField(
-                  validator: (value) =>
-                      logic.nonNullable(value: value, key: "name", jsonModel: logic.jobOfferJson),
+                  validator: (value) => logic.nonNullable(
+                      value: value, key: "name", jsonModel: logic.jobOfferJson),
                   decoration: style.inputDecoration(
                       hintText: 'Nom de l\'offre d\'emploi'),
                 ),
@@ -299,7 +301,9 @@ class _ProHome extends State<ProHome> {
                         top: BorderSide(color: Colors.purple))),
                 child: TextFormField(
                   validator: (value) => logic.nonNullable(
-                      value: value, key: "description", jsonModel: logic.jobOfferJson),
+                      value: value,
+                      key: "description",
+                      jsonModel: logic.jobOfferJson),
                   decoration: style.inputDecoration(hintText: 'Description'),
                 ),
               ),
@@ -309,8 +313,10 @@ class _ProHome extends State<ProHome> {
                         bottom: BorderSide(color: Colors.purple),
                         top: BorderSide(color: Colors.purple))),
                 child: TextFormField(
-                  validator: (value) =>
-                      logic.nonNullable(value: value, key: "requires", jsonModel: logic.jobOfferJson),
+                  validator: (value) => logic.nonNullable(
+                      value: value,
+                      key: "requires",
+                      jsonModel: logic.jobOfferJson),
                   decoration: style.inputDecoration(
                       hintText: 'Compétences ou points imports requis'),
                 ),

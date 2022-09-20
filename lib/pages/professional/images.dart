@@ -6,66 +6,58 @@ import 'package:kicko/services/database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kicko/services/app_state.dart';
 
-
 Widget goBack(BuildContext context) {
   return ElevatedButton(
     onPressed: () {
-      Navigator.pop(context);},
+      Navigator.pop(context);
+    },
     child: const Text('Go back!'),
   );
 }
-
-
-
 
 class DisplayProfileImages extends StatefulWidget {
   const DisplayProfileImages({Key? key}) : super(key: key);
 
   @override
-  _DisplayProfileImages createState() =>
-      _DisplayProfileImages();
-
+  _DisplayProfileImages createState() => _DisplayProfileImages();
 }
 
-class _DisplayProfileImages extends State<DisplayProfileImages>{
+class _DisplayProfileImages extends State<DisplayProfileImages> {
   bool inProcess = false;
   late dynamic profileImages;
   DatabaseMethods dataBaseMethods = DatabaseMethods();
-
 
   buildImageProfileWraps(dynamic storageReferences) {
     List<Widget> r = [];
 
     for (dynamic storageReference in storageReferences) {
-      String storageReferenceBasename = storageReference.split('%2F').last.split('?')[0];
+      String storageReferenceBasename =
+          storageReference.split('%2F').last.split('?')[0];
       Widget w = Column(
-
         children: [
-
           Container(
-            child: Image.network(storageReference, fit: BoxFit.fill,),
+            child: Image.network(
+              storageReference,
+              fit: BoxFit.fill,
+            ),
             width: 200,
             height: 200,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
           ),
-
           ElevatedButton(
-              onPressed: () => dataBaseMethods.updateTableField(storageReferenceBasename, "image_id", "update_business_fields"),
-              child: Text('X')
-          )
-
+              onPressed: () => dataBaseMethods.updateTableField(
+                  storageReferenceBasename,
+                  "image_id",
+                  "update_business_fields"),
+              child: Text('X'))
         ],
-
       );
 
       r.add(w);
-
     }
 
     return r;
   }
-
-
 
   getProfileImages() async {
     String currentUsername = appState.currentUser.username;
@@ -73,13 +65,11 @@ class _DisplayProfileImages extends State<DisplayProfileImages>{
     return dataBaseMethods.downloadFiles(bucket);
   }
 
-
   @override
   void initState() {
     super.initState();
     profileImages = getProfileImages();
   }
-
 
   Future<XFile?> selectImageFromGallery() async {
     final picker = ImagePicker();
@@ -97,7 +87,6 @@ class _DisplayProfileImages extends State<DisplayProfileImages>{
     return xFile;
   }
 
-
   Future<void> addProfileImage() async {
     XFile? image = await selectImageFromGallery();
 
@@ -109,20 +98,17 @@ class _DisplayProfileImages extends State<DisplayProfileImages>{
       String currentUsername = appState.currentUser.username;
       await dataBaseMethods.uploadFile(
           'business_images/$currentUsername', imageName, image);
-      bool res = await dataBaseMethods.updateTableField(imageName, "image_id", "update_business_fields");
+      bool res = await dataBaseMethods.updateTableField(
+          imageName, "image_id", "update_business_fields");
       if (res) {
         print("popup succesfully uploaded");
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const DisplayProfileImages()),
         );
-      }
-      else {
-
-      }
+      } else {}
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -130,44 +116,34 @@ class _DisplayProfileImages extends State<DisplayProfileImages>{
       appBar: AppBar(
         title: Text("Profile Images"),
       ),
-      body: Column(children: [
+      body: Column(
+        children: [
+          FutureBuilder(
+            future: profileImages,
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                dynamic profileImagesList = snapshot.data;
 
-
-        FutureBuilder(
-          future: profileImages,
-          builder: (context, AsyncSnapshot snapshot) {
-
-            if (snapshot.hasData) {
-
-              dynamic profileImagesList = snapshot.data;
-
-              return Column(children: buildImageProfileWraps(profileImagesList)
-              );
-
-            }
-
-            else if (snapshot.hasError) {
-              return Column(children: [Text('Error: ${snapshot.error}'), goBack(context)],);
-            }
-
-            else {
-              return Column(children: [const Text('Chargement...'), goBack(context)],);
-            }
-
-          },
-        ),
-
-        ElevatedButton(
-          onPressed: () => addProfileImage(),
-          child: const Text('Ajouter photo de profile'),
-        ),
-
-        goBack(context),
-
-
-      ],
+                return Column(
+                    children: buildImageProfileWraps(profileImagesList));
+              } else if (snapshot.hasError) {
+                return Column(
+                  children: [Text('Error: ${snapshot.error}'), goBack(context)],
+                );
+              } else {
+                return Column(
+                  children: [const Text('Chargement...'), goBack(context)],
+                );
+              }
+            },
+          ),
+          ElevatedButton(
+            onPressed: () => addProfileImage(),
+            child: const Text('Ajouter photo de profile'),
+          ),
+          goBack(context),
+        ],
       ),
     );
   }
 }
-

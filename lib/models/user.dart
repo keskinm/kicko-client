@@ -53,7 +53,7 @@ class User {
         'email': email,
         'password': password,
         'id': id,
-  };
+      };
 
   void setParameters(Map<String, dynamic> json) {
     Map<String, dynamic> map = setPropsMap();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget buildPopupDialog(BuildContext context, String message, String title, String close) {
+Widget buildPopupDialog(
+    BuildContext context, String message, String title, String close) {
   return AlertDialog(
     title: Text(title),
     content: Column(
@@ -21,14 +22,15 @@ Widget buildPopupDialog(BuildContext context, String message, String title, Stri
   );
 }
 
-
 Widget devPage(BuildContext context, Widget page) {
-  return TextButton(onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) {
-        return page;
-      }),
-    );
-  }, child: const Text("go to devpage"));
+  return TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return page;
+          }),
+        );
+      },
+      child: const Text("go to devpage"));
 }

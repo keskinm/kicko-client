@@ -76,15 +76,14 @@ class DatabaseMethods {
 
   Future<String> downloadFile(String bucket, String fileId) async {
     fs.Reference ref =
-    fs.FirebaseStorage.instance.ref().child(bucket).child(fileId);
+        fs.FirebaseStorage.instance.ref().child(bucket).child(fileId);
 
     String downloadURL = await ref.getDownloadURL();
     return downloadURL;
   }
 
   dynamic downloadFiles(String bucket) async {
-    fs.Reference ref =
-    fs.FirebaseStorage.instance.ref().child(bucket);
+    fs.Reference ref = fs.FirebaseStorage.instance.ref().child(bucket);
 
     final urls = await ref.listAll();
     dynamic refs = urls.items;
@@ -100,7 +99,7 @@ class DatabaseMethods {
   Future<String> uploadFile(String bucket, String fileName, XFile file) async {
     String downloadURL;
     fs.Reference ref =
-    fs.FirebaseStorage.instance.ref().child(bucket).child(fileName);
+        fs.FirebaseStorage.instance.ref().child(bucket).child(fileName);
 
     if (kIsWeb) {
       await ref.putData(await file.readAsBytes());
@@ -115,14 +114,14 @@ class DatabaseMethods {
 
   // ------------------------SQL--------------------------------------
 
-  Future<bool> updateTableField(String value, String field,
-      String route) async {
+  Future<bool> updateTableField(
+      String value, String field, String route) async {
     String userId = appState.currentUser.id;
 
     String jsonData = '{"professional_id": "$userId", "$field": "$value"}';
 
     Response response =
-    await dioHttpPost(route: route, jsonData: jsonData, token: true);
+        await dioHttpPost(route: route, jsonData: jsonData, token: true);
 
     if (response.statusCode == 200) {
       return true;
@@ -145,7 +144,6 @@ class DatabaseMethods {
       return {"error": true};
     }
   }
-
 }
 
 // -------------------------------------------------------------------------

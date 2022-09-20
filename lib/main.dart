@@ -46,7 +46,9 @@ class _KickoApp extends State<KickoApp> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginPage(userGroup: userGroupSyntax.professional)),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            LoginPage(userGroup: userGroupSyntax.professional)),
                   );
                 },
               ),
@@ -55,7 +57,9 @@ class _KickoApp extends State<KickoApp> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginPage(userGroup: userGroupSyntax.candidate)),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            LoginPage(userGroup: userGroupSyntax.candidate)),
                   );
                 },
               ),

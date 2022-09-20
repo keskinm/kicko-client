@@ -9,7 +9,6 @@ import 'package:kicko/services/database.dart';
 import '../common.dart';
 import 'models.dart';
 
-
 class CandidateHomeLogic {
   final candidateForm = GlobalKey<FormState>();
 
@@ -18,32 +17,36 @@ class CandidateHomeLogic {
 
   Future<void> validateBusiness({required BuildContext context}) async {
     if (candidateForm.currentState!.validate()) {
-
       Candidate business = Candidate.fromJson(businessJson);
-      bool success = await business.updateFields(userId: appState.currentUser.id);
+      bool success =
+          await business.updateFields(userId: appState.currentUser.id);
 
       if (success) {
         showDialog<String>(
             context: context,
             builder: (BuildContext context) {
-              return buildPopupDialog(context, "Vos paramètres ont été mise à jour avec succes !", "Bonne nouvelle !", "Fermer");
-            }
-        );
+              return buildPopupDialog(
+                  context,
+                  "Vos paramètres ont été mise à jour avec succes !",
+                  "Bonne nouvelle !",
+                  "Fermer");
+            });
       } else {
         showDialog<String>(
             context: context,
             builder: (BuildContext context) {
-              return buildPopupDialog(context,
+              return buildPopupDialog(
+                  context,
                   "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
                   "oups",
                   "fermer");
-            }
-        );
+            });
       }
     }
   }
 
-  String? nonNullable({required String? value, required String key, required Map jsonModel}) {
+  String? nonNullable(
+      {required String? value, required String key, required Map jsonModel}) {
     if (!validator.nonNullable(value: value)) {
       return 'Le champ ne doit pas être vide.';
     } else {
@@ -61,7 +64,8 @@ class CandidateHomeLogic {
     return response.data;
   }
 
-  Future<String> getProfileImage(Future<Map<String, dynamic>> futureBusinessJson) async {
+  Future<String> getProfileImage(
+      Future<Map<String, dynamic>> futureBusinessJson) async {
     String bucket;
 
     Map<String, dynamic> businessJson = await futureBusinessJson;
@@ -86,20 +90,19 @@ class CandidateHomeLogic {
       if (value is TextEditingController) {
         value = value.text;
       }
-      if (!value.isEmpty)
-      {
+      if (!value.isEmpty) {
         body = body + '"$key":"$value", ';
       }
     });
 
     if (body.endsWith(", "))
-       // THROW THE COMMA
-       {
-         body = body.substring(0, body.length - 2);
-       }
+    // THROW THE COMMA
+    {
+      body = body.substring(0, body.length - 2);
+    }
 
     body = body + '}';
-    print("BODY"+body+"\n\n\n\n\n\n");
+    print("BODY" + body + "\n\n\n\n\n\n");
 
     Response response = await dioHttpPost(
       route: 'candidate_get_job_offers',
@@ -110,8 +113,9 @@ class CandidateHomeLogic {
     if (response.statusCode == 200) {
       return response.data;
     } else {
-      return [{"error": true}];
+      return [
+        {"error": true}
+      ];
     }
   }
-
 }

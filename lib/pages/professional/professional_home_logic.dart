@@ -18,36 +18,39 @@ class ProfessionalHomeLogic {
 
   Future<void> validateBusiness({required BuildContext context}) async {
     if (businessForm.currentState!.validate()) {
-
       Business business = Business.fromJson(businessJson);
-      bool success = await business.updateFields(userId: appState.currentUser.id);
+      bool success =
+          await business.updateFields(userId: appState.currentUser.id);
 
       if (success) {
         showDialog<String>(
-          context: context,
-          builder: (BuildContext context) {
-            return buildPopupDialog(context, "Vos paramètres ont été mise à jour avec succes !", "Bonne nouvelle !", "Fermer");
-          }
-        );
+            context: context,
+            builder: (BuildContext context) {
+              return buildPopupDialog(
+                  context,
+                  "Vos paramètres ont été mise à jour avec succes !",
+                  "Bonne nouvelle !",
+                  "Fermer");
+            });
       } else {
         showDialog<String>(
             context: context,
             builder: (BuildContext context) {
-              return buildPopupDialog(context,
+              return buildPopupDialog(
+                  context,
                   "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
                   "oups",
                   "fermer");
-            }
-        );
+            });
       }
     }
   }
 
   Future<void> validateJobOffer({required BuildContext context}) async {
     if (jobOfferForm.currentState!.validate()) {
-
       JobOffer jobOffer = JobOffer.fromJson(jobOfferJson);
-      bool success = await jobOffer.addJobOffer(userId: appState.currentUser.id);
+      bool success =
+          await jobOffer.addJobOffer(userId: appState.currentUser.id);
 
       if (success) {
         Navigator.push(
@@ -58,17 +61,18 @@ class ProfessionalHomeLogic {
         showDialog<String>(
             context: context,
             builder: (BuildContext context) {
-              return buildPopupDialog(context,
+              return buildPopupDialog(
+                  context,
                   "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
                   "oups",
                   "fermer");
-            }
-        );
+            });
       }
     }
   }
 
-  Widget buildPopupDialog(BuildContext context, String message, String title, String close) {
+  Widget buildPopupDialog(
+      BuildContext context, String message, String title, String close) {
     return AlertDialog(
       title: Text(title),
       content: Column(
@@ -89,7 +93,8 @@ class ProfessionalHomeLogic {
     );
   }
 
-  String? nonNullable({required String? value, required String key, required Map jsonModel}) {
+  String? nonNullable(
+      {required String? value, required String key, required Map jsonModel}) {
     if (!validator.nonNullable(value: value)) {
       return 'Le champ ne doit pas être vide.';
     } else {
@@ -110,7 +115,8 @@ class ProfessionalHomeLogic {
     return response.data;
   }
 
-  Future<String> getProfileImage(Future<Map<String, dynamic>> futureBusinessJson) async {
+  Future<String> getProfileImage(
+      Future<Map<String, dynamic>> futureBusinessJson) async {
     String bucket;
 
     Map<String, dynamic> businessJson = await futureBusinessJson;
@@ -153,7 +159,5 @@ class ProfessionalHomeLogic {
     } else {
       return false;
     }
-
   }
-
 }

@@ -5,7 +5,6 @@ import '../common.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
 
-
 class CandidateHome extends StatefulWidget {
   const CandidateHome({Key? key}) : super(key: key);
 
@@ -35,8 +34,7 @@ class _CandidateHome extends State<CandidateHome> {
     return FutureBuilder<List<dynamic>>(
       future: jobOffers,
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-
-      Widget cityFilter = TextField(
+        Widget cityFilter = TextField(
           controller: jobOfferFilters["city"],
           decoration: InputDecoration(
             hintText: 'Filtrer par ville',
@@ -53,15 +51,17 @@ class _CandidateHome extends State<CandidateHome> {
 
         Widget body;
         if (snapshot.hasData) {
-
           if (snapshot.data![0].containsKey("error")) {
             showDialog<String>(
                 context: context,
                 builder: (BuildContext context) {
-                  return buildPopupDialog(context, "Un problème est survenu dans votre filtre par villes", "Oups!", "Fermer");
-                }
-            );
-        }
+                  return buildPopupDialog(
+                      context,
+                      "Un problème est survenu dans votre filtre par villes",
+                      "Oups!",
+                      "Fermer");
+                });
+          }
 
           ListView listView = ListView.builder(
             itemCount: snapshot.data!.length,
@@ -90,15 +90,13 @@ class _CandidateHome extends State<CandidateHome> {
                   IconButton(
                     // APPLYING TO THE JOB
                     icon: const Icon(Icons.add_call),
-                    onPressed: () async {
-                    },
+                    onPressed: () async {},
                   )
                 ],
               );
             },
           );
           body = Column(children: [cityFilter, Expanded(child: listView)]);
-
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
@@ -117,12 +115,12 @@ class _CandidateHome extends State<CandidateHome> {
         ),
         body: Wrap(
           spacing: 100,
-            children: [
-        SizedBox(
-        width: MediaQuery.of(context).size.width / 4,
-        height: MediaQuery.of(context).size.height / 4,
-        child: buildJobOffers()),
-            ],
+          children: [
+            SizedBox(
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.height / 4,
+                child: buildJobOffers()),
+          ],
         ));
   }
 }

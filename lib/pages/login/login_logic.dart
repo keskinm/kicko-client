@@ -31,18 +31,20 @@ class LoginLogic {
     }
   }
 
-  Future<void> validateLogin({required BuildContext context, required userGroup}) async {
+  Future<void> validateLogin(
+      {required BuildContext context, required userGroup}) async {
     if (formKey.currentState!.validate()) {
       appState.userGroup = userGroup;
       final bool res = appState.checkToken(await appState.authMethods
-          .authenticationToken(username: username, password: password, userGroup: userGroup));
+          .authenticationToken(
+              username: username, password: password, userGroup: userGroup));
 
       if (res) {
         //Stockage des infos pour connexion auto
         appState
             .addCredentials(keys: {'username': username, 'password': password});
-        final res = await appState.authMethods
-            .getCurrentUser(token: appState.currentUser.token, userGroup: userGroup);
+        final res = await appState.authMethods.getCurrentUser(
+            token: appState.currentUser.token, userGroup: userGroup);
 
         await appState.authMethods
             .firebaseSignInWithEmailAndPassword(res['email'], password);
@@ -53,13 +55,13 @@ class LoginLogic {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) {
-            if (userGroup==userGroupSyntax.professional) {
+            if (userGroup == userGroupSyntax.professional) {
               return const ProHome();
-            }
-            else if (userGroup==userGroupSyntax.candidate) {
+            } else if (userGroup == userGroupSyntax.candidate) {
               return const CandidateHome();
+            } else {
+              return Text("unknown user group $userGroup");
             }
-            else {return Text("unknown user group $userGroup");}
           }),
         );
       } else {

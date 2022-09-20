@@ -1,15 +1,12 @@
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 
-
 class Candidate {
   List<String> attrs = ["name", "city"];
   late String? name;
   late String? city;
 
-  Candidate(
-      {this.name,
-        this.city});
+  Candidate({this.name, this.city});
 
   void setAttr(String name, value) {
     switch (name) {
@@ -48,17 +45,16 @@ class Candidate {
       candidate.setAttr(key, json[key]);
     }
 
-  return Candidate(
-
-  name: json['name'],
-  city: json['city'],
-  );
+    return Candidate(
+      name: json['name'],
+      city: json['city'],
+    );
   }
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'city': city,
-  };
+        'name': name,
+        'city': city,
+      };
 
   Future<bool> updateFields({required String userId}) async {
     String body = '{"professional_id": "$userId"';
@@ -83,11 +79,11 @@ class Candidate {
     }
   }
 
-
   Future<bool> updateField(
-      {required String userId, required String key, required String value}) async {
-    String body =
-        '{"professional_id": "$userId", "$key":"$value"}';
+      {required String userId,
+      required String key,
+      required String value}) async {
+    String body = '{"professional_id": "$userId", "$key":"$value"}';
     Response response = await dioHttpPost(
       route: 'update_Candidate_field',
       jsonData: body,
@@ -100,7 +96,4 @@ class Candidate {
       return false;
     }
   }
-
-
 }
-
