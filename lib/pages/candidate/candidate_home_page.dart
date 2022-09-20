@@ -42,7 +42,9 @@ class _CandidateHome extends State<CandidateHome> {
             hintText: 'Filtrer par ville',
             suffixIcon: IconButton(
               onPressed: () {
-                onReBuild();
+                setState(() {
+                  onReBuild();
+                });
               },
               icon: const Icon(Icons.check_box),
             ),
@@ -120,16 +122,6 @@ class _CandidateHome extends State<CandidateHome> {
         width: MediaQuery.of(context).size.width / 4,
         height: MediaQuery.of(context).size.height / 4,
         child: buildJobOffers()),
-
-        TextButton(onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return const RebuildFuture();
-            }),
-          );
-        }, child: Text("go to test stream/rebuild future with setState")),
-
             ],
         ));
   }

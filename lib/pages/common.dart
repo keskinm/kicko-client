@@ -20,3 +20,15 @@ Widget buildPopupDialog(BuildContext context, String message, String title, Stri
     ],
   );
 }
+
+
+Widget devPage(BuildContext context, Widget page) {
+  return TextButton(onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) {
+        return page;
+      }),
+    );
+  }, child: const Text("go to devpage"));
+}
