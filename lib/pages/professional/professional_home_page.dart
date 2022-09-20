@@ -3,6 +3,7 @@ import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/pages/professional/professional_home_style.dart';
 
 import 'package:kicko/syntax.dart';
+import '../common.dart';
 import 'images.dart';
 
 
@@ -20,12 +21,14 @@ class _ProHome extends State<ProHome> {
   ProfessionalHomeStyle style = ProfessionalHomeStyle();
   late Future<Map<String, dynamic>> business;
   late Future<String> imageDownloadURL;
+  late Future<List<dynamic>> jobOffers;
 
   @override
   void initState() {
     super.initState();
     business = logic.getBusiness();
     imageDownloadURL = logic.getProfileImage(business);
+    jobOffers = logic.getJobOffers();
   }
 
   Container buildContainerWithText(String text) {
@@ -44,6 +47,7 @@ class _ProHome extends State<ProHome> {
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         Widget body;
         if (snapshot.hasData) {
+          logic.businessJson["id"] = snapshot.data![0]["id"];
           List<Widget> regularFields = [];
           List<String> fields = ["name"];
           for (final String field in fields) {
@@ -177,7 +181,7 @@ class _ProHome extends State<ProHome> {
 
   Widget buildJobOffers() {
     return FutureBuilder<List<dynamic>>(
-      future: logic.getJobOffers(),
+      future: jobOffers,
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         Widget body;
         if (snapshot.hasData) {
@@ -220,7 +224,7 @@ class _ProHome extends State<ProHome> {
                         showDialog<String>(
                             context: context,
                             builder: (BuildContext context) {
-                              return logic.buildPopupDialog(
+                              return buildPopupDialog(
                                   context,
                                   "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
                                   "oups",

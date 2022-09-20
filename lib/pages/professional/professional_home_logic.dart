@@ -8,6 +8,8 @@ import 'package:kicko/widgets/forms/validator.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
 
+import '../common.dart';
+
 class ProfessionalHomeLogic {
   final jobOfferForm = GlobalKey<FormState>();
   final businessForm = GlobalKey<FormState>();
@@ -48,9 +50,11 @@ class ProfessionalHomeLogic {
 
   Future<void> validateJobOffer({required BuildContext context}) async {
     if (jobOfferForm.currentState!.validate()) {
+
+      jobOfferJson["business_id"] = businessJson["id"];
       JobOffer jobOffer = JobOffer.fromJson(jobOfferJson);
       bool success =
-          await jobOffer.addJobOffer(userId: appState.currentUser.id);
+          await jobOffer.addJobOffer();
 
       if (success) {
         Navigator.push(
@@ -69,28 +73,6 @@ class ProfessionalHomeLogic {
             });
       }
     }
-  }
-
-  Widget buildPopupDialog(
-      BuildContext context, String message, String title, String close) {
-    return AlertDialog(
-      title: Text(title),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(message),
-        ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text(close),
-        ),
-      ],
-    );
   }
 
   String? nonNullable(

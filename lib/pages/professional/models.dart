@@ -5,37 +5,19 @@ class JobOffer {
   late String name;
   late String description;
   late String requires;
+  late String businessId;
 
   JobOffer(
-      {required this.requires, required this.description, required this.name});
+      {required this.requires, required this.description, required this.name, required this.businessId});
 
-  void setAttr(String name, value) {
-    switch (name) {
-      case "name":
-        {
-          name = value;
-        }
-        break;
-
-      case "description":
-        {
-          description = value;
-        }
-        break;
-
-      case "requires":
-        {
-          requires = value;
-        }
-        break;
-    }
-  }
 
   factory JobOffer.fromJson(Map<dynamic, dynamic> json) => JobOffer(
         name: json['name'],
         description: json['description'],
         requires: json['requires'],
-      );
+        businessId: json['business_id'],
+
+  );
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -43,9 +25,9 @@ class JobOffer {
         'requires': requires,
       };
 
-  Future<bool> addJobOffer({required String userId}) async {
+  Future<bool> addJobOffer() async {
     String body =
-        '{"name": "$name", "description":"$description", "requires":"$requires", "professional_id": "$userId"}';
+        '{"name": "$name", "description":"$description", "requires":"$requires", "business_id": "$businessId"}';
     Response response = await dioHttpPost(
       route: 'add_job_offer',
       jsonData: body,
@@ -61,11 +43,13 @@ class JobOffer {
 }
 
 class Business {
-  List<String> attrs = ["name", "city"];
+  List<String> updateAttrs = ["name", "city"];
   late String? name;
   late String? city;
+  late String? id;
+  late String? professionalId;
 
-  Business({this.name, this.city});
+  Business({this.name, this.city, this.id, this.professionalId});
 
   void setAttr(String name, value) {
     switch (name) {
@@ -78,6 +62,18 @@ class Business {
       case "city":
         {
           city = value;
+        }
+        break;
+
+      case "id":
+        {
+          id = value;
+        }
+        break;
+
+      case "professional_id":
+        {
+          professionalId = value;
         }
         break;
     }
@@ -117,7 +113,7 @@ class Business {
 
   Future<bool> updateFields({required String userId}) async {
     String body = '{"professional_id": "$userId"';
-    for (final attr in attrs) {
+    for (final attr in updateAttrs) {
       dynamic attrValue = getAttr(attr);
       if (getAttr(attr) != null) {
         body = body + ', "$attr":"$attrValue"';
