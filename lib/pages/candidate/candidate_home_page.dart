@@ -38,9 +38,6 @@ class _CandidateHome extends State<CandidateHome> {
         Widget body;
         if (snapshot.hasData) {
 
-          print("ici");
-          print(snapshot.data);
-
           selectionCallback(String selection) {
             jobOfferFilters["city"] = selection;
           }
