@@ -2,48 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/pages/professional/professional_home_style.dart';
 
+import 'package:kicko/syntax.dart';
 import 'images.dart';
 
-class CityAutocompletion extends StatelessWidget {
-  final _ProHome parent;
-  final String initialValue;
-  const CityAutocompletion(
-      {Key? key, required this.parent, required this.initialValue})
-      : super(key: key);
-
-  static const List<String> _kOptions = <String>[
-    'Paris',
-    'Lyon',
-    'Saint-Etienne',
-    'Andrézieux-Bouthéon',
-    'Lille',
-    'Bordeaux',
-    'Clermont-Ferrand',
-    'Gerzat',
-    'Cébazat'
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Autocomplete<String>(
-      initialValue: TextEditingValue(text: initialValue),
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text == '') {
-          return const Iterable<String>.empty();
-        }
-        return _kOptions.where((String option) {
-          return option.contains(textEditingValue.text.toLowerCase());
-        });
-      },
-      onSelected: (String selection) {
-        parent.logic.nonNullable(
-            value: selection,
-            key: "city",
-            jsonModel: parent.logic.businessJson);
-      },
-    );
-  }
-}
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
@@ -95,8 +56,16 @@ class _ProHome extends State<ProHome> {
           if (snapshot.data![0].containsKey("city")) {
             cityInitialValue = snapshot.data![0]["city"];
           }
+
+          selectionCallback(String selection) {
+            logic.nonNullable(
+                value: selection,
+                key: "city",
+                jsonModel: logic.businessJson);
+          }
+
           Widget cityChild =
-              CityAutocompletion(parent: this, initialValue: cityInitialValue);
+              CityAutocompletion(parent: this, initialValue: cityInitialValue, selectionCallback: selectionCallback);
 
           if (snapshot.data![0].containsKey("name")) {
             nameInitialValue = snapshot.data![0]["name"];
