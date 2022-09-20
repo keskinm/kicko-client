@@ -102,7 +102,6 @@ class CandidateHomeLogic {
     }
 
     body = body + '}';
-    print("BODY" + body + "\n\n\n\n\n\n");
 
     Response response = await dioHttpPost(
       route: 'candidate_get_job_offers',
