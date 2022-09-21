@@ -20,25 +20,32 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
   Map<String, dynamic> jobOfferFilters = {"city": TextEditingController()};
   CandidateHomeLogic logic = CandidateHomeLogic();
   CandidateHomeStyle style = CandidateHomeStyle();
-  late Future<List> jobOffer;
+  late Future<Map> jobOffer;
+  late Future<bool> appliedJobOffer;
 
   onReBuild() {}
 
   @override
   void initState() {
     super.initState();
-    jobOffer = logic.getJobOffers({"id": widget.jobOfferId});
+    jobOffer = logic.getJobOffer(jobOfferId: widget.jobOfferId);
+    appliedJobOffer = logic.appliedJobOffer(jobOfferId: widget.jobOfferId);
   }
 
   Widget buildJobOffer() {
     return FutureBuilder<List<dynamic>>(
-      future: jobOffer,
+      future: Future.wait([jobOffer, appliedJobOffer]),
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         Widget body;
         if (snapshot.hasData) {
-          if (snapshot.data!.isEmpty) {
-            body = const Text("Un problème inconnu est survenu.");
-          } else if (snapshot.data![0].containsKey("error")) {
+          Map _jobOffer = snapshot.data![0];
+
+          // SINGLE ELEMENT LIST
+          bool _applyJobOffer = snapshot.data![1];
+
+          if (_jobOffer.containsKey("error") | false) {
+            // C'est là qu'il faut apprendre à catch les erreurs correctement !
+            // Le false doit être remplacé par le fait ou non que appliedJobOffer renvoie une erreur !
             body = const Text('Error');
 
             showDialog<String>(
@@ -48,39 +55,32 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
                       "Un problème inconnu est survenu.", "Oups!", "Fermer");
                 });
           } else {
-            body = ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                final jobOffer = snapshot.data![index];
-                return ListView(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
-                  children: <Widget>[
-                    Container(
-                      height: 50,
-                      color: Colors.amber[600],
-                      child: Text(jobOffer['name']),
-                    ),
-                    Container(
-                      height: 50,
-                      color: Colors.amber[500],
-                      child: Text(jobOffer['description']),
-                    ),
-                    Container(
-                      height: 50,
-                      color: Colors.amber[100],
-                      child: Text(jobOffer['requires']),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          logic.applyJobOffer(jobOfferId: widget.jobOfferId);
-                        },
-                        child:
-                            const Text("Je suis intéressé par cette offre !"))
-                  ],
-                );
-              },
+            body = ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(8),
+              children: <Widget>[
+                Container(
+                  height: 50,
+                  color: Colors.amber[600],
+                  child: Text(_jobOffer['name']),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.amber[500],
+                  child: Text(_jobOffer['description']),
+                ),
+                Container(
+                  height: 50,
+                  color: Colors.amber[100],
+                  child: Text(_jobOffer['requires']),
+                ),
+                TextButton(
+                    onPressed: () {
+                      logic.applyJobOffer(jobOfferId: widget.jobOfferId);
+                    },
+                    child: (_applyJobOffer == false)? Text("Je suis intéressé par cette offre !"): Text("vous avez déjà postulé à cette offre"))
+              ],
             );
             // body = listView;
           }

@@ -118,6 +118,42 @@ class CandidateHomeLogic {
     }
   }
 
+  Future<Map> getJobOffer({required String jobOfferId}) async {
+    String body = '{"id": "$jobOfferId"}';
+
+    Response response = await dioHttpPost(
+      route: 'candidate_get_job_offer',
+      jsonData: body,
+      token: false,
+    );
+
+    if (response.statusCode == 200) {
+      print("ici");
+      print(response.data);
+      return response.data;
+    } else {
+      return {"error": true};
+    }
+  }
+
+  Future<bool> appliedJobOffer({required String jobOfferId}) async {
+    String userId = appState.currentUser.id;
+    String body = '{"candidate_id": "$userId", "job_offer_id": "$jobOfferId"}';
+
+    Response response = await dioHttpPost(
+      route: 'applied_job_offer',
+      jsonData: body,
+      token: false,
+    );
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      // @todo DONT FORGET TO CATCH THIS
+      throw Exception('HTTP ERROR');
+    }
+  }
+
   Future<bool> applyJobOffer({required String jobOfferId}) async {
     String userId = appState.currentUser.id;
     String body = '{"candidate_id": "$userId", "job_offer_id": "$jobOfferId"}';

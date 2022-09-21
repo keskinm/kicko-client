@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
 
+showAlert(BuildContext context, String message, String title, String close) {
+  showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return buildPopupDialog(
+            context,
+            message,
+            title,
+            close);
+      });
+}
+
 Widget buildPopupDialog(
     BuildContext context, String message, String title, String close) {
   return AlertDialog(
