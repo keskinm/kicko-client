@@ -120,7 +120,7 @@ class CandidateHomeLogic {
 
   Future<bool> applyJobOffer({required String jobOfferId}) async {
     String userId = appState.currentUser.id;
-    String body = '{"appliers": "$userId", "id": "$jobOfferId"}';
+    String body = '{"candidate_id": "$userId", "job_offer_id": "$jobOfferId"}';
 
     Response response = await dioHttpPost(
       route: 'apply_job_offer',
