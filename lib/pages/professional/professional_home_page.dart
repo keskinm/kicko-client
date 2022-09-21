@@ -6,7 +6,6 @@ import 'package:kicko/syntax.dart';
 import '../common.dart';
 import 'images.dart';
 
-
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
 
@@ -63,13 +62,12 @@ class _ProHome extends State<ProHome> {
 
           selectionCallback(String selection) {
             logic.nonNullable(
-                value: selection,
-                key: "city",
-                jsonModel: logic.businessJson);
+                value: selection, key: "city", jsonModel: logic.businessJson);
           }
 
-          Widget cityChild =
-              CityAutocompletion(initialValue: cityInitialValue, selectionCallback: selectionCallback);
+          Widget cityChild = CityAutocompletion(
+              initialValue: cityInitialValue,
+              selectionCallback: selectionCallback);
 
           if (snapshot.data![0].containsKey("name")) {
             nameInitialValue = snapshot.data![0]["name"];

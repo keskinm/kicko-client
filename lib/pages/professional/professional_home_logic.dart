@@ -50,11 +50,9 @@ class ProfessionalHomeLogic {
 
   Future<void> validateJobOffer({required BuildContext context}) async {
     if (jobOfferForm.currentState!.validate()) {
-
       jobOfferJson["business_id"] = businessJson["id"];
       JobOffer jobOffer = JobOffer.fromJson(jobOfferJson);
-      bool success =
-          await jobOffer.addJobOffer();
+      bool success = await jobOffer.addJobOffer();
 
       if (success) {
         Navigator.push(

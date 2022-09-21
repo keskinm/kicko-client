@@ -8,16 +8,17 @@ class JobOffer {
   late String businessId;
 
   JobOffer(
-      {required this.requires, required this.description, required this.name, required this.businessId});
-
+      {required this.requires,
+      required this.description,
+      required this.name,
+      required this.businessId});
 
   factory JobOffer.fromJson(Map<dynamic, dynamic> json) => JobOffer(
         name: json['name'],
         description: json['description'],
         requires: json['requires'],
         businessId: json['business_id'],
-
-  );
+      );
 
   Map<String, dynamic> toJson() => {
         'name': name,

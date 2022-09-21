@@ -117,4 +117,21 @@ class CandidateHomeLogic {
       ];
     }
   }
+
+  Future<bool> applyJobOffer({required String jobOfferId}) async {
+    String userId = appState.currentUser.id;
+    String body = '{"appliers": "$userId", "id": "$jobOfferId"}';
+
+    Response response = await dioHttpPost(
+      route: 'apply_job_offer',
+      jsonData: body,
+      token: false,
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
