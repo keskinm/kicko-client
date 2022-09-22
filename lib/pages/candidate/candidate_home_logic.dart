@@ -128,8 +128,6 @@ class CandidateHomeLogic {
     );
 
     if (response.statusCode == 200) {
-      print("ici");
-      print(response.data);
       return response.data;
     } else {
       return {"error": true};
