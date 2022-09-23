@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:kicko/pages/candidate/scan.dart';
 
 import 'package:kicko/pages/common.dart';
 import 'package:kicko/syntax.dart';
@@ -137,6 +139,20 @@ class _CandidateHome extends State<CandidateHome> {
                 width: MediaQuery.of(context).size.width / 4,
                 height: MediaQuery.of(context).size.height / 4,
                 child: buildJobOffers()),
+
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child: ElevatedButton(
+
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ScanScreen()),
+                    );
+                  },
+                  child: const Text('SCAN QR CODE')
+              ),
+            )
           ],
         ));
   }
