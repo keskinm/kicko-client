@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/pages/professional/professional_home_style.dart';
+import 'package:kicko/pages/professional/qr_code_image.dart';
 
 import 'package:kicko/syntax.dart';
 import '../common.dart';
-import 'images.dart';
+import 'profile_images.dart';
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
@@ -187,6 +188,7 @@ class _ProHome extends State<ProHome> {
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               final jobOffer = snapshot.data![index];
+              String jobOfferId = jobOffer["id"];
               return ListView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -207,10 +209,18 @@ class _ProHome extends State<ProHome> {
                     color: Colors.amber[100],
                     child: Text(jobOffer['requires']),
                   ),
+                  TextButton(onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DisplayQRCodeImage(jobOfferId: jobOfferId)),
+                    );
+                  }
+                      , child: const Text("J'inprime mon QR code")),
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () async {
-                      bool success = await logic.deleteJobOffer(jobOffer["id"]);
+                      bool success = await logic.deleteJobOffer(jobOfferId);
 
                       if (success) {
                         Navigator.push(

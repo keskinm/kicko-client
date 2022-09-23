@@ -1,11 +1,18 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
+
+import 'package:kicko/services/database.dart';
 
 class JobOffer {
   late String name;
   late String description;
   late String requires;
   late String businessId;
+  DatabaseMethods dataBaseMethods = DatabaseMethods();
+
 
   JobOffer(
       {required this.requires,
@@ -36,6 +43,11 @@ class JobOffer {
     );
 
     if (response.statusCode == 200) {
+      Map data = json.decode(response.data);
+      String imageStr = data["img"].toString();
+      Uint8List bytes = base64Decode(imageStr);
+      String fileName = data["id"];
+      dataBaseMethods.uploadBytes('job_offer_qr_codes', fileName, bytes);
       return true;
     } else {
       return false;
