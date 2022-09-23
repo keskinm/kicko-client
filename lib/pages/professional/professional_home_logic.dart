@@ -40,7 +40,7 @@ class ProfessionalHomeLogic {
             builder: (BuildContext context) {
               return buildPopupDialog(
                   context,
-                  "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
+                  "Nous avons rencontré un problème lors de la mise à jour de votre offre d'emploi.",
                   "oups",
                   "fermer");
             });
@@ -65,7 +65,7 @@ class ProfessionalHomeLogic {
             builder: (BuildContext context) {
               return buildPopupDialog(
                   context,
-                  "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
+                  "Nous avons rencontré un problème lors de la création de votre offre d'emploi.",
                   "oups",
                   "fermer");
             });
