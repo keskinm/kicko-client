@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:kicko/pages/candidate/scan.dart';
 
@@ -19,11 +18,14 @@ class CandidateHome extends StatefulWidget {
 
 class _CandidateHome extends State<CandidateHome> {
   Map<String, dynamic> jobOfferFilters = {"city": TextEditingController()};
+  Map<String, dynamic> profileJson = {};
   CandidateHomeLogic logic = CandidateHomeLogic();
   CandidateHomeStyle style = CandidateHomeStyle();
+  late Future<Map> profile;
   late Future<List> jobOffers;
 
   onReBuild() {
+    profile = logic.getProfile();
     jobOffers = logic.getJobOffers(jobOfferFilters);
   }
 
@@ -31,6 +33,60 @@ class _CandidateHome extends State<CandidateHome> {
   void initState() {
     super.initState();
     onReBuild();
+  }
+
+
+  Widget buildDropDown(String key, List<dynamic> list, int dropdownValueIdx) {
+    String dropdownValue = list[dropdownValueIdx];
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        profileJson["l_"+key] = value;
+        profileJson[key] = list.indexOf(value!);
+
+        //@todo est-ce une bonne idée ?
+        setState(() {
+          dropdownValue = value;
+        });
+
+
+      },
+      items: list.map<DropdownMenuItem<String>>((dynamic value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget buildProfile() {
+    return FutureBuilder<Map>(
+        future: profile,
+        builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+          Widget body;
+          if (snapshot.hasData) {
+            body = Column(
+              children: [
+                buildDropDown("sex", snapshot.data!["syntax"]["sex"], snapshot.data!["instance"]["sex"]),
+                buildDropDown("study_level", snapshot.data!["syntax"]["study_level"], snapshot.data!["instance"]["study_level"])
+              ],
+            );
+          } else if (snapshot.hasError) {
+            body = Text('Error: ${snapshot.error}');
+          } else {
+            body = const Text('Chargement...');
+          }
+
+          return Scaffold(body: body);
+        });
   }
 
   Widget buildJobOffers() {
@@ -135,6 +191,10 @@ class _CandidateHome extends State<CandidateHome> {
         body: Wrap(
           spacing: 100,
           children: [
+            SizedBox(
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.height / 4,
+                child: buildProfile()),
             SizedBox(
                 width: MediaQuery.of(context).size.width / 4,
                 height: MediaQuery.of(context).size.height / 4,
