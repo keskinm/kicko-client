@@ -88,18 +88,21 @@ class _CandidateHome extends State<CandidateHome> {
             body = Column(
               children: dropDownButtons+[
                 TextButton(onPressed: () async {
-                  bool success = await logic.updateProfile(profileJson);
-                  if (success) {
-                    setState(() {
-                      showAlert(context, "Votre profile a été mise à jour avec succès !", "Bonne nouvelle", "fermer");
-                      // profileJsonDropDown = {};
-                      // onReBuild();
-                    });
+                  try {
+                    bool success = await logic.updateProfile(profileJson);
+                    if (success) {
+                      setState(() {
+                        showAlert(context, "Votre profile a été mise à jour avec succès !", "Bonne nouvelle", "fermer");
+                        // profileJsonDropDown = {};
+                        // onReBuild();
+                      });
+                    }
+                    else {
+                      showAlert(context, "un problème est survenu du côté du serveur", "oups", "fermer");
+                    }
+                  } catch (err) {
+                    showAlert(context, "$err", "oups", "fermer");
                   }
-                  else {
-                    showAlert(context, "un problème est survenu", "oups", "fermer");
-                  }
-
                 }, child: const Text("Sauvegarder"))
               ],
             );
