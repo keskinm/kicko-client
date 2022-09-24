@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +83,25 @@ class CandidateHomeLogic {
     }
 
     return DatabaseMethods().downloadFile(bucket, profileImageId);
+  }
+
+  Future<bool> updateProfile(Map profileJson) async {
+    String userId = appState.currentUser.id;
+    profileJson["id"] = userId;
+
+    String body = json.encode(profileJson);
+
+    Response response = await dioHttpPost(
+      route: 'candidate_update_profile',
+      jsonData: body,
+      token: false,
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("getProfile HTTP Error");
+    }
   }
 
   Future<Map> getProfile() async {

@@ -19,6 +19,8 @@ class CandidateHome extends StatefulWidget {
 class _CandidateHome extends State<CandidateHome> {
   Map<String, dynamic> jobOfferFilters = {"city": TextEditingController()};
   Map<String, dynamic> profileJson = {};
+  Map<String, dynamic> profileJsonDropDown = {};
+
   CandidateHomeLogic logic = CandidateHomeLogic();
   CandidateHomeStyle style = CandidateHomeStyle();
   late Future<Map> profile;
@@ -48,12 +50,11 @@ class _CandidateHome extends State<CandidateHome> {
         color: Colors.deepPurpleAccent,
       ),
       onChanged: (String? value) {
-        profileJson["l_"+key] = value;
-        profileJson[key] = list.indexOf(value!);
 
-        //@todo est-ce une bonne idée ?
         setState(() {
-          dropdownValue = value;
+          profileJson["l_"+key] = value;
+          profileJson[key] = list.indexOf(value);
+          profileJsonDropDown[key] = list.indexOf(value);
         });
 
 
@@ -73,10 +74,33 @@ class _CandidateHome extends State<CandidateHome> {
         builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
           Widget body;
           if (snapshot.hasData) {
+
+            List<Widget> dropDownButtons = [];
+
+            for (String key in ["sex", "study_level"])  {
+              if (profileJsonDropDown.containsKey(key)) {
+                profileJson[key] = profileJsonDropDown[key];}
+                else {
+                  profileJson[key] = snapshot.data!["instance"][key];
+              }
+                dropDownButtons.add(buildDropDown(key, snapshot.data!["syntax"][key], profileJson[key]),);
+          }
             body = Column(
-              children: [
-                buildDropDown("sex", snapshot.data!["syntax"]["sex"], snapshot.data!["instance"]["sex"]),
-                buildDropDown("study_level", snapshot.data!["syntax"]["study_level"], snapshot.data!["instance"]["study_level"])
+              children: dropDownButtons+[
+                TextButton(onPressed: () async {
+                  bool success = await logic.updateProfile(profileJson);
+                  if (success) {
+                    setState(() {
+                      showAlert(context, "Votre profile a été mise à jour avec succès !", "Bonne nouvelle", "fermer");
+                      // profileJsonDropDown = {};
+                      // onReBuild();
+                    });
+                  }
+                  else {
+                    showAlert(context, "un problème est survenu", "oups", "fermer");
+                  }
+
+                }, child: const Text("Sauvegarder"))
               ],
             );
           } else if (snapshot.hasError) {
