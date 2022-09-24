@@ -43,7 +43,7 @@ class AuthMethods {
       required String userGroup}) async {
     String body = '{"username": "$username" ,"password":"$password"}';
     Response response = await dioHttpPost(
-      route: userGroup+'_authentication_token',
+      route: userGroup + '_authentication_token',
       jsonData: body,
       token: false,
     );

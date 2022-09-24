@@ -31,18 +31,19 @@ class _ScanState extends State<ScanScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: ElevatedButton(
-                    onPressed: scan,
-                    child: const Text('START CAMERA SCAN')
-                ),
-              )
-              ,
+                    onPressed: scan, child: const Text('START CAMERA SCAN')),
+              ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(barcode, textAlign: TextAlign.center,),
-              )
-              ,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Text(
+                  barcode,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ],
           ),
         ));
@@ -54,24 +55,24 @@ class _ScanState extends State<ScanScreen> {
       String barcode = barcodeResult.rawContent;
       setState(() => this.barcode = barcode);
       Navigator.push(
-        context,
-        MaterialPageRoute(
+          context,
+          MaterialPageRoute(
             builder: (context) =>
                 CandidateJobOfferPage(jobOfferId: this.barcode),
-      ));
+          ));
     } on PlatformException catch (e) {
       if (
-      // e.code == BarcodeScanner.CameraAccessDenied
-      false
-      ) {
+          // e.code == BarcodeScanner.CameraAccessDenied
+          false) {
         setState(() {
           barcode = 'The user did not grant the camera permission!';
         });
       } else {
         setState(() => barcode = 'Unknown error: $e');
       }
-    } on FormatException{
-      setState(() => barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
+    } on FormatException {
+      setState(() => barcode =
+          'null (User returned using the "back"-button before scanning anything. Result)');
     } catch (e) {
       setState(() => barcode = 'Unknown error: $e');
     }

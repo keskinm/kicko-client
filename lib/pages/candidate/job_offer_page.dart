@@ -79,7 +79,9 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
                     onPressed: () {
                       logic.applyJobOffer(jobOfferId: widget.jobOfferId);
                     },
-                    child: (_applyJobOffer == false)? Text("Je suis intéressé par cette offre !"): Text("vous avez déjà postulé à cette offre"))
+                    child: (_applyJobOffer == false)
+                        ? Text("Je suis intéressé par cette offre !")
+                        : Text("vous avez déjà postulé à cette offre"))
               ],
             );
             // body = listView;

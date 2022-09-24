@@ -112,10 +112,11 @@ class DatabaseMethods {
     return downloadURL;
   }
 
-  Future<String> uploadBytes(String bucket, String fileName, Uint8List bytes) async {
+  Future<String> uploadBytes(
+      String bucket, String fileName, Uint8List bytes) async {
     String downloadURL;
     fs.Reference ref =
-    fs.FirebaseStorage.instance.ref().child(bucket).child(fileName);
+        fs.FirebaseStorage.instance.ref().child(bucket).child(fileName);
     await ref.putData(bytes);
     downloadURL = await ref.getDownloadURL();
     return downloadURL;

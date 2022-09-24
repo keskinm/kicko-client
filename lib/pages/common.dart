@@ -4,11 +4,7 @@ showAlert(BuildContext context, String message, String title, String close) {
   showDialog<String>(
       context: context,
       builder: (BuildContext context) {
-        return buildPopupDialog(
-            context,
-            message,
-            title,
-            close);
+        return buildPopupDialog(context, message, title, close);
       });
 }
 

@@ -13,7 +13,8 @@ Widget goBack(BuildContext context) {
 
 class DisplayQRCodeImage extends StatefulWidget {
   final String jobOfferId;
-  const DisplayQRCodeImage({Key? key, required this.jobOfferId}) : super(key: key);
+  const DisplayQRCodeImage({Key? key, required this.jobOfferId})
+      : super(key: key);
 
   @override
   _DisplayQRCodeImage createState() => _DisplayQRCodeImage();
@@ -25,16 +26,15 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   DatabaseMethods dataBaseMethods = DatabaseMethods();
 
   buildQrCodeDisplay(dynamic storageReference) {
-      return Container(
-        child: Image.network(
-          storageReference,
-          fit: BoxFit.fill,
-        ),
-        width: 200,
-        height: 200,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-      );
-
+    return Container(
+      child: Image.network(
+        storageReference,
+        fit: BoxFit.fill,
+      ),
+      width: 200,
+      height: 200,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+    );
   }
 
   getQrCodeImage() async {

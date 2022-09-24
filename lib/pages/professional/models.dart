@@ -13,7 +13,6 @@ class JobOffer {
   late String businessId;
   DatabaseMethods dataBaseMethods = DatabaseMethods();
 
-
   JobOffer(
       {required this.requires,
       required this.description,

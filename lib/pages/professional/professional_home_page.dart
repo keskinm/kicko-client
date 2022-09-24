@@ -209,14 +209,16 @@ class _ProHome extends State<ProHome> {
                     color: Colors.amber[100],
                     child: Text(jobOffer['requires']),
                   ),
-                  TextButton(onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DisplayQRCodeImage(jobOfferId: jobOfferId)),
-                    );
-                  }
-                      , child: const Text("J'inprime mon QR code")),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DisplayQRCodeImage(jobOfferId: jobOfferId)),
+                        );
+                      },
+                      child: const Text("J'inprime mon QR code")),
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () async {

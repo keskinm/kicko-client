@@ -15,6 +15,8 @@ enum AppStatus {
 class AppState {
   AppState();
 
+  String language = "french";
+
   late Map<dynamic, dynamic> platformState;
 
   late String serverUrl;
