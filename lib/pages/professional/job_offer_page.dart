@@ -138,8 +138,6 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
               TextButton(onPressed: () async {
                 setState(() {
                   onReBuild();
-                  // profileJsonDropDown = {};
-                  // onReBuild();
                 });
 
               }, child: const Text("Appliquer filtres"))

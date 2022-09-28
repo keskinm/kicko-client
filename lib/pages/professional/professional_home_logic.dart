@@ -131,7 +131,7 @@ class ProfessionalHomeLogic {
     required String jobOfferId,
     Map filters = const {}}) async {
 
-    Map jobOfferIdMap = {"id": jobOfferId};
+    Map jobOfferIdMap = {"professional_id": jobOfferId};
     Map bodyMap = {...jobOfferIdMap, ...filters};
 
     String body = json.encode(bodyMap);
