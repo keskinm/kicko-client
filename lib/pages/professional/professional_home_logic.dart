@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -119,6 +121,23 @@ class ProfessionalHomeLogic {
     String body = '{"professional_id": "$userId"}';
     Response response = await dioHttpPost(
       route: 'professional_get_job_offers',
+      jsonData: body,
+      token: false,
+    );
+    return response.data;
+  }
+
+  Future<List> appliers({
+    required String jobOfferId,
+    Map filters = const {}}) async {
+
+    Map jobOfferIdMap = {"id": jobOfferId};
+    Map bodyMap = {...jobOfferIdMap, ...filters};
+
+    String body = json.encode(bodyMap);
+
+    Response response = await dioHttpPost(
+      route: 'professional_get_appliers',
       jsonData: body,
       token: false,
     );

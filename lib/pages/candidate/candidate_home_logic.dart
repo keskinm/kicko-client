@@ -185,8 +185,7 @@ class CandidateHomeLogic {
     if (response.statusCode == 200) {
       return response.data;
     } else {
-      // @todo DONT FORGET TO CATCH THIS
-      throw Exception('HTTP ERROR');
+      throw Exception('CandidateHomeLogic.appliedJobOffer server error');
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:kicko/pages/professional/qr_code_image.dart';
 
 import 'package:kicko/syntax.dart';
 import '../common.dart';
+import 'job_offer_page.dart';
 import 'profile_images.dart';
 
 class ProHome extends StatefulWidget {
@@ -241,6 +242,16 @@ class _ProHome extends State<ProHome> {
                                   "fermer");
                             });
                       }
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.panorama_fish_eye),
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfessionalJobOfferPage(jobOfferId: jobOfferId)),
+                      );
                     },
                   )
                 ],
