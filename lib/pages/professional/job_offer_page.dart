@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:kicko/pages/job_offers_logic.dart';
+import 'package:kicko/pages/candidate_logic.dart';
+import 'package:kicko/services/app_state.dart';
 import 'professional_home_logic.dart';
 import 'professional_home_style.dart';
 
@@ -19,17 +21,26 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   Map<String, dynamic> jobOfferFilters = {"city": TextEditingController()};
   ProfessionalHomeLogic logic = ProfessionalHomeLogic();
   JobOfferLogic jobOfferLogic = JobOfferLogic();
+  CandidateLogic candidateLogic = CandidateLogic();
   ProfessionalHomeStyle style = ProfessionalHomeStyle();
+  String userId = appState.currentUser.id;
   late Future<Map> jobOffer;
   late Future<List> appliers;
+  late Future<Map> candidateSyntax;
 
-  onReBuild() {}
+  Map<String, dynamic> appliersFilterJson = {};
+  Map<String, dynamic> appliersFilterJsonDropDown = {};
+
+  onReBuild() {
+    appliers = logic.appliers(jobOfferId: widget.jobOfferId, filters: appliersFilterJson);
+  }
 
   @override
   void initState() {
     super.initState();
+    candidateSyntax = candidateLogic.getCandidateSyntax(userGroup: "professional", userId: userId);
     jobOffer = jobOfferLogic.getJobOffer(jobOfferId: widget.jobOfferId);
-    appliers = logic.appliers(jobOfferId: widget.jobOfferId);
+    onReBuild();
   }
 
   Widget buildJobOffer() {
@@ -74,17 +85,71 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
     );
   }
 
+  Widget buildDropDown(String key, List<dynamic> list, int dropdownValueIdx) {
+    String dropdownValue = list[dropdownValueIdx];
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        setState(() {
+          appliersFilterJson[key] = list.indexOf(value);
+          appliersFilterJsonDropDown[key] = list.indexOf(value);
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((dynamic value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+
   Widget buildAppliers() {
     return FutureBuilder<List>(
-      future: appliers,
+      future: Future.wait([appliers, candidateSyntax]),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         Widget body;
         if (snapshot.hasData) {
+          Widget filters;
+          Widget listView;
 
-          body = ListView.builder(
-            itemCount: snapshot.data!.length,
+          List _appliers = snapshot.data![0];
+          Map _candidateSyntax = snapshot.data![1];
+
+          List<Widget> dropDownButtons = [];
+          for (String key in _candidateSyntax.keys)  {
+            if (appliersFilterJsonDropDown.containsKey(key)) {
+              appliersFilterJson[key] = appliersFilterJsonDropDown[key];}
+            else {
+              appliersFilterJson[key] = 0;
+            }
+            dropDownButtons.add(buildDropDown(key, _candidateSyntax[key], appliersFilterJson[key]),);
+          }
+
+          filters = Column(
+            children: dropDownButtons+[
+              TextButton(onPressed: () async {
+                setState(() {
+                  onReBuild();
+                  // profileJsonDropDown = {};
+                  // onReBuild();
+                });
+
+              }, child: const Text("Appliquer filtres"))
+            ],
+          );
+
+          listView = ListView.builder(
+            itemCount: _appliers.length,
             itemBuilder: (context, index) {
-              final _applier = snapshot.data![index];
+              final _applier = _appliers[index];
               return ListView(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -109,6 +174,9 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
               );
             },
           );
+
+          body = Wrap(children: [filters, listView],);
+
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {

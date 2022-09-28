@@ -1,15 +1,8 @@
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:kicko/widgets/forms/validator.dart';
 
 
 class JobOfferLogic {
-  final candidateForm = GlobalKey<FormState>();
-
-  Validator validator = Validator();
-  Map<String, dynamic> businessJson = {};
-
   Future<Map> getJobOffer({required String jobOfferId}) async {
     String body = '{"id": "$jobOfferId"}';
 
