@@ -175,7 +175,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
             },
           );
 
-          body = Wrap(children: [filters, listView],);
+          body = Column(children: [filters, Expanded(child: listView)],);
 
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
