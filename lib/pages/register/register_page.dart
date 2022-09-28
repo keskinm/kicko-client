@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:kicko/pages/login/login_page.dart';
 import 'package:kicko/pages/register/register_logic.dart';
 import 'package:kicko/pages/register/register_style.dart';
+import 'package:kicko/appbar.dart';
 
-import '../professional/professional_home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   final String userGroup;
@@ -22,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: protoAppBar("Register"),
       backgroundColor: Colors.white,
       body: Center(
         child: Column(

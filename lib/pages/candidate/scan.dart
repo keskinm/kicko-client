@@ -4,6 +4,7 @@ import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:kicko/appbar.dart';
 import 'job_offer_page.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -22,9 +23,7 @@ class _ScanState extends State<ScanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('QR Code Scanner'),
-        ),
+        appBar: protoAppBar("QR Code Scanner"),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

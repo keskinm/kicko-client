@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:kicko/pages/common.dart';
 import 'package:kicko/pages/job_offers_logic.dart';
+import 'package:kicko/appbar.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
 
@@ -86,9 +87,7 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Bienvenu dans votre tableau de bord !'),
-        ),
+        appBar: protoAppBar("Offre d'emploi"),
         body: Center(
             child: Wrap(
           spacing: 100,

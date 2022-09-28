@@ -1,19 +1,11 @@
 // import 'dart:html' as html;
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kicko/appbar.dart';
 import 'package:kicko/services/database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kicko/services/app_state.dart';
 
-Widget goBack(BuildContext context) {
-  return ElevatedButton(
-    onPressed: () {
-      Navigator.pop(context);
-    },
-    child: const Text('Go back!'),
-  );
-}
 
 class DisplayProfileImages extends StatefulWidget {
   const DisplayProfileImages({Key? key}) : super(key: key);
@@ -113,9 +105,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Profile Images"),
-      ),
+      appBar: protoAppBar("Images de profil"),
       body: Column(
         children: [
           FutureBuilder(
@@ -127,13 +117,9 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
                 return Column(
                     children: buildImageProfileWraps(profileImagesList));
               } else if (snapshot.hasError) {
-                return Column(
-                  children: [Text('Error: ${snapshot.error}'), goBack(context)],
-                );
+                return Text('Error: ${snapshot.error}');
               } else {
-                return Column(
-                  children: [const Text('Chargement...'), goBack(context)],
-                );
+                return const Text('Chargement...');
               }
             },
           ),
@@ -141,7 +127,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
             onPressed: () => addProfileImage(),
             child: const Text('Ajouter photo de profile'),
           ),
-          goBack(context),
+
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kicko/appbar.dart';
 import 'package:kicko/pages/candidate/scan.dart';
 
 import 'package:kicko/pages/common.dart';
@@ -212,9 +213,7 @@ class _CandidateHome extends State<CandidateHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Bienvenu dans votre tableau de bord !'),
-        ),
+        appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
         body: Wrap(
           spacing: 100,
           children: [
@@ -233,7 +232,10 @@ class _CandidateHome extends State<CandidateHome> {
                     MaterialPageRoute(builder: (context) => ScanScreen()),
                   );
                 },
-                child: const Text('SCAN QR CODE'))
+                child: const Text('SCAN QR CODE',
+                    // style: TextStyle(backgroundColor: Colors.deepOrangeAccent)
+                )
+            )
           ],
         ));
   }

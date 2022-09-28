@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/pages/register/register_page.dart';
 import 'package:kicko/pages/login/login_logic.dart';
 import 'package:kicko/pages/login/login_style.dart';
+import 'package:kicko/appbar.dart';
 
 class LoginPage extends StatefulWidget {
   final String userGroup;
@@ -19,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: protoAppBar("Login"),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(

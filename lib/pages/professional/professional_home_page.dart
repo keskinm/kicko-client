@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kicko/appbar.dart';
 import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/pages/professional/professional_home_style.dart';
 import 'package:kicko/pages/professional/qr_code_image.dart';
@@ -343,9 +344,7 @@ class _ProHome extends State<ProHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Bienvenu dans votre tableau de bord !'),
-        ),
+        appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
         body: Wrap(
           spacing: 100,
           children: [

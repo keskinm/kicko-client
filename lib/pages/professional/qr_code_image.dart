@@ -1,15 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:kicko/appbar.dart';
 import 'package:kicko/services/database.dart';
 
-Widget goBack(BuildContext context) {
-  return ElevatedButton(
-    onPressed: () {
-      Navigator.pop(context);
-    },
-    child: const Text('Go back!'),
-  );
-}
 
 class DisplayQRCodeImage extends StatefulWidget {
   final String jobOfferId;
@@ -51,9 +44,7 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Profile Images"),
-      ),
+      appBar: protoAppBar("Image de profil"),
       body: Column(
         children: [
           FutureBuilder(
@@ -64,17 +55,12 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
 
                 return buildQrCodeDisplay(qrCodeImageRef);
               } else if (snapshot.hasError) {
-                return Column(
-                  children: [Text('Error: ${snapshot.error}'), goBack(context)],
-                );
+                return Text('Error: ${snapshot.error}');
               } else {
-                return Column(
-                  children: [const Text('Chargement...'), goBack(context)],
-                );
+                return const Text('Chargement...');
               }
             },
           ),
-          goBack(context),
         ],
       ),
     );

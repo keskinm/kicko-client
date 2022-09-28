@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:kicko/appbar.dart';
 import 'package:kicko/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +14,15 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     title: 'KICKO!',
-    home: KickoApp(),
-    color: Colors.deepOrangeAccent,
+    home: const KickoApp(),
+    theme: ThemeData(
+      textTheme: const TextTheme(displayMedium: TextStyle(backgroundColor: Colors.deepOrangeAccent)),
+      appBarTheme: const AppBarTheme(
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.deepOrangeAccent, //<-- SEE HERE
+      ),),
   ));
 }
 
@@ -105,10 +111,7 @@ class _KickoApp extends State<KickoApp> {
 
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.deepOrangeAccent,
-          title: const Center(child: Text('Kicko!')),
-        ),
+        appBar: protoAppBar("Kicko!"),
         body: body);
   }
 }
