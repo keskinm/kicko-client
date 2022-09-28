@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/pages/job_offers_logic.dart';
 import 'package:kicko/pages/candidate_logic.dart';
 import 'package:kicko/services/app_state.dart';
+import 'package:kicko/syntax.dart';
 import 'professional_home_logic.dart';
 import 'professional_home_style.dart';
 
@@ -38,7 +39,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   @override
   void initState() {
     super.initState();
-    candidateSyntax = candidateLogic.getCandidateSyntax(userGroup: "professional", userId: userId);
+    candidateSyntax = candidateLogic.getCandidateSyntax(userGroup: userGroupSyntax.professional, userId: userId);
     jobOffer = jobOfferLogic.getJobOffer(jobOfferId: widget.jobOfferId);
     onReBuild();
   }

@@ -1,9 +1,11 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:kicko/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kicko/syntax.dart';
 import 'firebase_options.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +16,7 @@ Future<void> main() async {
   runApp(const MaterialApp(
     title: 'KICKO!',
     home: KickoApp(),
+    color: Colors.deepOrangeAccent,
   ));
 }
 
@@ -30,39 +33,82 @@ class _KickoApp extends State<KickoApp> {
     super.initState();
   }
 
+
+  Widget buildRow(String text, String userGroup) {
+    Widget child = DefaultTextStyle(
+      style: const TextStyle(
+        fontSize: 40.0,
+        color: Colors.deepOrangeAccent
+      ),
+      child: AnimatedTextKit(
+        animatedTexts: [
+          WavyAnimatedText(text),
+        ],
+        isRepeatingAnimation: true,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    LoginPage(userGroup: userGroup)),
+          );
+        },
+      ),
+    );
+
+
+    return DefaultTextStyle(
+      style: const TextStyle(
+        fontSize: 40.0,
+        fontFamily: 'Horizon',
+      ),
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Container container;
+
+    Widget body = Center(child:
+    SingleChildScrollView(
+        child: Column(
+          children: [
+
+            AnimatedTextKit(
+              repeatForever: true,
+              animatedTexts: [
+                ColorizeAnimatedText(
+                  "Je suis :",
+                  textStyle: const TextStyle(
+                    fontSize: 30.0,
+                    fontFamily: 'Horizon',
+                  ),
+                  colors: [
+                    Colors.deepOrange,
+                    Colors.yellow
+                  ],
+                ),
+              ],
+            ),
+
+            SizedBox(height: MediaQuery.of(context).size.height / 8), // <-- Set height
+
+            buildRow("CANDIDAT", userGroupSyntax.candidate),
+
+            SizedBox(height: MediaQuery.of(context).size.height / 8), // <-- Set height
+
+            buildRow("PROFESSIONEL", userGroupSyntax.professional),
+          ],
+        )
+    )
+    );
+
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('First Route'),
+          backgroundColor: Colors.deepOrangeAccent,
+          title: const Center(child: Text('Kicko!')),
         ),
-        body: Container(
-            alignment: Alignment.center,
-            child: Wrap(spacing: 100, children: [
-              ElevatedButton(
-                child: const Text('Je suis professionel'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            LoginPage(userGroup: userGroupSyntax.professional)),
-                  );
-                },
-              ),
-              ElevatedButton(
-                child: const Text('Je suis candidat'),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            LoginPage(userGroup: userGroupSyntax.candidate)),
-                  );
-                },
-              ),
-            ])));
+        body: body);
   }
 }
