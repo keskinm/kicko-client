@@ -10,7 +10,7 @@ import 'package:kicko/widgets/forms/validator.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
 
-import '../common.dart';
+import 'package:kicko/pages/common.dart';
 
 class ProfessionalHomeLogic {
   final jobOfferForm = GlobalKey<FormState>();
