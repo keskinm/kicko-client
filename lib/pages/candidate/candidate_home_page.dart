@@ -243,7 +243,7 @@ class _CandidateHome extends State<CandidateHome> {
                 );
               },
               child: Text(
-                'SCAN QR CODE',
+                'SCANNER UN QR CODE',
                 style: Theme.of(context).textTheme.displayMedium,
               ))
       );
