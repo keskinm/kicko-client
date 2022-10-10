@@ -48,5 +48,3 @@ class CityAutocompletion extends StatelessWidget {
     );
   }
 }
-
-

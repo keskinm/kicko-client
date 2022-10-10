@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 
-
 class CandidateLogic {
-  Future<Map> getCandidateSyntax({required String userGroup, required String userId}) async {
+  Future<Map> getCandidateSyntax(
+      {required String userGroup, required String userId}) async {
     Map bodyMap = {"id": userId, "user_group": userGroup};
 
     String body = json.encode(bodyMap);
@@ -23,4 +23,3 @@ class CandidateLogic {
     }
   }
 }
-

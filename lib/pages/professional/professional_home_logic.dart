@@ -127,10 +127,8 @@ class ProfessionalHomeLogic {
     return response.data;
   }
 
-  Future<List> appliers({
-    required String jobOfferId,
-    Map filters = const {}}) async {
-
+  Future<List> appliers(
+      {required String jobOfferId, Map filters = const {}}) async {
     Map jobOfferIdMap = {"professional_id": jobOfferId};
     Map bodyMap = {...jobOfferIdMap, ...filters};
 

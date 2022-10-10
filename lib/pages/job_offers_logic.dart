@@ -1,7 +1,6 @@
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 
-
 class JobOfferLogic {
   Future<Map> getJobOffer({required String jobOfferId}) async {
     String body = '{"id": "$jobOfferId"}';
@@ -18,5 +17,4 @@ class JobOfferLogic {
       throw Exception("JobOfferLogic.getJobOffer server error");
     }
   }
-
 }

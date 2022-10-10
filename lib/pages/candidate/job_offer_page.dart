@@ -72,8 +72,7 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
                       : Text("vous avez déjà postulé à cette offre"))
             ],
           );
-            // body = listView;
-
+          // body = listView;
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {

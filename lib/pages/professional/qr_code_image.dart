@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/services/database.dart';
 
-
 class DisplayQRCodeImage extends StatefulWidget {
   final String jobOfferId;
   const DisplayQRCodeImage({Key? key, required this.jobOfferId})

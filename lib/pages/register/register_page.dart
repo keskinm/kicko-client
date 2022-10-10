@@ -5,7 +5,6 @@ import 'package:kicko/pages/register/register_logic.dart';
 import 'package:kicko/pages/register/register_style.dart';
 import 'package:kicko/appbar.dart';
 
-
 class RegisterPage extends StatefulWidget {
   final String userGroup;
   const RegisterPage({Key? key, required this.userGroup}) : super(key: key);

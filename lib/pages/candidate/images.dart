@@ -10,7 +10,6 @@ import 'package:kicko/appbar.dart';
 
 // @todo REFACTOR WITH PROFESSIONAL IMAGES?
 
-
 class DisplayProfileImages extends StatefulWidget {
   const DisplayProfileImages({Key? key}) : super(key: key);
 

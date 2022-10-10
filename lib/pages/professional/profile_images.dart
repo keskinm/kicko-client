@@ -6,7 +6,6 @@ import 'package:kicko/services/database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kicko/services/app_state.dart';
 
-
 class DisplayProfileImages extends StatefulWidget {
   const DisplayProfileImages({Key? key}) : super(key: key);
 
@@ -127,7 +126,6 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
             onPressed: () => addProfileImage(),
             child: const Text('Ajouter photo de profile'),
           ),
-
         ],
       ),
     );

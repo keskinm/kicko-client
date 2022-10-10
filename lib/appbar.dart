@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 AppBar protoAppBar(String text) {
   return AppBar(
     // backgroundColor: Colors.deepOrangeAccent,

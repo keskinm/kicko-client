@@ -34,13 +34,15 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   Map<String, dynamic> appliersFilterJsonDropDown = {};
 
   onReBuild() {
-    appliers = logic.appliers(jobOfferId: widget.jobOfferId, filters: appliersFilterJson);
+    appliers = logic.appliers(
+        jobOfferId: widget.jobOfferId, filters: appliersFilterJson);
   }
 
   @override
   void initState() {
     super.initState();
-    candidateSyntax = candidateLogic.getCandidateSyntax(userGroup: userGroupSyntax.professional, userId: userId);
+    candidateSyntax = candidateLogic.getCandidateSyntax(
+        userGroup: userGroupSyntax.professional, userId: userId);
     jobOffer = jobOfferLogic.getJobOffer(jobOfferId: widget.jobOfferId);
     onReBuild();
   }
@@ -48,7 +50,8 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   Widget buildJobOffer() {
     return FutureBuilder<Map<dynamic, dynamic>>(
       future: jobOffer,
-      builder: (BuildContext context, AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
         Widget body;
         if (snapshot.hasData) {
           Map _jobOffer = snapshot.data!;
@@ -75,8 +78,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
               ),
             ],
           );
-            // body = listView;
-
+          // body = listView;
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
@@ -126,24 +128,29 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
           Map _candidateSyntax = snapshot.data![1];
 
           List<Widget> dropDownButtons = [];
-          for (String key in _candidateSyntax.keys)  {
+          for (String key in _candidateSyntax.keys) {
             if (appliersFilterJsonDropDown.containsKey(key)) {
-              appliersFilterJson[key] = appliersFilterJsonDropDown[key];}
-            else {
+              appliersFilterJson[key] = appliersFilterJsonDropDown[key];
+            } else {
               appliersFilterJson[key] = 0;
             }
-            dropDownButtons.add(buildDropDown(key, _candidateSyntax[key], appliersFilterJson[key]),);
+            dropDownButtons.add(
+              buildDropDown(
+                  key, _candidateSyntax[key], appliersFilterJson[key]),
+            );
           }
 
           filters = Column(
-            children: dropDownButtons+[
-              TextButton(onPressed: () async {
-                setState(() {
-                  onReBuild();
-                });
-
-              }, child: const Text("Appliquer filtres"))
-            ],
+            children: dropDownButtons +
+                [
+                  TextButton(
+                      onPressed: () async {
+                        setState(() {
+                          onReBuild();
+                        });
+                      },
+                      child: const Text("Appliquer filtres"))
+                ],
           );
 
           listView = ListView.builder(
@@ -175,8 +182,9 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
             },
           );
 
-          body = Column(children: [filters, Expanded(child: listView)],);
-
+          body = Column(
+            children: [filters, Expanded(child: listView)],
+          );
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
@@ -193,17 +201,17 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
         appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
         body: Center(
             child: Wrap(
-              spacing: 100,
-              children: [
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
-                    height: MediaQuery.of(context).size.height / 4,
-                    child: buildJobOffer()),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
-                    height: MediaQuery.of(context).size.height / 4,
-                    child: buildAppliers()),
-              ],
-            )));
+          spacing: 100,
+          children: [
+            SizedBox(
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.height / 4,
+                child: buildJobOffer()),
+            SizedBox(
+                width: MediaQuery.of(context).size.width / 4,
+                height: MediaQuery.of(context).size.height / 4,
+                child: buildAppliers()),
+          ],
+        )));
   }
 }

@@ -251,7 +251,8 @@ class _ProHome extends State<ProHome> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ProfessionalJobOfferPage(jobOfferId: jobOfferId)),
+                            builder: (context) => ProfessionalJobOfferPage(
+                                jobOfferId: jobOfferId)),
                       );
                     },
                   )

@@ -38,7 +38,6 @@ class _CandidateHome extends State<CandidateHome> {
     onReBuild();
   }
 
-
   Widget buildDropDown(String key, List<dynamic> list, int dropdownValueIdx) {
     String dropdownValue = list[dropdownValueIdx];
     return DropdownButton<String>(
@@ -51,14 +50,11 @@ class _CandidateHome extends State<CandidateHome> {
         color: Colors.deepPurpleAccent,
       ),
       onChanged: (String? value) {
-
         setState(() {
-          profileJson["l_"+key] = value;
+          profileJson["l_" + key] = value;
           profileJson[key] = list.indexOf(value);
           profileJsonDropDown[key] = list.indexOf(value);
         });
-
-
       },
       items: list.map<DropdownMenuItem<String>>((dynamic value) {
         return DropdownMenuItem<String>(
@@ -75,37 +71,50 @@ class _CandidateHome extends State<CandidateHome> {
         builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
           Widget body;
           if (snapshot.hasData) {
-
             List<Widget> dropDownButtons = [];
 
-            for (String key in ["sex", "study_level"])  {
+            for (String key in ["sex", "study_level"]) {
               if (profileJsonDropDown.containsKey(key)) {
-                profileJson[key] = profileJsonDropDown[key];}
-                else {
-                  profileJson[key] = snapshot.data!["instance"][key];
+                profileJson[key] = profileJsonDropDown[key];
+              } else {
+                profileJson[key] = snapshot.data!["instance"][key];
               }
-                dropDownButtons.add(buildDropDown(key, snapshot.data!["syntax"][key], profileJson[key]),);
-          }
+              dropDownButtons.add(
+                buildDropDown(
+                    key, snapshot.data!["syntax"][key], profileJson[key]),
+              );
+            }
             body = Column(
-              children: dropDownButtons+[
-                TextButton(onPressed: () async {
-                  try {
-                    bool success = await logic.updateProfile(profileJson);
-                    if (success) {
-                      setState(() {
-                        showAlert(context, "Votre profile a été mise à jour avec succès !", "Bonne nouvelle", "fermer");
-                        // profileJsonDropDown = {};
-                        // onReBuild();
-                      });
-                    }
-                    else {
-                      showAlert(context, "un problème est survenu du côté du serveur", "oups", "fermer");
-                    }
-                  } catch (err) {
-                    showAlert(context, "$err", "oups", "fermer");
-                  }
-                }, child: const Text("Sauvegarder"))
-              ],
+              children: dropDownButtons +
+                  [
+                    TextButton(
+                        onPressed: () async {
+                          try {
+                            bool success =
+                                await logic.updateProfile(profileJson);
+                            if (success) {
+                              setState(() {
+                                showAlert(
+                                    context,
+                                    "Votre profile a été mise à jour avec succès !",
+                                    "Bonne nouvelle",
+                                    "fermer");
+                                // profileJsonDropDown = {};
+                                // onReBuild();
+                              });
+                            } else {
+                              showAlert(
+                                  context,
+                                  "un problème est survenu du côté du serveur",
+                                  "oups",
+                                  "fermer");
+                            }
+                          } catch (err) {
+                            showAlert(context, "$err", "oups", "fermer");
+                          }
+                        },
+                        child: const Text("Sauvegarder"))
+                  ],
             );
           } else if (snapshot.hasError) {
             body = Text('Error: ${snapshot.error}');
@@ -232,10 +241,10 @@ class _CandidateHome extends State<CandidateHome> {
                     MaterialPageRoute(builder: (context) => ScanScreen()),
                   );
                 },
-                child: const Text('SCAN QR CODE',
-                    // style: TextStyle(backgroundColor: Colors.deepOrangeAccent)
-                )
-            )
+                child: Text(
+                  'SCAN QR CODE',
+                  style: Theme.of(context).textTheme.displayMedium,
+                ))
           ],
         ));
   }

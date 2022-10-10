@@ -7,7 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:kicko/syntax.dart';
 import 'firebase_options.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -18,11 +17,14 @@ Future<void> main() async {
     title: 'KICKO!',
     home: const KickoApp(),
     theme: ThemeData(
-      textTheme: const TextTheme(displayMedium: TextStyle(backgroundColor: Colors.deepOrangeAccent)),
+      textTheme: const TextTheme(
+          displayMedium: TextStyle(backgroundColor: Colors.deepOrangeAccent),
+          displaySmall: TextStyle(backgroundColor: Colors.deepOrangeAccent)),
       appBarTheme: const AppBarTheme(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.deepOrangeAccent, //<-- SEE HERE
-      ),),
+      ),
+    ),
   ));
 }
 
@@ -39,13 +41,9 @@ class _KickoApp extends State<KickoApp> {
     super.initState();
   }
 
-
   Widget buildRow(String text, String userGroup) {
     Widget child = DefaultTextStyle(
-      style: const TextStyle(
-        fontSize: 40.0,
-        color: Colors.deepOrangeAccent
-      ),
+      style: const TextStyle(fontSize: 40.0, color: Colors.deepOrangeAccent),
       child: AnimatedTextKit(
         animatedTexts: [
           WavyAnimatedText(text),
@@ -55,13 +53,11 @@ class _KickoApp extends State<KickoApp> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    LoginPage(userGroup: userGroup)),
+                builder: (context) => LoginPage(userGroup: userGroup)),
           );
         },
       ),
     );
-
 
     return DefaultTextStyle(
       style: const TextStyle(
@@ -74,44 +70,36 @@ class _KickoApp extends State<KickoApp> {
 
   @override
   Widget build(BuildContext context) {
-
-    Widget body = Center(child:
-    SingleChildScrollView(
-        child: Column(
-          children: [
-
-            AnimatedTextKit(
-              repeatForever: true,
-              animatedTexts: [
-                ColorizeAnimatedText(
-                  "Je suis :",
-                  textStyle: const TextStyle(
-                    fontSize: 30.0,
-                    fontFamily: 'Horizon',
-                  ),
-                  colors: [
-                    Colors.deepOrange,
-                    Colors.yellow
-                  ],
-                ),
-              ],
+    Widget body = Center(
+        child: SingleChildScrollView(
+            child: Column(
+      children: [
+        AnimatedTextKit(
+          repeatForever: true,
+          animatedTexts: [
+            ColorizeAnimatedText(
+              "Je suis :",
+              textStyle: const TextStyle(
+                fontSize: 30.0,
+                fontFamily: 'Horizon',
+              ),
+              colors: [Colors.deepOrange, Colors.yellow],
             ),
-
-            SizedBox(height: MediaQuery.of(context).size.height / 8), // <-- Set height
-
-            buildRow("CANDIDAT", userGroupSyntax.candidate),
-
-            SizedBox(height: MediaQuery.of(context).size.height / 8), // <-- Set height
-
-            buildRow("PROFESSIONEL", userGroupSyntax.professional),
           ],
-        )
-    )
-    );
+        ),
 
+        SizedBox(
+            height: MediaQuery.of(context).size.height / 8), // <-- Set height
 
-    return Scaffold(
-        appBar: protoAppBar("Kicko!"),
-        body: body);
+        buildRow("CANDIDAT", userGroupSyntax.candidate),
+
+        SizedBox(
+            height: MediaQuery.of(context).size.height / 8), // <-- Set height
+
+        buildRow("PROFESSIONEL", userGroupSyntax.professional),
+      ],
+    )));
+
+    return Scaffold(appBar: protoAppBar("Kicko!"), body: body);
   }
 }
