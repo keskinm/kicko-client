@@ -5,6 +5,7 @@ import 'package:kicko/pages/professional/professional_home_style.dart';
 import 'package:kicko/pages/professional/qr_code_image.dart';
 
 import 'package:kicko/syntax.dart';
+import 'package:kicko/services/app_state.dart';
 import '../common.dart';
 import 'job_offer_page.dart';
 import 'package:kicko/pages/medias.dart';
@@ -24,12 +25,13 @@ class _ProHome extends State<ProHome> {
   late Future<Map<String, dynamic>> business;
   late Future<String> imageDownloadURL;
   late Future<List<dynamic>> jobOffers;
+  String imagesBucket = 'business_images/${appState.currentUser.username}';
 
   @override
   void initState() {
     super.initState();
     business = logic.getBusiness();
-    imageDownloadURL = logic.getProfileImage(business);
+    imageDownloadURL = logic.getProfileImage(business, imagesBucket);
     jobOffers = logic.getJobOffers();
   }
 
@@ -133,7 +135,7 @@ class _ProHome extends State<ProHome> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const DisplayProfileImages()),
+                            builder: (context) => DisplayProfileImages(bucket: imagesBucket)),
                       );
                     },
                   ),

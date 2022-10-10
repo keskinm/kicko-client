@@ -5,6 +5,7 @@ import 'package:kicko/pages/candidate/scan.dart';
 
 import 'package:kicko/pages/common.dart';
 import 'package:kicko/syntax.dart';
+import 'package:kicko/pages/medias.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
 import 'job_offer_page.dart';
@@ -227,6 +228,17 @@ class _CandidateHome extends State<CandidateHome> {
           width: MediaQuery.of(context).size.width / 4,
           height: MediaQuery.of(context).size.height / 4,
           child: buildProfile()),
+
+      TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DisplayResumes()),
+            );
+          },
+          child: Text("Mes CV", style: Theme.of(context).textTheme.displayMedium)
+      ),
+
       SizedBox(
           width: MediaQuery.of(context).size.width / 4,
           height: MediaQuery.of(context).size.height / 4,
