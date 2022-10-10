@@ -99,7 +99,6 @@ class ProfessionalHomeLogic {
 
   Future<String> getProfileImage(
       Future<Map<String, dynamic>> futureBusinessJson, String imagesBucket)
-  // BUCKET IN FORM business_images/userGroup/currentUsername
   async {
     String bucket;
 

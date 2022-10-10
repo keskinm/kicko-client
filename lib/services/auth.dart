@@ -43,11 +43,17 @@ class AuthMethods {
       required String userGroup}) async {
     String body = '{"username": "$username" ,"password":"$password"}';
     Response response = await dioHttpPost(
-      route: userGroup + '_authentication_token',
+      route: "${userGroup}_authentication_token",
       jsonData: body,
       token: false,
     );
-    return response.data;
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception("exception ${userGroup}_authentication_token");
+    }
+
   }
 
   Future getCurrentUser(
@@ -57,7 +63,7 @@ class AuthMethods {
     if (response.statusCode == 200) {
       return response.data["data"];
     } else {
-      return {'error': 'user not found'};
+      throw Exception("exception getCurrentUser");
     }
   }
 

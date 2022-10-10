@@ -103,7 +103,6 @@ class DatabaseMethods {
         fs.FirebaseStorage.instance.ref().child(bucket).child(fileName);
 
     if (kIsWeb) {
-      // await ref.putData(await file.readAsBytes());
       await ref.putData(await file);
     } else {
       await ref.putFile(File(file.path));

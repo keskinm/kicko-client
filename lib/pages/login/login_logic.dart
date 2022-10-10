@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/pages/candidate/candidate_home_page.dart';
+import 'package:kicko/pages/common.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/widgets/forms/validator.dart';
 
@@ -37,14 +38,14 @@ class LoginLogic {
       appState.userGroup = userGroup;
       final bool res = appState.checkToken(await appState.authMethods
           .authenticationToken(
-              username: username, password: password, userGroup: userGroup));
+              username: username, password: password, userGroup: userGroup).catchError((Object e, StackTrace stackTrace) {showAlert(context, e.toString(), "oups", "Fermer");}));
 
       if (res) {
         //Stockage des infos pour connexion auto
         appState
             .addCredentials(keys: {'username': username, 'password': password});
         final res = await appState.authMethods.getCurrentUser(
-            token: appState.currentUser.token, userGroup: userGroup);
+            token: appState.currentUser.token, userGroup: userGroup).catchError((Object e, StackTrace stackTrace) {showAlert(context, e.toString(), "oups", "Fermer");});
 
         await appState.authMethods
             .firebaseSignInWithEmailAndPassword(res['email'], password);

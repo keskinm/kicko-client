@@ -50,10 +50,14 @@ class _DisplayResumes extends State<DisplayResumes> {
     return dataBaseMethods.downloadFiles(widget.bucket);
   }
 
+  onReBuild() {
+    resumes = getResumes();
+  }
+
   @override
   void initState() {
     super.initState();
-    resumes = getResumes();
+    onReBuild();
   }
 
   Future<void> addResume() async {
@@ -72,7 +76,6 @@ class _DisplayResumes extends State<DisplayResumes> {
     List<Widget> r = [];
 
     for (dynamic storageReference in storageReferences) {
-      print(storageReferences);
       String storageReferenceBasename =
           storageReference.split('%2F').last.split('?')[0];
 
@@ -107,7 +110,13 @@ class _DisplayResumes extends State<DisplayResumes> {
         children: [
           Center(
               child: ElevatedButton(
-            onPressed: () => addResume(),
+            onPressed: () async {
+              addResume();
+              await Future.delayed(Duration(seconds: 1));
+              setState(() {
+                onReBuild();
+              });
+            },
             child: Text(
               'Ajouter un CV',
               style: Theme.of(context).textTheme.displayMedium,
@@ -176,10 +185,14 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     return r;
   }
 
+  onReBuild() {
+    profileImages = dataBaseMethods.downloadFiles(widget.bucket);
+  }
+
   @override
   void initState() {
     super.initState();
-    profileImages = dataBaseMethods.downloadFiles(widget.bucket);
+    onReBuild();
   }
 
   Future<XFile?> selectImageFromGallery() async {
@@ -199,7 +212,6 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
   }
 
   Future<void> addProfileImage()
-  // BUCKET IN FORM business_images/userGroup/currentUsername
   async {
     XFile? image = await selectImageFromGallery();
 
@@ -208,7 +220,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     } else {
       String postId = DateTime.now().millisecondsSinceEpoch.toString();
       String imageName = "post_$postId.jpg";
-      await dataBaseMethods.uploadFile(widget.bucket, imageName, image);
+      await dataBaseMethods.uploadFile(widget.bucket, imageName, image.readAsBytes());
       bool res = await dataBaseMethods.updateTableField(
           imageName, "image_id", "update_business_fields");
       if (res) {
@@ -225,7 +237,13 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
         children: [
           Center(
               child: ElevatedButton(
-            onPressed: () => addProfileImage(),
+            onPressed: () async {
+              addProfileImage();
+              await Future.delayed(Duration(seconds: 1));
+              setState(() {
+                onReBuild();
+              });
+            },
             child: Text(
               'Ajouter photo de profile',
               style: Theme.of(context).textTheme.displayMedium,

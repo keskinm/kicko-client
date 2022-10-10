@@ -6,6 +6,7 @@ import 'package:kicko/widgets/forms/validator.dart';
 
 import '../../syntax.dart';
 import '../candidate/candidate_home_page.dart';
+import 'package:kicko/pages/common.dart';
 import '../professional/professional_home_page.dart';
 
 class RegisterLogic {
@@ -102,9 +103,9 @@ class RegisterLogic {
               .authenticationToken(
                   username: username,
                   password: password,
-                  userGroup: userGroup))) {
+                  userGroup: userGroup).catchError((Object e, StackTrace stackTrace) {showAlert(context, e.toString(), "oups", "Fermer");}))) {
             final res = await appState.authMethods.getCurrentUser(
-                token: appState.currentUser.token, userGroup: userGroup);
+                token: appState.currentUser.token, userGroup: userGroup).catchError((Object e, StackTrace stackTrace) {showAlert(context, e.toString(), "oups", "Fermer");});
 
             appState.currentUser.setParameters(res);
             appState.appStatus = AppStatus.connected;
