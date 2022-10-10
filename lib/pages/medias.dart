@@ -107,8 +107,7 @@ class _DisplayResumes extends State<DisplayResumes> {
           Center(
               child: ElevatedButton(
             onPressed: () async {
-              addResume();
-              await Future.delayed(const Duration(seconds: 3));
+              await addResume();
               setState(() {
                 onReBuild();
               });
@@ -234,8 +233,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
           Center(
               child: ElevatedButton(
             onPressed: () async {
-              addProfileImage();
-              await Future.delayed(const Duration(seconds: 3));
+              await addProfileImage();
               setState(() {
                 onReBuild();
               });
