@@ -42,7 +42,7 @@ class DisplayResumes extends StatefulWidget {
 }
 
 class _DisplayResumes extends State<DisplayResumes> {
-  bool isLoadingAddResume = false;
+  bool isBlockedResumes = false;
   late dynamic resumes;
   DatabaseMethods dataBaseMethods = DatabaseMethods();
 
@@ -84,15 +84,24 @@ class _DisplayResumes extends State<DisplayResumes> {
             throw 'Could not launch $storageReference';
           }
         },
-        child: Column(
+        child: !isBlockedResumes ? Column(
           children: [
             const Icon(Icons.picture_as_pdf_rounded),
             Text(storageReferenceBasename),
-            IconButton(onPressed: () {
+            IconButton(onPressed: () async {
+              setState(() {
+                isBlockedResumes = true;
+                onReBuild();
+              });
               dataBaseMethods.deleteFireBaseStorageItem(storageReference);
+              setState(() {
+                isBlockedResumes = false;
+                onReBuild();
+              });
+
             }, icon: const Icon(Icons.delete))
           ],
-        ),
+        ) : const CircularProgressIndicator(color: Colors.orange),
       );
 
       r.add(w);
@@ -111,12 +120,12 @@ class _DisplayResumes extends State<DisplayResumes> {
               child: ElevatedButton(
             onPressed: () async {
               setState(() {
-                isLoadingAddResume = true;
+                isBlockedResumes = true;
                 onReBuild();
               });
               await addResume();
               setState(() {
-                isLoadingAddResume = false;
+                isBlockedResumes = false;
                 onReBuild();
               });
             },
@@ -131,7 +140,7 @@ class _DisplayResumes extends State<DisplayResumes> {
               if (snapshot.hasData) {
                 dynamic resumesList = snapshot.data;
 
-                return !isLoadingAddResume ? Wrap(children: buildResumesWraps(resumesList)) : const CircularProgressIndicator(color: Colors.orange,);
+                return !isBlockedResumes ? Wrap(children: buildResumesWraps(resumesList)) : const CircularProgressIndicator(color: Colors.orange,);
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
