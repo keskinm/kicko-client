@@ -22,7 +22,7 @@ Future<void> main() async {
           displaySmall: TextStyle(backgroundColor: Colors.deepOrangeAccent)),
       appBarTheme: const AppBarTheme(
         iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.deepOrangeAccent, //<-- SEE HERE
+        backgroundColor: Colors.deepOrangeAccent,
       ),
     ),
   ));
