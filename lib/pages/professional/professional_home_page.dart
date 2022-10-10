@@ -135,7 +135,8 @@ class _ProHome extends State<ProHome> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DisplayProfileImages(bucket: imagesBucket)),
+                            builder: (context) =>
+                                DisplayProfileImages(bucket: imagesBucket)),
                       );
                     },
                   ),

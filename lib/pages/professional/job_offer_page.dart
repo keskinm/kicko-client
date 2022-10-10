@@ -182,13 +182,14 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
                 );
               },
             );
-
+          } else {
+            appliers = const Text(
+                "Aucun candidat n'a encore postulé à cette offre ou ne correspond à vos critères de recherche.");
           }
-          else {
-            appliers = const Text("Aucun candidat n'a encore postulé à cette offre ou ne correspond à vos critères de recherche.");
-          }
 
-          body = Column(children: [filters, Expanded(child: appliers)],);
+          body = Column(
+            children: [filters, Expanded(child: appliers)],
+          );
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {

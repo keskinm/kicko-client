@@ -230,17 +230,16 @@ class _CandidateHome extends State<CandidateHome> {
           width: MediaQuery.of(context).size.width / 4,
           height: MediaQuery.of(context).size.height / 4,
           child: buildProfile()),
-
       TextButton(
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DisplayResumes(bucket: resumesBucket)),
+              MaterialPageRoute(
+                  builder: (context) => DisplayResumes(bucket: resumesBucket)),
             );
           },
-          child: Text("Mes CV", style: Theme.of(context).textTheme.displayMedium)
-      ),
-
+          child:
+              Text("Mes CV", style: Theme.of(context).textTheme.displayMedium)),
       SizedBox(
           width: MediaQuery.of(context).size.width / 4,
           height: MediaQuery.of(context).size.height / 4,
@@ -248,24 +247,21 @@ class _CandidateHome extends State<CandidateHome> {
     ];
 
     if (!kIsWeb) {
-      children.add(
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ScanScreen()),
-                );
-              },
-              child: Text(
-                'SCANNER UN QR CODE',
-                style: Theme.of(context).textTheme.displayMedium,
-              ))
-      );
+      children.add(ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ScanScreen()),
+            );
+          },
+          child: Text(
+            'SCANNER UN QR CODE',
+            style: Theme.of(context).textTheme.displayMedium,
+          )));
     }
 
     return Scaffold(
         appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
-
         body: Wrap(
           spacing: 100,
           children: children,

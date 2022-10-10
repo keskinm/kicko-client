@@ -96,7 +96,8 @@ class DatabaseMethods {
     return res;
   }
 
-  Future<String> uploadFile(String bucket, String fileName, dynamic file) async {
+  Future<String> uploadFile(
+      String bucket, String fileName, dynamic file) async {
     String downloadURL;
     fs.Reference ref =
         fs.FirebaseStorage.instance.ref().child(bucket).child(fileName);

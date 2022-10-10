@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class UserGroupSyntax {
   String professional = "professional";
   String candidate = "candidate";
-  late Map titleMap = {candidate: "candidats",
-                       professional: "professionnels"};
+  late Map titleMap = {candidate: "candidats", professional: "professionnels"};
 }
 
 UserGroupSyntax userGroupSyntax = UserGroupSyntax();

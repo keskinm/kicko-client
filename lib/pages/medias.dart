@@ -9,8 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future selectFiles(int position) async {
-
-  FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
+  FilePickerResult? result =
+      await FilePicker.platform.pickFiles(allowMultiple: true);
 
   if (result != null) {
     // List<File> files = result.paths.map((path) => File(path)).toList();
@@ -27,7 +27,6 @@ Future<Uint8List?> selectFile() async {
   Uint8List? s;
   if (result != null) {
     s = result.files.single.bytes;
-
   } else {
     // User canceled the picker
   }
@@ -47,8 +46,7 @@ class _DisplayResumes extends State<DisplayResumes> {
   late dynamic resumes;
   DatabaseMethods dataBaseMethods = DatabaseMethods();
 
-  getResumes()
-  async {
+  getResumes() async {
     return dataBaseMethods.downloadFiles(widget.bucket);
   }
 
@@ -58,8 +56,7 @@ class _DisplayResumes extends State<DisplayResumes> {
     resumes = getResumes();
   }
 
-  Future<void> addResume()
-  async {
+  Future<void> addResume() async {
     Uint8List? file = await selectFile();
 
     if (file == null) {
@@ -67,9 +64,9 @@ class _DisplayResumes extends State<DisplayResumes> {
     } else {
       String postId = DateTime.now().millisecondsSinceEpoch.toString();
       String fileName = "post_$postId.pdf";
-      await dataBaseMethods.uploadFile(
-        widget.bucket, fileName, file);
-  }}
+      await dataBaseMethods.uploadFile(widget.bucket, fileName, file);
+    }
+  }
 
   buildResumesWraps(dynamic storageReferences) {
     List<Widget> r = [];
@@ -77,17 +74,23 @@ class _DisplayResumes extends State<DisplayResumes> {
     for (dynamic storageReference in storageReferences) {
       print(storageReferences);
       String storageReferenceBasename =
-      storageReference.split('%2F').last.split('?')[0];
+          storageReference.split('%2F').last.split('?')[0];
 
       Widget w = InkWell(
         onTap: () async {
           if (await canLaunch(storageReference)) {
-          await launch(storageReference, forceSafariVC: false, forceWebView: false);
+            await launch(storageReference,
+                forceSafariVC: false, forceWebView: false);
           } else {
-          throw 'Could not launch $storageReference';
+            throw 'Could not launch $storageReference';
           }
         },
-        child: Column(children: [const Icon(Icons.picture_as_pdf_rounded), Text(storageReferenceBasename)],),
+        child: Column(
+          children: [
+            const Icon(Icons.picture_as_pdf_rounded),
+            Text(storageReferenceBasename)
+          ],
+        ),
       );
 
       r.add(w);
@@ -96,16 +99,17 @@ class _DisplayResumes extends State<DisplayResumes> {
     return r;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: protoAppBar("Mes CV"),
       body: Column(
         children: [
-          Center(child: ElevatedButton(
+          Center(
+              child: ElevatedButton(
             onPressed: () => addResume(),
-            child: Text('Ajouter un CV',
+            child: Text(
+              'Ajouter un CV',
               style: Theme.of(context).textTheme.displayMedium,
             ),
           )),
@@ -115,8 +119,7 @@ class _DisplayResumes extends State<DisplayResumes> {
               if (snapshot.hasData) {
                 dynamic resumesList = snapshot.data;
 
-                return Wrap(
-                    children: buildResumesWraps(resumesList));
+                return Wrap(children: buildResumesWraps(resumesList));
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
@@ -132,7 +135,8 @@ class _DisplayResumes extends State<DisplayResumes> {
 
 class DisplayProfileImages extends StatefulWidget {
   final String bucket;
-  const DisplayProfileImages({Key? key, required this.bucket}) : super(key: key);
+  const DisplayProfileImages({Key? key, required this.bucket})
+      : super(key: key);
 
   @override
   _DisplayProfileImages createState() => _DisplayProfileImages();
@@ -148,14 +152,12 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
 
     for (dynamic storageReference in storageReferences) {
       String storageReferenceBasename =
-      storageReference.split('%2F').last.split('?')[0];
+          storageReference.split('%2F').last.split('?')[0];
       Widget w = Container(
         child: InkWell(
           onTap: () {
             dataBaseMethods.updateTableField(
-                storageReferenceBasename,
-                "image_id",
-                "update_business_fields");
+                storageReferenceBasename, "image_id", "update_business_fields");
           }, // Image tapped
           splashColor: Colors.white10, // Splash color over image
           child: Image.network(
@@ -210,8 +212,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       bool res = await dataBaseMethods.updateTableField(
           imageName, "image_id", "update_business_fields");
       if (res) {
-        setState(() {
-        });
+        setState(() {});
       } else {}
     }
   }
@@ -222,9 +223,11 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       appBar: protoAppBar("Images de profil"),
       body: Column(
         children: [
-          Center(child: ElevatedButton(
+          Center(
+              child: ElevatedButton(
             onPressed: () => addProfileImage(),
-            child: Text('Ajouter photo de profile',
+            child: Text(
+              'Ajouter photo de profile',
               style: Theme.of(context).textTheme.displayMedium,
             ),
           )),
