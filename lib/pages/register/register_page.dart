@@ -4,6 +4,7 @@ import 'package:kicko/pages/login/login_page.dart';
 import 'package:kicko/pages/register/register_logic.dart';
 import 'package:kicko/pages/register/register_style.dart';
 import 'package:kicko/appbar.dart';
+import 'package:kicko/syntax.dart';
 
 class RegisterPage extends StatefulWidget {
   final String userGroup;
@@ -20,8 +21,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    String title = userGroupSyntax.titleMap[widget.userGroup];
     return Scaffold(
-      appBar: protoAppBar("Register"),
+      appBar: protoAppBar("Inscription espace $title"),
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
@@ -31,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
               repeatForever: true,
               animatedTexts: [
                 ColorizeAnimatedText(
-                  'Inscription',
+                  "Inscription espace $title",
                   textStyle: style.colorizeTextStyle(size: 20),
                   colors: style.colorizeColors,
                 ),

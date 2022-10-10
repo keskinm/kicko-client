@@ -4,6 +4,7 @@ import 'package:kicko/pages/register/register_page.dart';
 import 'package:kicko/pages/login/login_logic.dart';
 import 'package:kicko/pages/login/login_style.dart';
 import 'package:kicko/appbar.dart';
+import 'package:kicko/syntax.dart';
 
 class LoginPage extends StatefulWidget {
   final String userGroup;
@@ -19,8 +20,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    String title = userGroupSyntax.titleMap[widget.userGroup];
     return Scaffold(
-      appBar: protoAppBar("Login"),
+      appBar: protoAppBar("Connexion espace $title"),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
@@ -35,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                       repeatForever: true,
                       animatedTexts: [
                         ColorizeAnimatedText(
-                          'Connexion',
+                          "Connexion espace $title",
                           textStyle: style.colorizeTitleTextStyle,
                           colors: style.colorizeColors,
                         ),
