@@ -42,7 +42,7 @@ class DisplayResumes extends StatefulWidget {
 }
 
 class _DisplayResumes extends State<DisplayResumes> {
-  bool inProcess = false;
+  bool isLoadingAddResume = false;
   late dynamic resumes;
   DatabaseMethods dataBaseMethods = DatabaseMethods();
 
@@ -107,8 +107,13 @@ class _DisplayResumes extends State<DisplayResumes> {
           Center(
               child: ElevatedButton(
             onPressed: () async {
+              setState(() {
+                isLoadingAddResume = true;
+                onReBuild();
+              });
               await addResume();
               setState(() {
+                isLoadingAddResume = false;
                 onReBuild();
               });
             },
@@ -123,7 +128,7 @@ class _DisplayResumes extends State<DisplayResumes> {
               if (snapshot.hasData) {
                 dynamic resumesList = snapshot.data;
 
-                return Wrap(children: buildResumesWraps(resumesList));
+                return !isLoadingAddResume ? Wrap(children: buildResumesWraps(resumesList)) : const CircularProgressIndicator(color: Colors.orange,);
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
