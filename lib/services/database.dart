@@ -123,6 +123,20 @@ class DatabaseMethods {
     return downloadURL;
   }
 
+  bool deleteFireBaseStorageItem(String storageReference) {
+    fs.Reference storageReferance = fs.FirebaseStorage.instance.ref();
+
+    bool success = false;
+
+    storageReferance.child(storageReference).delete().then((_)
+        {
+          success = true;
+        }
+    );
+
+    return success;
+  }
+
   // ------------------------SQL--------------------------------------
 
   Future<bool> updateTableField(

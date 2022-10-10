@@ -87,7 +87,10 @@ class _DisplayResumes extends State<DisplayResumes> {
         child: Column(
           children: [
             const Icon(Icons.picture_as_pdf_rounded),
-            Text(storageReferenceBasename)
+            Text(storageReferenceBasename),
+            IconButton(onPressed: () {
+              dataBaseMethods.deleteFireBaseStorageItem(storageReference);
+            }, icon: const Icon(Icons.delete))
           ],
         ),
       );
