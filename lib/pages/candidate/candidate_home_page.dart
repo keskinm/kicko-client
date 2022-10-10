@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/pages/candidate/scan.dart';
@@ -221,31 +222,39 @@ class _CandidateHome extends State<CandidateHome> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> children = [
+      SizedBox(
+          width: MediaQuery.of(context).size.width / 4,
+          height: MediaQuery.of(context).size.height / 4,
+          child: buildProfile()),
+      SizedBox(
+          width: MediaQuery.of(context).size.width / 4,
+          height: MediaQuery.of(context).size.height / 4,
+          child: buildJobOffers()),
+    ];
+
+    if (!kIsWeb) {
+      children.add(
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ScanScreen()),
+                );
+              },
+              child: Text(
+                'SCAN QR CODE',
+                style: Theme.of(context).textTheme.displayMedium,
+              ))
+      );
+    }
+
     return Scaffold(
         appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
+
         body: Wrap(
           spacing: 100,
-          children: [
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                height: MediaQuery.of(context).size.height / 4,
-                child: buildProfile()),
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                height: MediaQuery.of(context).size.height / 4,
-                child: buildJobOffers()),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ScanScreen()),
-                  );
-                },
-                child: Text(
-                  'SCAN QR CODE',
-                  style: Theme.of(context).textTheme.displayMedium,
-                ))
-          ],
+          children: children,
         ));
   }
 }
