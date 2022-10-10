@@ -7,7 +7,7 @@ import 'package:kicko/pages/professional/qr_code_image.dart';
 import 'package:kicko/syntax.dart';
 import '../common.dart';
 import 'job_offer_page.dart';
-import 'profile_images.dart';
+import 'package:kicko/pages/medias.dart';
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);

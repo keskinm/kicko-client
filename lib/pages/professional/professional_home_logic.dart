@@ -98,7 +98,9 @@ class ProfessionalHomeLogic {
   }
 
   Future<String> getProfileImage(
-      Future<Map<String, dynamic>> futureBusinessJson) async {
+      Future<Map<String, dynamic>> futureBusinessJson)
+  // BUCKET IN FORM business_images/userGroup/currentUsername
+  async {
     String bucket;
 
     Map<String, dynamic> businessJson = await futureBusinessJson;
@@ -110,7 +112,8 @@ class ProfessionalHomeLogic {
       profileImageId = 'ca_default_profile.jpg';
     } else {
       String currentUsername = appState.currentUser.username;
-      bucket = 'business_images/$currentUsername';
+      String userGroup = appState.userGroup;
+      bucket = 'business_images/$userGroup/$currentUsername';
     }
 
     return DatabaseMethods().downloadFile(bucket, profileImageId);

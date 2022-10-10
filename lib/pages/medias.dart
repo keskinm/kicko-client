@@ -23,24 +23,27 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
 
     for (dynamic storageReference in storageReferences) {
       String storageReferenceBasename =
-          storageReference.split('%2F').last.split('?')[0];
+      storageReference.split('%2F').last.split('?')[0];
       Widget w = Column(
         children: [
           Container(
-            child: Image.network(
-              storageReference,
-              fit: BoxFit.fill,
+            child: InkWell(
+              onTap: () {
+                dataBaseMethods.updateTableField(
+                    storageReferenceBasename,
+                    "image_id",
+                    "update_business_fields");
+              }, // Image tapped
+              splashColor: Colors.white10, // Splash color over image
+              child: Image.network(
+                storageReference,
+                fit: BoxFit.fill,
+              ),
             ),
             width: 200,
             height: 200,
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          ),
-          ElevatedButton(
-              onPressed: () => dataBaseMethods.updateTableField(
-                  storageReferenceBasename,
-                  "image_id",
-                  "update_business_fields"),
-              child: Text('X'))
+          )
         ],
       );
 
@@ -50,9 +53,13 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     return r;
   }
 
-  getProfileImages() async {
+  getProfileImages()
+  // BUCKET IN FORM business_images/userGroup/currentUsername
+  async {
     String currentUsername = appState.currentUser.username;
-    String bucket = 'business_images/$currentUsername';
+    String userGroup = appState.userGroup;
+
+    String bucket = 'business_images/$userGroup/$currentUsername';
     return dataBaseMethods.downloadFiles(bucket);
   }
 
@@ -78,7 +85,9 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     return xFile;
   }
 
-  Future<void> addProfileImage() async {
+  Future<void> addProfileImage()
+  // BUCKET IN FORM business_images/userGroup/currentUsername
+  async {
     XFile? image = await selectImageFromGallery();
 
     if (image == null) {
@@ -87,8 +96,9 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       String postId = DateTime.now().millisecondsSinceEpoch.toString();
       String imageName = "post_$postId.jpg";
       String currentUsername = appState.currentUser.username;
+      String userGroup = appState.userGroup;
       await dataBaseMethods.uploadFile(
-          'business_images/$currentUsername', imageName, image);
+          'business_images/$userGroup/$currentUsername', imageName, image);
       bool res = await dataBaseMethods.updateTableField(
           imageName, "image_id", "update_business_fields");
       if (res) {
@@ -107,6 +117,10 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       appBar: protoAppBar("Images de profil"),
       body: Column(
         children: [
+          ElevatedButton(
+            onPressed: () => addProfileImage(),
+            child: const Text('Ajouter photo de profile'),
+          ),
           FutureBuilder(
             future: profileImages,
             builder: (context, AsyncSnapshot snapshot) {
@@ -121,10 +135,6 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
                 return const Text('Chargement...');
               }
             },
-          ),
-          ElevatedButton(
-            onPressed: () => addProfileImage(),
-            child: const Text('Ajouter photo de profile'),
           ),
         ],
       ),
