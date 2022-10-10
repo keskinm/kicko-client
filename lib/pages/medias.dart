@@ -117,17 +117,19 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       appBar: protoAppBar("Images de profil"),
       body: Column(
         children: [
-          ElevatedButton(
+          Center(child: ElevatedButton(
             onPressed: () => addProfileImage(),
-            child: const Text('Ajouter photo de profile'),
-          ),
+            child: Text('Ajouter photo de profile',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+          )),
           FutureBuilder(
             future: profileImages,
             builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 dynamic profileImagesList = snapshot.data;
 
-                return Column(
+                return Wrap(
                     children: buildImageProfileWraps(profileImagesList));
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
