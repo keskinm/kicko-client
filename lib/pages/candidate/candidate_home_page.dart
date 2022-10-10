@@ -4,6 +4,7 @@ import 'package:kicko/appbar.dart';
 import 'package:kicko/pages/candidate/scan.dart';
 
 import 'package:kicko/pages/common.dart';
+import 'package:kicko/services/app_state.dart';
 import 'package:kicko/syntax.dart';
 import 'package:kicko/pages/medias.dart';
 import 'candidate_home_logic.dart';
@@ -28,6 +29,7 @@ class _CandidateHome extends State<CandidateHome> {
   CandidateHomeStyle style = CandidateHomeStyle();
   late Future<Map> profile;
   late Future<List> jobOffers;
+  String resumesBucket = "resumes/${appState.currentUser.username}";
 
   onReBuild() {
     profile = logic.getProfile();
@@ -233,7 +235,7 @@ class _CandidateHome extends State<CandidateHome> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DisplayResumes()),
+              MaterialPageRoute(builder: (context) => DisplayResumes(bucket: resumesBucket)),
             );
           },
           child: Text("Mes CV", style: Theme.of(context).textTheme.displayMedium)

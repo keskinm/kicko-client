@@ -96,13 +96,14 @@ class DatabaseMethods {
     return res;
   }
 
-  Future<String> uploadFile(String bucket, String fileName, XFile file) async {
+  Future<String> uploadFile(String bucket, String fileName, dynamic file) async {
     String downloadURL;
     fs.Reference ref =
         fs.FirebaseStorage.instance.ref().child(bucket).child(fileName);
 
     if (kIsWeb) {
-      await ref.putData(await file.readAsBytes());
+      // await ref.putData(await file.readAsBytes());
+      await ref.putData(await file);
     } else {
       await ref.putFile(File(file.path));
       // await ref.putFile(html.File(image.path.codeUnits, image.path));

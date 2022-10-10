@@ -45,6 +45,7 @@ dependencies:
   firebase_auth: ^3.3.8
   dart_style: ^2.2.3
   file_picker: ^5.2.1
+  url_launcher: ^6.1.6
 
 dev_dependencies:
   flutter_test:

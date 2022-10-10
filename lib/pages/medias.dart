@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/services/database.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kicko/services/app_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future selectFiles(int position) async {
 
@@ -35,7 +35,8 @@ Future<Uint8List?> selectFile() async {
 }
 
 class DisplayResumes extends StatefulWidget {
-  const DisplayResumes({Key? key}) : super(key: key);
+  final String bucket;
+  const DisplayResumes({Key? key, required this.bucket}) : super(key: key);
 
   @override
   _DisplayResumes createState() => _DisplayResumes();
@@ -48,11 +49,7 @@ class _DisplayResumes extends State<DisplayResumes> {
 
   getResumes()
   async {
-    String currentUsername = appState.currentUser.username;
-    String userGroup = appState.userGroup;
-
-    String bucket = '$userGroup/resumes/$currentUsername';
-    return dataBaseMethods.downloadFiles(bucket);
+    return dataBaseMethods.downloadFiles(widget.bucket);
   }
 
   @override
@@ -69,21 +66,29 @@ class _DisplayResumes extends State<DisplayResumes> {
       throw Exception('an exception occured');
     } else {
       String postId = DateTime.now().millisecondsSinceEpoch.toString();
-      String fileName = "post_$postId.jpg";
-      String currentUsername = appState.currentUser.username;
-      String userGroup = appState.userGroup;
+      String fileName = "post_$postId.pdf";
       await dataBaseMethods.uploadFile(
-          // '$userGroup/resumes/$currentUsername', fileName, file);
-      '$userGroup/resumes/$currentUsername', fileName, XFile(""));
+        widget.bucket, fileName, file);
   }}
 
   buildResumesWraps(dynamic storageReferences) {
     List<Widget> r = [];
 
     for (dynamic storageReference in storageReferences) {
+      print(storageReferences);
       String storageReferenceBasename =
       storageReference.split('%2F').last.split('?')[0];
-      Widget w = Text(storageReferenceBasename);
+
+      Widget w = InkWell(
+        onTap: () async {
+          if (await canLaunch(storageReference)) {
+          await launch(storageReference, forceSafariVC: false, forceWebView: false);
+          } else {
+          throw 'Could not launch $storageReference';
+          }
+        },
+        child: Column(children: [const Icon(Icons.picture_as_pdf_rounded), Text(storageReferenceBasename)],),
+      );
 
       r.add(w);
     }
@@ -169,16 +174,10 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     return r;
   }
 
-  getProfileImages()
-  // BUCKET IN FORM business_images/userGroup/currentUsername
-  async {
-    return dataBaseMethods.downloadFiles(widget.bucket);
-  }
-
   @override
   void initState() {
     super.initState();
-    profileImages = getProfileImages();
+    profileImages = dataBaseMethods.downloadFiles(widget.bucket);
   }
 
   Future<XFile?> selectImageFromGallery() async {
