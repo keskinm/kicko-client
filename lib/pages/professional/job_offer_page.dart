@@ -122,7 +122,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
         Widget body;
         if (snapshot.hasData) {
           Widget filters;
-          Widget listView;
+          Widget appliers;
 
           List _appliers = snapshot.data![0];
           Map _candidateSyntax = snapshot.data![1];
@@ -153,38 +153,42 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
                 ],
           );
 
-          listView = ListView.builder(
-            itemCount: _appliers.length,
-            itemBuilder: (context, index) {
-              final _applier = _appliers[index];
-              return ListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(8),
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    color: Colors.amber[600],
-                    child: Text(_applier['username']),
-                  ),
-                  Container(
-                    height: 50,
-                    color: Colors.amber[500],
-                    child: Text(_applier['l_study_level']),
-                  ),
-                  Container(
-                    height: 50,
-                    color: Colors.amber[100],
-                    child: Text(_applier['l_sex']),
-                  ),
-                ],
-              );
-            },
-          );
+          if (_appliers.isNotEmpty) {
+            appliers = ListView.builder(
+              itemCount: _appliers.length,
+              itemBuilder: (context, index) {
+                final _applier = _appliers[index];
+                return ListView(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(8),
+                  children: <Widget>[
+                    Container(
+                      height: 50,
+                      color: Colors.amber[600],
+                      child: Text(_applier['username']),
+                    ),
+                    Container(
+                      height: 50,
+                      color: Colors.amber[500],
+                      child: Text(_applier['l_study_level']),
+                    ),
+                    Container(
+                      height: 50,
+                      color: Colors.amber[100],
+                      child: Text(_applier['l_sex']),
+                    ),
+                  ],
+                );
+              },
+            );
 
-          body = Column(
-            children: [filters, Expanded(child: listView)],
-          );
+          }
+          else {
+            appliers = const Text("Aucun candidat n'a encore postulé à cette offre");
+          }
+
+          body = Column(children: [filters, Expanded(child: appliers)],);
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
