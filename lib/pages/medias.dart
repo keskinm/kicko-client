@@ -46,12 +46,8 @@ class _DisplayResumes extends State<DisplayResumes> {
   late dynamic resumes;
   DatabaseMethods dataBaseMethods = DatabaseMethods();
 
-  getResumes() async {
-    return dataBaseMethods.downloadFiles(widget.bucket);
-  }
-
   onReBuild() {
-    resumes = getResumes();
+    resumes = dataBaseMethods.downloadFiles(widget.bucket);
   }
 
   @override
@@ -112,7 +108,7 @@ class _DisplayResumes extends State<DisplayResumes> {
               child: ElevatedButton(
             onPressed: () async {
               addResume();
-              await Future.delayed(Duration(seconds: 1));
+              await Future.delayed(const Duration(seconds: 3));
               setState(() {
                 onReBuild();
               });
@@ -239,7 +235,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
               child: ElevatedButton(
             onPressed: () async {
               addProfileImage();
-              await Future.delayed(Duration(seconds: 1));
+              await Future.delayed(const Duration(seconds: 3));
               setState(() {
                 onReBuild();
               });
