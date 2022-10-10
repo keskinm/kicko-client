@@ -56,7 +56,7 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                return const Text('Chargement...');
+                return const CircularProgressIndicator(color: Colors.orangeAccent,);
               }
             },
           ),

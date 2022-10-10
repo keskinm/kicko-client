@@ -176,7 +176,7 @@ class _ProHome extends State<ProHome> {
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
-          body = const Text('Chargement...');
+          body = const CircularProgressIndicator(color: Colors.orangeAccent,);
         }
         return Scaffold(body: body);
       },

@@ -127,7 +127,7 @@ class _DisplayResumes extends State<DisplayResumes> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                return const Text('Chargement...');
+                return const CircularProgressIndicator(color: Colors.orangeAccent);
               }
             },
           ),
