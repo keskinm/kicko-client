@@ -68,6 +68,13 @@ class _KickoApp extends State<KickoApp> {
     );
   }
 
+  Widget buildBottomPanel() {
+    return Column(children: const [
+      Text("3 rue du 11 Novembre 42500 Le Chambon-Feugerolles"),
+      Text("Contact: 07 80 13 56 88"),
+    ],);
+}
+
   @override
   Widget build(BuildContext context) {
     Widget body = Center(
@@ -89,14 +96,19 @@ class _KickoApp extends State<KickoApp> {
         ),
 
         SizedBox(
-            height: MediaQuery.of(context).size.height / 8), // <-- Set height
+            height: MediaQuery.of(context).size.height / 8),
 
         buildRow("CANDIDAT", userGroupSyntax.candidate),
 
         SizedBox(
-            height: MediaQuery.of(context).size.height / 8), // <-- Set height
+            height: MediaQuery.of(context).size.height / 8),
 
         buildRow("PROFESSIONEL", userGroupSyntax.professional),
+
+        SizedBox(
+            height: MediaQuery.of(context).size.height / 6),
+
+        buildBottomPanel()
       ],
     )));
 
