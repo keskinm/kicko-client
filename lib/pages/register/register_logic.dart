@@ -101,11 +101,16 @@ class RegisterLogic {
 
           if (appState.checkToken(await appState.authMethods
               .authenticationToken(
-                  username: username,
-                  password: password,
-                  userGroup: userGroup).catchError((Object e, StackTrace stackTrace) {showAlert(context, e.toString(), "oups", "Fermer");}))) {
-            final res = await appState.authMethods.getCurrentUser(
-                token: appState.currentUser.token, userGroup: userGroup).catchError((Object e, StackTrace stackTrace) {showAlert(context, e.toString(), "oups", "Fermer");});
+                  username: username, password: password, userGroup: userGroup)
+              .catchError((Object e, StackTrace stackTrace) {
+            showAlert(context, e.toString(), "oups", "Fermer");
+          }))) {
+            final res = await appState.authMethods
+                .getCurrentUser(
+                    token: appState.currentUser.token, userGroup: userGroup)
+                .catchError((Object e, StackTrace stackTrace) {
+              showAlert(context, e.toString(), "oups", "Fermer");
+            });
 
             appState.currentUser.setParameters(res);
             appState.appStatus = AppStatus.connected;

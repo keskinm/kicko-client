@@ -40,10 +40,11 @@ class AppState {
           username: currentUser.username,
           password: currentUser.password,
           userGroup: userGroup))) {
-        final res = await authMethods.getCurrentUser(
-            token: currentUser.token, userGroup: userGroup).catchError((Object e, StackTrace stackTrace) {
-              throw Exception(e.toString());
-            });
+        final res = await authMethods
+            .getCurrentUser(token: currentUser.token, userGroup: userGroup)
+            .catchError((Object e, StackTrace stackTrace) {
+          throw Exception(e.toString());
+        });
         currentUser.setParameters(res);
         appStatus = AppStatus.connected;
         return AppStatus.connected;

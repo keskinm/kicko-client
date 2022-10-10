@@ -38,14 +38,21 @@ class LoginLogic {
       appState.userGroup = userGroup;
       final bool res = appState.checkToken(await appState.authMethods
           .authenticationToken(
-              username: username, password: password, userGroup: userGroup).catchError((Object e, StackTrace stackTrace) {showAlert(context, e.toString(), "oups", "Fermer");}));
+              username: username, password: password, userGroup: userGroup)
+          .catchError((Object e, StackTrace stackTrace) {
+        showAlert(context, e.toString(), "oups", "Fermer");
+      }));
 
       if (res) {
         //Stockage des infos pour connexion auto
         appState
             .addCredentials(keys: {'username': username, 'password': password});
-        final res = await appState.authMethods.getCurrentUser(
-            token: appState.currentUser.token, userGroup: userGroup).catchError((Object e, StackTrace stackTrace) {showAlert(context, e.toString(), "oups", "Fermer");});
+        final res = await appState.authMethods
+            .getCurrentUser(
+                token: appState.currentUser.token, userGroup: userGroup)
+            .catchError((Object e, StackTrace stackTrace) {
+          showAlert(context, e.toString(), "oups", "Fermer");
+        });
 
         await appState.authMethods
             .firebaseSignInWithEmailAndPassword(res['email'], password);

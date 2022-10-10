@@ -98,8 +98,8 @@ class ProfessionalHomeLogic {
   }
 
   Future<String> getProfileImage(
-      Future<Map<String, dynamic>> futureBusinessJson, String imagesBucket)
-  async {
+      Future<Map<String, dynamic>> futureBusinessJson,
+      String imagesBucket) async {
     String bucket;
 
     Map<String, dynamic> businessJson = await futureBusinessJson;

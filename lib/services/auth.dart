@@ -53,7 +53,6 @@ class AuthMethods {
     } else {
       throw Exception("exception ${userGroup}_authentication_token");
     }
-
   }
 
   Future getCurrentUser(

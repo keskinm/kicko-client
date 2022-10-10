@@ -211,8 +211,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     return xFile;
   }
 
-  Future<void> addProfileImage()
-  async {
+  Future<void> addProfileImage() async {
     XFile? image = await selectImageFromGallery();
 
     if (image == null) {
@@ -220,7 +219,8 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     } else {
       String postId = DateTime.now().millisecondsSinceEpoch.toString();
       String imageName = "post_$postId.jpg";
-      await dataBaseMethods.uploadFile(widget.bucket, imageName, image.readAsBytes());
+      await dataBaseMethods.uploadFile(
+          widget.bucket, imageName, image.readAsBytes());
       bool res = await dataBaseMethods.updateTableField(
           imageName, "image_id", "update_business_fields");
       if (res) {
