@@ -89,7 +89,6 @@ class _DisplayResumes extends State<DisplayResumes> {
             const Icon(Icons.picture_as_pdf_rounded),
             Text(storageReferenceBasename),
             IconButton(onPressed: () async {
-              //@todo Try a listview builder to see if delete error disappears
               setState(() {
                 isBlockedResumes = true;
                 onReBuild();
