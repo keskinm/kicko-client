@@ -123,7 +123,9 @@ class _CandidateHome extends State<CandidateHome> {
           } else if (snapshot.hasError) {
             body = Text('Error: ${snapshot.error}');
           } else {
-            body = const CircularProgressIndicator(color: Colors.orangeAccent,);
+            body = const CircularProgressIndicator(
+              color: Colors.orangeAccent,
+            );
           }
 
           return body;
@@ -262,6 +264,9 @@ class _CandidateHome extends State<CandidateHome> {
 
     return Scaffold(
         appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
-        body: Center(child: Column(children: children,)));
+        body: Center(
+            child: Column(
+          children: children,
+        )));
   }
 }

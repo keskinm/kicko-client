@@ -84,24 +84,28 @@ class _DisplayResumes extends State<DisplayResumes> {
             throw 'Could not launch $storageReference';
           }
         },
-        child: !isBlockedResumes ? Column(
-          children: [
-            const Icon(Icons.picture_as_pdf_rounded),
-            Text(storageReferenceBasename),
-            IconButton(onPressed: () async {
-              setState(() {
-                isBlockedResumes = true;
-                onReBuild();
-              });
-              dataBaseMethods.deleteFireBaseStorageItem(storageReference);
-              setState(() {
-                isBlockedResumes = false;
-                onReBuild();
-              });
-
-            }, icon: const Icon(Icons.delete))
-          ],
-        ) : const CircularProgressIndicator(color: Colors.orange),
+        child: !isBlockedResumes
+            ? Column(
+                children: [
+                  const Icon(Icons.picture_as_pdf_rounded),
+                  Text(storageReferenceBasename),
+                  IconButton(
+                      onPressed: () async {
+                        setState(() {
+                          isBlockedResumes = true;
+                          onReBuild();
+                        });
+                        dataBaseMethods
+                            .deleteFireBaseStorageItem(storageReference);
+                        setState(() {
+                          isBlockedResumes = false;
+                          onReBuild();
+                        });
+                      },
+                      icon: const Icon(Icons.delete))
+                ],
+              )
+            : const CircularProgressIndicator(color: Colors.orange),
       );
 
       r.add(w);
@@ -140,11 +144,16 @@ class _DisplayResumes extends State<DisplayResumes> {
               if (snapshot.hasData) {
                 dynamic resumesList = snapshot.data;
 
-                return !isBlockedResumes ? Wrap(children: buildResumesWraps(resumesList)) : const CircularProgressIndicator(color: Colors.orange,);
+                return !isBlockedResumes
+                    ? Wrap(children: buildResumesWraps(resumesList))
+                    : const CircularProgressIndicator(
+                        color: Colors.orange,
+                      );
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                return const CircularProgressIndicator(color: Colors.orangeAccent);
+                return const CircularProgressIndicator(
+                    color: Colors.orangeAccent);
               }
             },
           ),
@@ -180,17 +189,22 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
             showDialog<String>(
                 context: context,
                 builder: (BuildContext context) {
-
                   return AlertDialog(
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        TextButton(onPressed: () async {
-                          await dataBaseMethods.updateTableField(
-                              storageReferenceBasename, "image_id", "update_business_fields");
-                          Navigator.of(context).pop();
-                        }, child: Text("Définir comme image de profil", style: Theme.of(context).textTheme.displaySmall)),
+                        TextButton(
+                            onPressed: () async {
+                              await dataBaseMethods.updateTableField(
+                                  storageReferenceBasename,
+                                  "image_id",
+                                  "update_business_fields");
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Définir comme image de profil",
+                                style:
+                                    Theme.of(context).textTheme.displaySmall)),
                       ],
                     ),
                     actions: <Widget>[
@@ -198,12 +212,12 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Retour", style: Theme.of(context).textTheme.displaySmall),
+                        child: Text("Retour",
+                            style: Theme.of(context).textTheme.displaySmall),
                       ),
                     ],
                   );
                 });
-
           }, // Image tapped
           splashColor: Colors.white10, // Splash color over image
           child: Image.network(
@@ -305,7 +319,9 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                return const CircularProgressIndicator(color: Colors.orangeAccent,);
+                return const CircularProgressIndicator(
+                  color: Colors.orangeAccent,
+                );
               }
             },
           ),

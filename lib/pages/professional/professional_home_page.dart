@@ -27,7 +27,7 @@ class _ProHome extends State<ProHome> {
   late Future<List<dynamic>> jobOffers;
   String imagesBucket = 'business_images/${appState.currentUser.username}';
 
-  onReBuild(){
+  onReBuild() {
     business = logic.getBusiness();
     imageDownloadURL = logic.getProfileImage(business, imagesBucket);
     jobOffers = logic.getJobOffers();
@@ -184,7 +184,9 @@ class _ProHome extends State<ProHome> {
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
-          body = const CircularProgressIndicator(color: Colors.orangeAccent,);
+          body = const CircularProgressIndicator(
+            color: Colors.orangeAccent,
+          );
         }
         return Scaffold(body: body);
       },
@@ -357,7 +359,8 @@ class _ProHome extends State<ProHome> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
-        body: Center(child: Column(
+        body: Center(
+            child: Column(
           children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width / 4,
@@ -366,16 +369,16 @@ class _ProHome extends State<ProHome> {
             Wrap(
               spacing: 100,
               children: [
-              SizedBox(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.height / 4,
-                  child: buildJobOffers()),
-              SizedBox(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.height / 4,
-                  child: buildAddJobOffer(context))
-            ],),
-
+                SizedBox(
+                    width: MediaQuery.of(context).size.width / 4,
+                    height: MediaQuery.of(context).size.height / 4,
+                    child: buildJobOffers()),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width / 4,
+                    height: MediaQuery.of(context).size.height / 4,
+                    child: buildAddJobOffer(context))
+              ],
+            ),
           ],
         )));
   }

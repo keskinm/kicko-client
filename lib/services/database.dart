@@ -128,11 +128,9 @@ class DatabaseMethods {
 
     bool success = false;
 
-    storageReferance.child(storageReference).delete().then((_)
-        {
-          success = true;
-        }
-    );
+    storageReferance.child(storageReference).delete().then((_) {
+      success = true;
+    });
 
     return success;
   }
