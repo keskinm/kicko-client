@@ -177,8 +177,33 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       Widget w = Container(
         child: InkWell(
           onTap: () {
-            dataBaseMethods.updateTableField(
-                storageReferenceBasename, "image_id", "update_business_fields");
+            showDialog<String>(
+                context: context,
+                builder: (BuildContext context) {
+
+                  return AlertDialog(
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        TextButton(onPressed: () async {
+                          await dataBaseMethods.updateTableField(
+                              storageReferenceBasename, "image_id", "update_business_fields");
+                          Navigator.of(context).pop();
+                        }, child: Text("Définir comme image de profil", style: Theme.of(context).textTheme.displaySmall)),
+                      ],
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Retour", style: Theme.of(context).textTheme.displaySmall),
+                      ),
+                    ],
+                  );
+                });
+
           }, // Image tapped
           splashColor: Colors.white10, // Splash color over image
           child: Image.network(
