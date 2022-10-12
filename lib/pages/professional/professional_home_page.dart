@@ -357,22 +357,26 @@ class _ProHome extends State<ProHome> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
-        body: Wrap(
-          spacing: 100,
+        body: Center(child: Column(
           children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width / 4,
                 height: MediaQuery.of(context).size.height / 4,
                 child: buildBusiness()),
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                height: MediaQuery.of(context).size.height / 4,
-                child: buildJobOffers()),
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                height: MediaQuery.of(context).size.height / 4,
-                child: buildAddJobOffer(context))
+            Wrap(
+              spacing: 100,
+              children: [
+              SizedBox(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: MediaQuery.of(context).size.height / 4,
+                  child: buildJobOffers()),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: MediaQuery.of(context).size.height / 4,
+                  child: buildAddJobOffer(context))
+            ],),
+
           ],
-        ));
+        )));
   }
 }
