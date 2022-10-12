@@ -126,7 +126,7 @@ class _CandidateHome extends State<CandidateHome> {
             body = const CircularProgressIndicator(color: Colors.orangeAccent,);
           }
 
-          return Scaffold(body: body);
+          return body;
         });
   }
 
@@ -262,9 +262,6 @@ class _CandidateHome extends State<CandidateHome> {
 
     return Scaffold(
         appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
-        body: Wrap(
-          spacing: 100,
-          children: children,
-        ));
+        body: Center(child: Column(children: children,)));
   }
 }
