@@ -244,7 +244,16 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: protoAppBar("Images de profil"),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Text("Images de profil"),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           Center(

@@ -27,12 +27,16 @@ class _ProHome extends State<ProHome> {
   late Future<List<dynamic>> jobOffers;
   String imagesBucket = 'business_images/${appState.currentUser.username}';
 
-  @override
-  void initState() {
-    super.initState();
+  onReBuild(){
     business = logic.getBusiness();
     imageDownloadURL = logic.getProfileImage(business, imagesBucket);
     jobOffers = logic.getJobOffers();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    onReBuild();
   }
 
   Container buildContainerWithText(String text) {
@@ -137,7 +141,11 @@ class _ProHome extends State<ProHome> {
                         MaterialPageRoute(
                             builder: (context) =>
                                 DisplayProfileImages(bucket: imagesBucket)),
-                      );
+                      ).then((_) {
+                        setState(() {
+                          onReBuild();
+                        });
+                      });
                     },
                   ),
                   decoration: BoxDecoration(
