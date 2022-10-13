@@ -358,7 +358,7 @@ class _ProHome extends State<ProHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
+        appBar: menuAppBar("Bienvenu dans votre tableau de bord !", context),
         body: Center(
             child: Column(
           children: [

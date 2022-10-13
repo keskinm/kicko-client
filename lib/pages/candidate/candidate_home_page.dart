@@ -263,7 +263,7 @@ class _CandidateHome extends State<CandidateHome> {
     }
 
     return Scaffold(
-        appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
+        appBar: menuAppBar("Bienvenu dans votre tableau de bord !", context),
         body: Center(
             child: Column(
           children: children,

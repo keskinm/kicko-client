@@ -1,6 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kicko/services/auth.dart';
 import 'package:kicko/models/user.dart';
+
+import '../dio.dart';
 
 AppState appState = AppState();
 
@@ -94,5 +97,30 @@ class AppState {
     } else {
       return false;
     }
+  }
+
+  Future deleteAccount() async {
+    bool res;
+    if (appState.checkToken(await appState.authMethods
+        .authenticationToken(
+            username: currentUser.username,
+            password: currentUser.password,
+            userGroup: userGroup)
+        .catchError((Object e, StackTrace stackTrace) {
+      throw Exception(e.toString());
+    }))) {
+      Response response =
+          await dioHttpGet(route: "delete_${userGroup}_account", token: true);
+
+      if (response.statusCode == 200) {
+        res = response.data["data"];
+      } else {
+        throw Exception("Server failed deleteAccount");
+      }
+    } else {
+      throw Exception("Check token returned false");
+    }
+
+    return res;
   }
 }

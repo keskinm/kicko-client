@@ -15,6 +15,7 @@ Future<void> main() async {
 
   runApp(MaterialApp(
     title: 'KICKO!',
+    debugShowCheckedModeBanner: false,
     home: const KickoApp(),
     theme: ThemeData(
       textTheme: const TextTheme(
