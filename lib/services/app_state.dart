@@ -117,7 +117,8 @@ class AppState {
       if (response.statusCode == 200) {
 
         bool success = dataBaseMethods
-            .deleteFireBaseStorageItem("$userGroup/${currentUser.username}");
+            .deleteFireBaseStorageBucket("$userGroup/${currentUser.username}");
+        await dataBaseMethods.deleteUserFromFireBase(currentUser.email, currentUser.password);
 
         return success;
 

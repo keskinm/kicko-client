@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/widgets/forms/validator.dart';
 
+import '../../services/database.dart';
 import '../../syntax.dart';
 import '../candidate/candidate_home_page.dart';
 import 'package:kicko/pages/common.dart';
@@ -11,6 +12,8 @@ import '../professional/professional_home_page.dart';
 
 class RegisterLogic {
   final formKey = GlobalKey<FormState>();
+  DatabaseMethods dataBaseMethods = DatabaseMethods();
+
   Validator validator = Validator();
 
   late String username;
@@ -58,20 +61,6 @@ class RegisterLogic {
     }
   }
 
-  Future deleteUserFromFireBase(String email, String password) async {
-    try {
-      UserCredential firebaseUser = await appState.authMethods.fAuth
-          .signInWithEmailAndPassword(email: email, password: password);
-      firebaseUser.user!.delete();
-      await appState.authMethods.fAuth.currentUser!.delete();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'requires-recent-login') {
-        print(
-            'The user must reauthenticate before this operation can be executed.');
-      }
-    }
-  }
-
   void validateRegister(
       {required BuildContext context, required userGroup}) async {
     if (formKey.currentState!.validate()) {
@@ -89,7 +78,7 @@ class RegisterLogic {
           firebaseUid: firebaseUid);
 
       if (response == null) {
-        await deleteUserFromFireBase(email, password);
+        await dataBaseMethods.deleteUserFromFireBase(email, password);
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('XMLHttpRequest error.'),
         ));

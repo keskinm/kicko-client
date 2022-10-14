@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fs;
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -123,6 +124,18 @@ class DatabaseMethods {
     return downloadURL;
   }
 
+  bool deleteFireBaseStorageBucket(String storageReferenceBucket) {
+    fs.Reference storageReferenceBase = fs.FirebaseStorage.instance.ref();
+
+    storageReferenceBase.listAll().then((value) {
+      value.items.forEach((element) {
+        fs.FirebaseStorage.instance.ref(element.fullPath).delete();
+      });
+    });
+    return true;
+
+  }
+
   bool deleteFireBaseStorageItem(String storageReference) {
     fs.Reference storageReferenceBase = fs.FirebaseStorage.instance.ref();
 
@@ -133,6 +146,20 @@ class DatabaseMethods {
     });
 
     return success;
+  }
+
+  Future deleteUserFromFireBase(String email, String password) async {
+    try {
+      UserCredential firebaseUser = await appState.authMethods.fAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      firebaseUser.user!.delete();
+      await appState.authMethods.fAuth.currentUser!.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        print(
+            'The user must reauthenticate before this operation can be executed.');
+      }
+    }
   }
 
   // ------------------------SQL--------------------------------------
