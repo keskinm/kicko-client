@@ -8,6 +8,7 @@ import 'package:kicko/widgets/forms/validator.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
 
+import '../../syntax.dart';
 import '../common.dart';
 import 'models.dart';
 
@@ -78,7 +79,7 @@ class CandidateHomeLogic {
       bucket = 'default';
       profileImageId = 'ca_default_profile.jpg';
     } else {
-      bucket = 'professional/${appState.currentUser.username}/business_images';
+      bucket = '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
     }
 
     return DatabaseMethods().downloadFile(bucket, profileImageId);

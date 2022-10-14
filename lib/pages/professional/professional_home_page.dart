@@ -25,7 +25,7 @@ class _ProHome extends State<ProHome> {
   late Future<Map<String, dynamic>> business;
   late Future<String> imageDownloadURL;
   late Future<List<dynamic>> jobOffers;
-  String imagesBucket = 'professional/${appState.currentUser.username}/business_images';
+  String imagesBucket = '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
 
   onReBuild() {
     business = logic.getBusiness();

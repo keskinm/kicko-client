@@ -7,6 +7,8 @@ import 'package:kicko/services/app_state.dart';
 
 import 'package:kicko/services/database.dart';
 
+import '../../syntax.dart';
+
 class JobOffer {
   late String name;
   late String description;
@@ -47,7 +49,7 @@ class JobOffer {
       String imageStr = data["img"].toString();
       Uint8List bytes = base64Decode(imageStr);
       String fileName = data["id"];
-      dataBaseMethods.uploadBytes('professional/${appState.currentUser.username}/job_offer_qr_codes', fileName, bytes);
+      dataBaseMethods.uploadBytes('${userGroupSyntax.professional}/${appState.currentUser.username}/job_offer_qr_codes', fileName, bytes);
       return true;
     } else {
       return false;

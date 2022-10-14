@@ -124,11 +124,11 @@ class DatabaseMethods {
   }
 
   bool deleteFireBaseStorageItem(String storageReference) {
-    fs.Reference storageReferance = fs.FirebaseStorage.instance.ref();
+    fs.Reference storageReferenceBase = fs.FirebaseStorage.instance.ref();
 
     bool success = false;
 
-    storageReferance.child(storageReference).delete().then((_) {
+    storageReferenceBase.child(storageReference).delete().then((_) {
       success = true;
     });
 

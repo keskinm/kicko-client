@@ -4,6 +4,7 @@ import 'package:kicko/services/auth.dart';
 import 'package:kicko/models/user.dart';
 
 import '../dio.dart';
+import 'database.dart';
 
 AppState appState = AppState();
 
@@ -17,6 +18,8 @@ enum AppStatus {
 
 class AppState {
   AppState();
+
+  DatabaseMethods dataBaseMethods = DatabaseMethods();
 
   String language = "french";
 
@@ -100,7 +103,6 @@ class AppState {
   }
 
   Future deleteAccount() async {
-    bool res;
     if (appState.checkToken(await appState.authMethods
         .authenticationToken(
             username: currentUser.username,
@@ -113,14 +115,17 @@ class AppState {
           await dioHttpGet(route: "delete_${userGroup}_account", token: true);
 
       if (response.statusCode == 200) {
-        res = response.data["data"];
+
+        bool success = dataBaseMethods
+            .deleteFireBaseStorageItem("$userGroup/${currentUser.username}");
+
+        return success;
+
       } else {
         throw Exception("Server failed deleteAccount");
       }
     } else {
       throw Exception("Check token returned false");
     }
-
-    return res;
   }
 }

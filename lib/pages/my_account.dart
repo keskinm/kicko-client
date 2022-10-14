@@ -56,7 +56,9 @@ class _MyAccount extends State<MyAccount> {
                     children: <Widget>[
                       TextButton(
                           onPressed: () async {
-                            await appState.deleteAccount();
+                            bool success = await appState.deleteAccount();
+                            if (!success) {
+                            }
                             Navigator.of(context).pop();
                           },
                           child: Text(

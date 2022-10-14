@@ -4,6 +4,7 @@ import 'package:kicko/appbar.dart';
 import 'package:kicko/services/database.dart';
 
 import '../../services/app_state.dart';
+import '../../syntax.dart';
 
 class DisplayQRCodeImage extends StatefulWidget {
   final String jobOfferId;
@@ -32,7 +33,7 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   }
 
   getQrCodeImage() async {
-    String bucket = 'professional/${appState.currentUser.username}/job_offer_qr_codes';
+    String bucket = '${userGroupSyntax.professional}/${appState.currentUser.username}/job_offer_qr_codes';
     return dataBaseMethods.downloadFile(bucket, widget.jobOfferId);
   }
 
