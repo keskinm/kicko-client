@@ -125,7 +125,8 @@ class DatabaseMethods {
   }
 
   Future<bool> deleteFireBaseStorageBucket(String bucket) async {
-    fs.Reference toDeleteBucket = fs.FirebaseStorage.instance.ref().child(bucket);
+    fs.Reference toDeleteBucket =
+        fs.FirebaseStorage.instance.ref().child(bucket);
     final urls = await toDeleteBucket.listAll();
     dynamic refs = urls.items;
     for (dynamic ref in refs) {

@@ -59,7 +59,11 @@ class _MyAccount extends State<MyAccount> {
                       TextButton(
                           onPressed: () async {
                             await appState.deleteAccount();
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const KickoApp()), (route) => false);
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const KickoApp()),
+                                (route) => false);
                           },
                           child: Text(
                               "Êtes vous sûr de vouloir supprimer votre compte ?",

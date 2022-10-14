@@ -116,24 +116,20 @@ class AppState {
           await dioHttpGet(route: "delete_${userGroup}_account", token: true);
 
       if (response.statusCode == 200) {
-
         if (userGroup == userGroupSyntax.professional) {
-          await dataBaseMethods
-              .deleteFireBaseStorageBucket('$userGroup/${appState.currentUser.username}/business_images');
+          await dataBaseMethods.deleteFireBaseStorageBucket(
+              '$userGroup/${appState.currentUser.username}/business_images');
 
-          await dataBaseMethods
-              .deleteFireBaseStorageBucket('$userGroup/${appState.currentUser.username}/job_offer_qr_codes');
-        }
-
-        else if (userGroup == userGroupSyntax.candidate) {
-          await dataBaseMethods
-              .deleteFireBaseStorageBucket('$userGroup/${appState.currentUser.username}/resumes');
+          await dataBaseMethods.deleteFireBaseStorageBucket(
+              '$userGroup/${appState.currentUser.username}/job_offer_qr_codes');
+        } else if (userGroup == userGroupSyntax.candidate) {
+          await dataBaseMethods.deleteFireBaseStorageBucket(
+              '$userGroup/${appState.currentUser.username}/resumes');
         }
 
         await dataBaseMethods.deleteUserFromFireBase(
             currentUser.email, currentUser.password);
         appState.zero();
-
       } else {
         throw Exception("Server failed deleteAccount");
       }
@@ -146,5 +142,4 @@ class AppState {
     currentUser = User();
     userGroup = "";
   }
-
 }
