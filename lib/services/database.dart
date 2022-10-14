@@ -126,9 +126,12 @@ class DatabaseMethods {
 
   bool deleteFireBaseStorageBucket(String storageReferenceBucket) {
     fs.Reference storageReferenceBase = fs.FirebaseStorage.instance.ref();
+    fs.Reference toDeleteBucket = storageReferenceBase.child(storageReferenceBucket);
 
-    storageReferenceBase.listAll().then((value) {
+    toDeleteBucket.listAll().then((value) {
       value.items.forEach((element) {
+        print(element.fullPath);
+        print("\n\n\n");
         fs.FirebaseStorage.instance.ref(element.fullPath).delete();
       });
     });
