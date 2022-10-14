@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:kicko/syntax.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kicko/services/auth.dart';
 import 'package:kicko/models/user.dart';
@@ -115,12 +116,24 @@ class AppState {
           await dioHttpGet(route: "delete_${userGroup}_account", token: true);
 
       if (response.statusCode == 200) {
-        bool success = dataBaseMethods
-            .deleteFireBaseStorageBucket("$userGroup/${currentUser.username}");
+
+        if (userGroup == userGroupSyntax.professional) {
+          await dataBaseMethods
+              .deleteFireBaseStorageBucket('$userGroup/${appState.currentUser.username}/business_images');
+
+          await dataBaseMethods
+              .deleteFireBaseStorageBucket('$userGroup/${appState.currentUser.username}/job_offer_qr_codes');
+        }
+
+        else if (userGroup == userGroupSyntax.candidate) {
+          await dataBaseMethods
+              .deleteFireBaseStorageBucket('$userGroup/${appState.currentUser.username}/resumes');
+        }
+
         await dataBaseMethods.deleteUserFromFireBase(
             currentUser.email, currentUser.password);
+        appState.zero();
 
-        return success;
       } else {
         throw Exception("Server failed deleteAccount");
       }
@@ -128,4 +141,10 @@ class AppState {
       throw Exception("Check token returned false");
     }
   }
+
+  zero() {
+    currentUser = User();
+    userGroup = "";
+  }
+
 }

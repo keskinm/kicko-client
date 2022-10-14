@@ -124,17 +124,14 @@ class DatabaseMethods {
     return downloadURL;
   }
 
-  bool deleteFireBaseStorageBucket(String storageReferenceBucket) {
-    fs.Reference storageReferenceBase = fs.FirebaseStorage.instance.ref();
-    fs.Reference toDeleteBucket = storageReferenceBase.child(storageReferenceBucket);
+  Future<bool> deleteFireBaseStorageBucket(String bucket) async {
+    fs.Reference toDeleteBucket = fs.FirebaseStorage.instance.ref().child(bucket);
+    final urls = await toDeleteBucket.listAll();
+    dynamic refs = urls.items;
+    for (dynamic ref in refs) {
+      fs.FirebaseStorage.instance.ref(ref.fullPath).delete();
+    }
 
-    toDeleteBucket.listAll().then((value) {
-      value.items.forEach((element) {
-        print(element.fullPath);
-        print("\n\n\n");
-        fs.FirebaseStorage.instance.ref(element.fullPath).delete();
-      });
-    });
     return true;
   }
 

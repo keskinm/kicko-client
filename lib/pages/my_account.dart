@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/services/app_state.dart';
 
+import '../main.dart';
+
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
 
@@ -56,9 +58,8 @@ class _MyAccount extends State<MyAccount> {
                     children: <Widget>[
                       TextButton(
                           onPressed: () async {
-                            bool success = await appState.deleteAccount();
-                            if (!success) {}
-                            Navigator.of(context).pop();
+                            await appState.deleteAccount();
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const KickoApp()), (route) => false);
                           },
                           child: Text(
                               "Êtes vous sûr de vouloir supprimer votre compte ?",
