@@ -75,11 +75,10 @@ class CandidateHomeLogic {
     String? profileImageId = businessJson['image_id'];
 
     if (profileImageId == null) {
-      bucket = 'business_images';
+      bucket = 'default';
       profileImageId = 'ca_default_profile.jpg';
     } else {
-      String currentUsername = appState.currentUser.username;
-      bucket = 'business_images/$currentUsername';
+      bucket = 'professional/${appState.currentUser.username}/business_images';
     }
 
     return DatabaseMethods().downloadFile(bucket, profileImageId);
