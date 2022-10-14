@@ -133,7 +133,6 @@ class DatabaseMethods {
       });
     });
     return true;
-
   }
 
   bool deleteFireBaseStorageItem(String storageReference) {

@@ -49,7 +49,10 @@ class JobOffer {
       String imageStr = data["img"].toString();
       Uint8List bytes = base64Decode(imageStr);
       String fileName = data["id"];
-      dataBaseMethods.uploadBytes('${userGroupSyntax.professional}/${appState.currentUser.username}/job_offer_qr_codes', fileName, bytes);
+      dataBaseMethods.uploadBytes(
+          '${userGroupSyntax.professional}/${appState.currentUser.username}/job_offer_qr_codes',
+          fileName,
+          bytes);
       return true;
     } else {
       return false;

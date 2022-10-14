@@ -79,7 +79,8 @@ class CandidateHomeLogic {
       bucket = 'default';
       profileImageId = 'ca_default_profile.jpg';
     } else {
-      bucket = '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
+      bucket =
+          '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
     }
 
     return DatabaseMethods().downloadFile(bucket, profileImageId);

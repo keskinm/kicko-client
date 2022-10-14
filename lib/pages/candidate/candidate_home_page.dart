@@ -29,7 +29,8 @@ class _CandidateHome extends State<CandidateHome> {
   CandidateHomeStyle style = CandidateHomeStyle();
   late Future<Map> profile;
   late Future<List> jobOffers;
-  String resumesBucket = "${userGroupSyntax.candidate}/${appState.currentUser.username}/resumes";
+  String resumesBucket =
+      "${userGroupSyntax.candidate}/${appState.currentUser.username}/resumes";
 
   onReBuild() {
     profile = logic.getProfile();

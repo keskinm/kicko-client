@@ -115,13 +115,12 @@ class AppState {
           await dioHttpGet(route: "delete_${userGroup}_account", token: true);
 
       if (response.statusCode == 200) {
-
         bool success = dataBaseMethods
             .deleteFireBaseStorageBucket("$userGroup/${currentUser.username}");
-        await dataBaseMethods.deleteUserFromFireBase(currentUser.email, currentUser.password);
+        await dataBaseMethods.deleteUserFromFireBase(
+            currentUser.email, currentUser.password);
 
         return success;
-
       } else {
         throw Exception("Server failed deleteAccount");
       }

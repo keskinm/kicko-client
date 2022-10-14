@@ -57,8 +57,7 @@ class _MyAccount extends State<MyAccount> {
                       TextButton(
                           onPressed: () async {
                             bool success = await appState.deleteAccount();
-                            if (!success) {
-                            }
+                            if (!success) {}
                             Navigator.of(context).pop();
                           },
                           child: Text(

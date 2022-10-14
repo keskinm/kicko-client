@@ -25,7 +25,8 @@ class _ProHome extends State<ProHome> {
   late Future<Map<String, dynamic>> business;
   late Future<String> imageDownloadURL;
   late Future<List<dynamic>> jobOffers;
-  String imagesBucket = '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
+  String imagesBucket =
+      '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
 
   onReBuild() {
     business = logic.getBusiness();
@@ -200,7 +201,8 @@ class _ProHome extends State<ProHome> {
         Widget body;
         if (snapshot.hasData) {
           if (snapshot.data!.isEmpty) {
-            body = const Center(child: Text("Vous n'avez ajouté aucune offre d'emploi."));
+            body = const Center(
+                child: Text("Vous n'avez ajouté aucune offre d'emploi."));
           } else {
             body = ListView.builder(
               itemCount: snapshot.data!.length,

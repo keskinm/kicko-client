@@ -33,7 +33,8 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   }
 
   getQrCodeImage() async {
-    String bucket = '${userGroupSyntax.professional}/${appState.currentUser.username}/job_offer_qr_codes';
+    String bucket =
+        '${userGroupSyntax.professional}/${appState.currentUser.username}/job_offer_qr_codes';
     return dataBaseMethods.downloadFile(bucket, widget.jobOfferId);
   }
 
