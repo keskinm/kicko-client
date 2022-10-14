@@ -19,6 +19,7 @@ Future<void> main() async {
     home: const KickoApp(),
     theme: ThemeData(
       textTheme: const TextTheme(
+          displayLarge: TextStyle(backgroundColor: Colors.deepOrangeAccent),
           displayMedium: TextStyle(backgroundColor: Colors.deepOrangeAccent),
           displaySmall: TextStyle(backgroundColor: Colors.deepOrangeAccent)),
       appBarTheme: const AppBarTheme(

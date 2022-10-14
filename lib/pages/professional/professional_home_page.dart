@@ -199,84 +199,90 @@ class _ProHome extends State<ProHome> {
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         Widget body;
         if (snapshot.hasData) {
-          body = ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              final jobOffer = snapshot.data![index];
-              String jobOfferId = jobOffer["id"];
-              return ListView(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(8),
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    color: Colors.amber[600],
-                    child: Text(jobOffer['name']),
-                  ),
-                  Container(
-                    height: 50,
-                    color: Colors.amber[500],
-                    child: Text(jobOffer['description']),
-                  ),
-                  Container(
-                    height: 50,
-                    color: Colors.amber[100],
-                    child: Text(jobOffer['requires']),
-                  ),
-                  TextButton(
-                      onPressed: () {
+          if (snapshot.data!.isEmpty) {
+            body = const Center(child: Text("Vous n'avez ajouté aucune offre d'emploi."));
+          } else {
+            body = ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final jobOffer = snapshot.data![index];
+                String jobOfferId = jobOffer["id"];
+                return ListView(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(8),
+                  children: <Widget>[
+                    Container(
+                      height: 50,
+                      color: Colors.amber[600],
+                      child: Text(jobOffer['name']),
+                    ),
+                    Container(
+                      height: 50,
+                      color: Colors.amber[500],
+                      child: Text(jobOffer['description']),
+                    ),
+                    Container(
+                      height: 50,
+                      color: Colors.amber[100],
+                      child: Text(jobOffer['requires']),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DisplayQRCodeImage(jobOfferId: jobOfferId)),
+                          );
+                        },
+                        child: const Text("J'inprime mon QR code")),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () async {
+                        bool success = await logic.deleteJobOffer(jobOfferId);
+
+                        if (success) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProHome()),
+                          );
+                        } else {
+                          showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return buildPopupDialog(
+                                    context,
+                                    "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
+                                    "oups",
+                                    "fermer");
+                              });
+                        }
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.panorama_fish_eye),
+                      onPressed: () async {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  DisplayQRCodeImage(jobOfferId: jobOfferId)),
+                              builder: (context) => ProfessionalJobOfferPage(
+                                  jobOfferId: jobOfferId)),
                         );
                       },
-                      child: const Text("J'inprime mon QR code")),
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () async {
-                      bool success = await logic.deleteJobOffer(jobOfferId);
-
-                      if (success) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ProHome()),
-                        );
-                      } else {
-                        showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return buildPopupDialog(
-                                  context,
-                                  "Nous avons rencontré un problème lors de la suppression de votre offre d'emploi.",
-                                  "oups",
-                                  "fermer");
-                            });
-                      }
-                    },
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.panorama_fish_eye),
-                    onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProfessionalJobOfferPage(
-                                jobOfferId: jobOfferId)),
-                      );
-                    },
-                  )
-                ],
-              );
-            },
-          );
+                    )
+                  ],
+                );
+              },
+            );
+          }
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
-          body = const Text('Awaiting result...');
+          body = const CircularProgressIndicator(
+            color: Colors.orange,
+          );
         }
         return Scaffold(body: body);
       },
