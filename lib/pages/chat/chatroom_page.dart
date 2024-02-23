@@ -46,7 +46,7 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   getUserInfogetChats() async {
-    DatabaseMethods()
+        DatabaseMethods()
         .getUserChats(appState.currentUser.username)
         .then((snapshots) {
       setState(() {

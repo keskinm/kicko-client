@@ -74,6 +74,28 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  Future<Map<String, dynamic>?> getLastMessage(String chatRoomId) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('chatRoom')
+        .doc(chatRoomId)
+        .collection('chats')
+        .orderBy('time', descending: true)
+        .limit(1)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      return snapshot.docs.first.data() as Map<String, dynamic>;
+    }
+    return null;
+  }
+
+  Future<void> updateLastRead(String chatRoomId, int lastMessageTime) async {
+    return FirebaseFirestore.instance
+        .collection('chatRoom')
+        .doc(chatRoomId)
+        .update({'lastRead': lastMessageTime});
+  }
+
   Future<String> downloadFile(String bucket, String fileId) async {
     fs.Reference ref =
         fs.FirebaseStorage.instance.ref().child(bucket).child(fileId);

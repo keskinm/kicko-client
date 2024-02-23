@@ -54,6 +54,13 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
+    DatabaseMethods().getLastMessage(widget.chatRoomId).then((lastMessage) {
+      if (lastMessage != null) {
+        DatabaseMethods()
+            .updateLastRead(widget.chatRoomId, lastMessage['time']);
+      }
+    });
+
     DatabaseMethods().getChats(widget.chatRoomId).then((val) {
       setState(() {
         chats = val;
