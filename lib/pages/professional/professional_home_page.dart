@@ -174,14 +174,35 @@ class _ProHome extends State<ProHome> {
             ],
           );
 
-          return Form(
-              key: logic.businessForm,
-              child: ListView(children: <Widget>[
-                businessAvatar,
-                nameChild,
-                cityChild,
-                endChild
-              ]));
+          return SingleChildScrollView(
+            physics:
+                AlwaysScrollableScrollPhysics(), // Use this to enable scrolling only when needed
+            child: Center(
+              // Center the content horizontally
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: 8.0), // Add some vertical padding
+                width: MediaQuery.of(context).size.width >
+                        600 // Set a max width for larger screens
+                    ? 600 // Max form width
+                    : MediaQuery.of(context)
+                        .size
+                        .width, // Full width for smaller screens
+                child: Form(
+                  key: logic.businessForm,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      businessAvatar,
+                      nameChild,
+                      cityChild,
+                      endChild,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
         } else {
@@ -366,22 +387,20 @@ class _ProHome extends State<ProHome> {
         body: Center(
             child: Column(
           children: [
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                height: MediaQuery.of(context).size.height / 4,
-                child: buildBusiness()),
-            Wrap(
-              spacing: 100,
-              children: [
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
-                    height: MediaQuery.of(context).size.height / 4,
-                    child: buildJobOffers()),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
-                    height: MediaQuery.of(context).size.height / 4,
-                    child: buildAddJobOffer(context))
-              ],
+            Expanded(
+              child: buildBusiness(),
+            ),
+            Expanded(
+              child: Wrap(
+                spacing: 100,
+                children: [buildJobOffers(), buildAddJobOffer(context)]
+                    .map((child) => SizedBox(
+                          width: MediaQuery.of(context).size.width / 4,
+                          height: MediaQuery.of(context).size.height / 4,
+                          child: child,
+                        ))
+                    .toList(),
+              ),
             ),
           ],
         )));
