@@ -7,6 +7,7 @@ import 'package:kicko/pages/common.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/syntax.dart';
 import 'package:kicko/pages/medias.dart';
+import 'package:kicko/pages/chat/widget.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
 import 'job_offer_page.dart';
@@ -262,6 +263,8 @@ class _CandidateHome extends State<CandidateHome> {
             style: Theme.of(context).textTheme.displayMedium,
           )));
     }
+
+    children.addAll(chatWidgetsList(context));
 
     return Scaffold(
         appBar: menuAppBar("Bienvenu dans votre tableau de bord !", context),

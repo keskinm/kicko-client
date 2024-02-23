@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kicko/pages/chat/search_page.dart';
+import 'package:kicko/pages/chat/chatroom_page.dart';
 
 PreferredSizeWidget? appBarMain(BuildContext context) {
   return AppBar(
@@ -24,4 +26,25 @@ TextStyle simpleTextStyle() {
 
 TextStyle biggerTextStyle() {
   return TextStyle(color: Colors.white, fontSize: 17);
+}
+
+List<Widget> chatWidgetsList(BuildContext context) {
+  return [
+    TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ChatRoom()),
+          );
+        },
+        child: const Text("CHAT ROOM")),
+    TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Search()),
+          );
+        },
+        child: const Text("SEARCH")),
+  ];
 }

@@ -3,15 +3,13 @@ import 'package:kicko/appbar.dart';
 import 'package:kicko/pages/professional/professional_home_logic.dart';
 import 'package:kicko/pages/professional/professional_home_style.dart';
 import 'package:kicko/pages/professional/qr_code_image.dart';
+import 'package:kicko/pages/chat/widget.dart';
 
 import 'package:kicko/syntax.dart';
 import 'package:kicko/services/app_state.dart';
 import '../common.dart';
 import 'job_offer_page.dart';
 import 'package:kicko/pages/medias.dart';
-
-import 'package:kicko/pages/chat/search_page.dart';
-import 'package:kicko/pages/chat/chatroom_page.dart';
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
@@ -414,22 +412,7 @@ class _ProHome extends State<ProHome> {
                     .toList(),
               ),
             ),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ChatRoom()),
-                  );
-                },
-                child: const Text("CHAT ROOM")),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Search()),
-                  );
-                },
-                child: const Text("SEARCH")),
+            ...chatWidgetsList(context)
           ],
         )));
   }
