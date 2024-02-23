@@ -15,9 +15,10 @@ class CityAutocompletion extends StatelessWidget {
   static const String allCities = "Toutes les villes";
 
   const CityAutocompletion(
-      {Key? key, this.initialValue = allCities, required this.selectionCallback})
+      {Key? key,
+      this.initialValue = allCities,
+      required this.selectionCallback})
       : super(key: key);
-
 
   static const List<String> _kOptions = <String>[
     'Paris',
