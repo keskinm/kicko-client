@@ -143,8 +143,8 @@ class _CandidateHome extends State<CandidateHome> {
             jobOfferFilters["city"] = selection;
           }
 
-          Widget cityFilter = CityAutocompletion(
-              initialValue: '', selectionCallback: selectionCallback);
+          Widget cityFilter =
+              CityAutocompletion(selectionCallback: selectionCallback);
           Widget validateCityFilter = IconButton(
             onPressed: () {
               setState(() {
