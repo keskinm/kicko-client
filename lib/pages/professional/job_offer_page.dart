@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/appbar.dart';
 
+import 'package:kicko/appbar.dart';
 import 'package:kicko/shared/job_offers_logic.dart';
 import 'package:kicko/shared/candidate_logic.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/syntax.dart';
+
+import 'package:kicko/shared/chat.dart';
+
 import 'professional_home_logic.dart';
 import 'professional_home_style.dart';
 
@@ -177,6 +180,12 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
                       height: 50,
                       color: Colors.amber[100],
                       child: Text(_applier['l_sex']),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.message),
+                      onPressed: () {
+                        openChat(context, _applier);
+                      },
                     ),
                   ],
                 );
