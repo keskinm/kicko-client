@@ -308,16 +308,19 @@ class _ProHome extends State<ProHome> {
     );
   }
 
-  Column buildAddJobOffer(BuildContext context) {
-    return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Form(
+  Widget buildAddJobOffer(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
           key: logic.jobOfferForm,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
-                decoration: const BoxDecoration(
+                margin: const EdgeInsets.only(bottom: 8.0),
+                decoration: BoxDecoration(
                     border: Border(
                         bottom: BorderSide(color: Colors.purple),
                         top: BorderSide(color: Colors.purple))),
@@ -329,7 +332,8 @@ class _ProHome extends State<ProHome> {
                 ),
               ),
               Container(
-                decoration: const BoxDecoration(
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                decoration: BoxDecoration(
                     border: Border(
                         bottom: BorderSide(color: Colors.purple),
                         top: BorderSide(color: Colors.purple))),
@@ -342,7 +346,8 @@ class _ProHome extends State<ProHome> {
                 ),
               ),
               Container(
-                decoration: const BoxDecoration(
+                margin: const EdgeInsets.only(bottom: 8.0),
+                decoration: BoxDecoration(
                     border: Border(
                         bottom: BorderSide(color: Colors.purple),
                         top: BorderSide(color: Colors.purple))),
@@ -359,7 +364,7 @@ class _ProHome extends State<ProHome> {
                 onPressed: () => logic.validateJobOffer(context: context),
                 child: Container(
                   height: 50,
-                  width: 200,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       gradient: const LinearGradient(
@@ -375,8 +380,8 @@ class _ProHome extends State<ProHome> {
               )
             ],
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 
