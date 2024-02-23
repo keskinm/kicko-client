@@ -1,8 +1,9 @@
-import 'package:kicko/to_move/theme.dart';
+import 'package:kicko/pages/chat/theme.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
-import 'package:kicko/to_move/chat_page.dart';
-import 'package:kicko/to_move/widget.dart';
+import 'package:kicko/pages/chat/chat_page.dart';
+import 'package:kicko/pages/chat/widget.dart';
+import 'package:kicko/shared/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -52,27 +53,6 @@ class _SearchState extends State<Search> {
         : Container();
   }
 
-  /// 1.create a chatroom, send user to the chatroom, other userdetails
-  sendMessage(String userName) {
-    List<String> users = [appState.currentUser.username, userName];
-
-    String chatRoomId = getChatRoomId(appState.currentUser.username, userName);
-
-    Map<String, dynamic> chatRoom = {
-      "users": users,
-      "chatRoomId": chatRoomId,
-    };
-
-    databaseMethods.addChatRoom(chatRoom, chatRoomId);
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Chat(
-                  chatRoomId: chatRoomId,
-                )));
-  }
-
   Widget userTile(String userName, String userEmail) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -94,7 +74,7 @@ class _SearchState extends State<Search> {
           Spacer(),
           GestureDetector(
             onTap: () {
-              sendMessage(userName);
+              sendMessage(context, userName);
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -109,14 +89,6 @@ class _SearchState extends State<Search> {
         ],
       ),
     );
-  }
-
-  getChatRoomId(String a, String b) {
-    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
-      return "$b\_$a";
-    } else {
-      return "$a\_$b";
-    }
   }
 
   @override

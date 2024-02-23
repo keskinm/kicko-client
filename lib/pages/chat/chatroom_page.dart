@@ -1,15 +1,11 @@
-// import 'package:social_network_app/helper/authenticate.dart';
-// import 'package:social_network_app/services/auth.dart';
-// import 'package:social_network_app/helper/helperfunctions.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kicko/services/database.dart';
-import 'package:kicko/to_move/theme.dart';
+import 'package:kicko/pages/chat/theme.dart';
 
 import 'package:kicko/services/app_state.dart';
-import 'package:kicko/to_move/chat_page.dart';
+import 'package:kicko/pages/chat/chat_page.dart';
 
-import 'package:kicko/to_move/search_page.dart';
+import 'package:kicko/pages/chat/search_page.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoom extends StatefulWidget {

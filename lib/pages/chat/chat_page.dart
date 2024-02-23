@@ -1,80 +1,163 @@
-import 'package:flutter/material.dart';
+import 'package:kicko/services/app_state.dart';
+import 'package:kicko/services/database.dart';
+import 'package:kicko/pages/chat/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
-class ChatPage extends StatelessWidget {
-  final String chatroomId;
-  final String otherUserUsername;
+class Chat extends StatefulWidget {
+  final String chatRoomId;
 
-  const ChatPage(
-      {Key? key, required this.chatroomId, required this.otherUserUsername})
-      : super(key: key);
+  Chat({required this.chatRoomId});
+
+  @override
+  _ChatState createState() => _ChatState();
+}
+
+class _ChatState extends State<Chat> {
+  late Stream<QuerySnapshot> chats;
+  TextEditingController messageEditingController = new TextEditingController();
+
+  Widget chatMessages() {
+    return StreamBuilder(
+      stream: chats,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  return MessageTile(
+                    message: snapshot.data.docs[index].data()["message"],
+                    sendByMe: appState.currentUser.username ==
+                        snapshot.data.docs[index].data()["sendBy"],
+                  );
+                })
+            : Container();
+      },
+    );
+  }
+
+  addMessage() {
+    if (messageEditingController.text.isNotEmpty) {
+      Map<String, dynamic> chatMessageMap = {
+        "sendBy": appState.currentUser.username,
+        "message": messageEditingController.text,
+        'time': DateTime.now().millisecondsSinceEpoch,
+      };
+
+      DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
+
+      setState(() {
+        messageEditingController.text = "";
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    DatabaseMethods().getChats(widget.chatRoomId).then((val) {
+      setState(() {
+        chats = val;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController messageController = TextEditingController();
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(otherUserUsername),
-      ),
-      body: Column(
+      appBar: appBarMain(context),
+      body: Stack(
         children: [
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('chats/$chatroomId/messages')
-                  .orderBy('timestamp', descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return ListView.builder(
-                    reverse: true,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      var message = snapshot.data!.docs[index];
-                      return ListTile(
-                        title: Text(message['text']),
-                        subtitle: Text(message['senderId']),
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: messageController,
-                    decoration:
-                        InputDecoration(labelText: 'Envoyer un message...'),
+          chatMessages(),
+          Container(
+            alignment: Alignment.bottomCenter,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+              color: Colors.black12,
+              child: Row(
+                children: [
+                  Expanded(
+                      child: TextField(
+                    controller: messageEditingController,
+                    style: simpleTextStyle(),
+                    decoration: const InputDecoration(
+                        hintText: 'Message ...',
+                        hintStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                        border: InputBorder.none),
+                  )),
+                  const SizedBox(
+                    width: 16,
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.send),
-                  onPressed: () async {
-                    if (messageController.text.isNotEmpty) {
-                      await FirebaseFirestore.instance
-                          .collection('chats/$chatroomId/messages')
-                          .add({
-                        'text': messageController.text,
-                        'senderId': FirebaseAuth.instance.currentUser!.uid,
-                        'timestamp': FieldValue.serverTimestamp(),
-                      });
-                      messageController.clear();
-                    }
-                  },
-                ),
-              ],
+                  GestureDetector(
+                    onTap: () {
+                      addMessage();
+                    },
+                    child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                                colors: [Color(0x36FFFFFF), Color(0x0FFFFFFF)],
+                                begin: FractionalOffset.topLeft,
+                                end: FractionalOffset.bottomRight),
+                            borderRadius: BorderRadius.circular(40)),
+                        padding: const EdgeInsets.all(12),
+                        child: Text("send")),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MessageTile extends StatelessWidget {
+  final String message;
+  final bool sendByMe;
+
+  MessageTile({required this.message, required this.sendByMe});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+          top: 8, bottom: 8, left: sendByMe ? 0 : 24, right: sendByMe ? 24 : 0),
+      alignment: sendByMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: sendByMe
+            ? const EdgeInsets.only(left: 30)
+            : const EdgeInsets.only(right: 30),
+        padding:
+            const EdgeInsets.only(top: 17, bottom: 17, left: 20, right: 20),
+        decoration: BoxDecoration(
+            borderRadius: sendByMe
+                ? const BorderRadius.only(
+                    topLeft: Radius.circular(23),
+                    topRight: Radius.circular(23),
+                    bottomLeft: Radius.circular(23))
+                : const BorderRadius.only(
+                    topLeft: Radius.circular(23),
+                    topRight: Radius.circular(23),
+                    bottomRight: Radius.circular(23)),
+            gradient: LinearGradient(
+              colors: sendByMe
+                  ? [const Color(0xff007EF4), const Color(0xff2A75BC)]
+                  : [const Color(0x1AFFFFFF), const Color(0x1AFFFFFF)],
+            )),
+        child: Text(message,
+            textAlign: TextAlign.start,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: 'OverpassRegular',
+                fontWeight: FontWeight.w300)),
       ),
     );
   }
