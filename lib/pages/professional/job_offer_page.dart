@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 
-import 'package:kicko/pages/job_offers_logic.dart';
-import 'package:kicko/pages/candidate_logic.dart';
+import 'package:kicko/shared/job_offers_logic.dart';
+import 'package:kicko/shared/candidate_logic.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/syntax.dart';
 import 'professional_home_logic.dart';
