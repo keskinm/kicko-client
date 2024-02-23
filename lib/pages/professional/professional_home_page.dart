@@ -266,7 +266,11 @@ class _ProHome extends State<ProHome> {
                         bool success = await logic.deleteJobOffer(jobOfferId);
 
                         if (success) {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProHome()),
+                          );
                         } else {
                           showDialog<String>(
                               context: context,

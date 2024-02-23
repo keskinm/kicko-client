@@ -57,7 +57,7 @@ class ProfessionalHomeLogic {
       bool success = await jobOffer.addJobOffer();
 
       if (success) {
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const ProHome()),
         );
