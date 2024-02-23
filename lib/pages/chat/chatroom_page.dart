@@ -5,7 +5,6 @@ import 'package:kicko/pages/chat/theme.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/pages/chat/chat_page.dart';
 
-import 'package:kicko/pages/chat/search_page.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoom extends StatefulWidget {

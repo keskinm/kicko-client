@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:kicko/pages/common.dart';
 import 'package:kicko/shared/job_offers_logic.dart';
 import 'package:kicko/appbar.dart';
 import 'candidate_home_logic.dart';
