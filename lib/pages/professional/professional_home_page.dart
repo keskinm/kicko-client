@@ -10,6 +10,9 @@ import '../common.dart';
 import 'job_offer_page.dart';
 import 'package:kicko/pages/medias.dart';
 
+import 'package:kicko/to_move/search_page.dart';
+import 'package:kicko/to_move/chatroom_page.dart';
+
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
 
@@ -411,6 +414,22 @@ class _ProHome extends State<ProHome> {
                     .toList(),
               ),
             ),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatRoom()),
+                  );
+                },
+                child: const Text("CHAT ROOM")),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Search()),
+                  );
+                },
+                child: const Text("SEARCH")),
           ],
         )));
   }

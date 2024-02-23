@@ -184,7 +184,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
                     IconButton(
                       icon: Icon(Icons.message),
                       onPressed: () {
-                        openChat(context, _applier);
+                        openChatBis(context, _applier);
                       },
                     ),
                   ],
