@@ -33,21 +33,21 @@ TextStyle biggerTextStyle() {
   return TextStyle(color: Colors.white, fontSize: 17);
 }
 
-Future<List<Map<String, dynamic>>> _getUserChats(String itIsMyName) async {
+Future<List<Map<String, dynamic>>> _getUserChats(String userName) async {
   QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
       .collection("chatRoom")
-      .where('users', arrayContains: itIsMyName)
+      .where('users', arrayContains: userName)
       .get();
 
   List<Map<String, dynamic>> chatRoomsWithLastMessage = [];
   for (var chatRoomDoc in chatRoomSnapshot.docs) {
     String chatRoomId = chatRoomDoc.id;
-    
+
     QuerySnapshot lastMessageSnapshot = await FirebaseFirestore.instance
         .collection("chatRoom")
         .doc(chatRoomId)
         .collection("chats")
-        .orderBy('time', descending: true)
+                .orderBy('time', descending: true)
         .limit(1)
         .get();
 
