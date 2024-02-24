@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kicko/services/database.dart';
 import 'package:kicko/pages/chat/theme.dart';
 
@@ -6,6 +5,7 @@ import 'package:kicko/services/app_state.dart';
 import 'package:kicko/pages/chat/chat_page.dart';
 
 import 'package:flutter/material.dart';
+import 'package:kicko/shared/route.dart';
 
 class ChatRoom extends StatefulWidget {
   @override
@@ -14,13 +14,9 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   List<Map<String, dynamic>>? chatRoomsData;
-  bool isLoading = true;
-
-  //@todo à suppr "title"?
-  String title = 'Messagerie';
 
   Widget chatRoomsList() {
-    if (isLoading) {
+    if (chatRoomsData == null) {
       return Center(child: CircularProgressIndicator());
     }
 
@@ -29,10 +25,12 @@ class _ChatRoomState extends State<ChatRoom> {
       itemBuilder: (context, index) {
         var chatRoom = chatRoomsData![index];
         return ChatRoomsTile(
+          unReadMessages: chatRoom["unReadMessages"],
           userName: chatRoom['chatRoomId']
               .replaceAll('_', '')
               .replaceAll(appState.currentUser.username, ''),
           chatRoomId: chatRoom['chatRoomId'],
+          setStates: onRebuild,
         );
       },
     );
@@ -44,12 +42,16 @@ class _ChatRoomState extends State<ChatRoom> {
     loadChatRooms();
   }
 
+  onRebuild() {
+    // ------- ASYNC setSTates -------
+    loadChatRooms();
+  }
+
   void loadChatRooms() async {
     var chatsData =
         await DatabaseMethods().getUserChats(appState.currentUser.username);
     setState(() {
       chatRoomsData = chatsData;
-      isLoading = false;
     });
   }
 
@@ -93,13 +95,25 @@ class _ChatRoomState extends State<ChatRoom> {
 class ChatRoomsTile extends StatelessWidget {
   final String userName;
   final String chatRoomId;
+  final int unReadMessages;
+  final Function setStates;
 
-  ChatRoomsTile({required this.userName, required this.chatRoomId});
+  ChatRoomsTile(
+      {required this.userName,
+      required this.chatRoomId,
+      required this.unReadMessages,
+      required this.setStates});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        pushSetStateWhenBack(
+            context,
+            (context) => Chat(
+                  chatRoomId: chatRoomId,
+                ),
+            setStates);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -135,7 +149,8 @@ class ChatRoomsTile extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 16,
                     fontFamily: 'OverpassRegular',
-                    fontWeight: FontWeight.w300))
+                    fontWeight: FontWeight.w300)),
+            Text("Unread: ${unReadMessages.toString()}")
           ],
         ),
       ),

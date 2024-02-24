@@ -35,7 +35,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
 
   @override
   void initState() {
-    super.initState(); // This ensures UserStateMixin's initState is also called
+    super.initState();
     onReBuild();
   }
 
