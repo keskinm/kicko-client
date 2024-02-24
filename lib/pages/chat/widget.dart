@@ -47,7 +47,7 @@ Future<List<Map<String, dynamic>>> _getUserChats(String userName) async {
         .collection("chatRoom")
         .doc(chatRoomId)
         .collection("chats")
-                .orderBy('time', descending: true)
+        .orderBy('time', descending: true)
         .limit(1)
         .get();
 
