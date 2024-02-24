@@ -89,11 +89,14 @@ class DatabaseMethods {
     return null;
   }
 
-  Future<void> updateLastRead(String chatRoomId, int lastMessageTime) async {
+  Future<void> updateLastRead(
+      String userName, String chatRoomId, int lastMessageTime) async {
     return FirebaseFirestore.instance
         .collection('chatRoom')
         .doc(chatRoomId)
-        .update({'lastRead': lastMessageTime});
+        .update({
+      'lastRead.$userName': lastMessageTime,
+    });
   }
 
   Future<bool> checkUserMessageNotifications(String userName) async {
@@ -124,17 +127,23 @@ class DatabaseMethods {
 
       if (lastMessageData != null) {
         var dataMap = chatRoomDoc.data() as Map<String, dynamic>;
+        int? lastReadTime;
+        if (dataMap.containsKey('lastRead') &&
+            dataMap['lastRead'].containsKey(userName)) {
+          lastReadTime = dataMap['lastRead'][userName];
+        }
+
         chatRoomsWithLastMessage.add({
           'chatRoomId': chatRoomId,
           'lastMessage': lastMessageData,
-          'lastRead': dataMap['lastRead'],
+          'lastRead': lastReadTime,
         });
       }
     }
 
     bool messagesNotification = false;
     for (var chat in chatRoomsWithLastMessage) {
-      if (!chat.containsKey('lastRead') ||
+      if (chat['lastRead'] == null ||
           chat["lastRead"] < chat['lastMessage']["time"]) {
         messagesNotification = true;
         break;
