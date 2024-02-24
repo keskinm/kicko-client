@@ -159,7 +159,10 @@ class MessageTile extends StatelessWidget {
             gradient: LinearGradient(
               colors: sendByMe
                   ? [const Color(0xff007EF4), const Color(0xff2A75BC)]
-                  : [Color.fromARGB(183, 12, 128, 4), Color.fromARGB(147, 89, 169, 31)],
+                  : [
+                      Color.fromARGB(183, 12, 128, 4),
+                      Color.fromARGB(147, 89, 169, 31)
+                    ],
             )),
         child: Text(message,
             textAlign: TextAlign.start,
