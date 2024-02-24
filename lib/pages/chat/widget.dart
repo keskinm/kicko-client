@@ -37,10 +37,8 @@ Widget buildChatButton(
   return messagesNotification == null
       ? CircularProgressIndicator()
       : GestureDetector(
-          onTap: () {
-            pushSetStateWhenBack(
-                context, (context) => ChatRoom(), widget.onRebuild);
-          },
+          onTap: () =>
+              pushSetStateWhenBack(context, (context) => ChatRoom(), widget.onRebuild),
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -59,13 +57,15 @@ Widget buildChatButton(
                       minWidth: 12,
                       minHeight: 12,
                     ),
-                    child: Text(
-                      'New Message',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 8,
+                    child: Center(
+                      child: Text(
+                        '!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
