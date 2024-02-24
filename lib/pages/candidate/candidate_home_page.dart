@@ -30,12 +30,27 @@ class _CandidateHome extends State<CandidateHome> {
   CandidateHomeStyle style = CandidateHomeStyle();
   late Future<Map> profile;
   late Future<List> jobOffers;
+  bool? messagesNotification;
+
   String resumesBucket =
       "${userGroupSyntax.candidate}/${appState.currentUser.username}/resumes";
 
   onReBuild() {
-    profile = logic.getProfile();
-    jobOffers = logic.getJobOffers(jobOfferFilters);
+    setState(() {
+      profile = logic.getProfile();
+      jobOffers = logic.getJobOffers(jobOfferFilters);
+    });
+
+    // -------- Async setStates -----------
+    updateMessagesNotification();
+  }
+
+  Future<void> updateMessagesNotification() async {
+    bool isUpToDate =
+        await checkUserMessageNotifications(appState.currentUser.username);
+    setState(() {
+      messagesNotification = isUpToDate;
+    });
   }
 
   @override
@@ -148,9 +163,7 @@ class _CandidateHome extends State<CandidateHome> {
               CityAutocompletion(selectionCallback: selectionCallback);
           Widget validateCityFilter = IconButton(
             onPressed: () {
-              setState(() {
-                onReBuild();
-              });
+              onReBuild();
             },
             icon: const Icon(Icons.check_box),
           );
@@ -264,7 +277,7 @@ class _CandidateHome extends State<CandidateHome> {
           )));
     }
 
-    children.addAll(chatWidgetsList(context));
+    children.addAll(chatWidgetsList(context, messagesNotification, this));
 
     return Scaffold(
         appBar: menuAppBar("Bienvenu dans votre tableau de bord !", context),

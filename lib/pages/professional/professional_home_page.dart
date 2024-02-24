@@ -26,13 +26,27 @@ class _ProHome extends State<ProHome> {
   late Future<Map<String, dynamic>> business;
   late Future<String> imageDownloadURL;
   late Future<List<dynamic>> jobOffers;
+  bool? messagesNotification;
+
   String imagesBucket =
       '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
 
   onReBuild() {
-    business = logic.getBusiness();
-    imageDownloadURL = logic.getProfileImage(business, imagesBucket);
-    jobOffers = logic.getJobOffers();
+    setState(() {
+      business = logic.getBusiness();
+      imageDownloadURL = logic.getProfileImage(business, imagesBucket);
+      jobOffers = logic.getJobOffers();
+    });
+    // --------- Async upStates ---------
+    updateMessagesNotification();
+  }
+
+  Future<void> updateMessagesNotification() async {
+    bool isUpToDate =
+        await checkUserMessageNotifications(appState.currentUser.username);
+    setState(() {
+      messagesNotification = isUpToDate;
+    });
   }
 
   @override
@@ -144,9 +158,7 @@ class _ProHome extends State<ProHome> {
                             builder: (context) =>
                                 DisplayProfileImages(bucket: imagesBucket)),
                       ).then((_) {
-                        setState(() {
-                          onReBuild();
-                        });
+                        onReBuild();
                       });
                     },
                   ),
@@ -412,7 +424,7 @@ class _ProHome extends State<ProHome> {
                     .toList(),
               ),
             ),
-            ...chatWidgetsList(context)
+            ...chatWidgetsList(context, messagesNotification, this)
           ],
         )));
   }

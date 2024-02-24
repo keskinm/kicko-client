@@ -33,7 +33,7 @@ TextStyle biggerTextStyle() {
   return TextStyle(color: Colors.white, fontSize: 17);
 }
 
-Future<List<Map<String, dynamic>>> _getUserChats(String userName) async {
+Future<bool> checkUserMessageNotifications(String userName) async {
   QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
       .collection("chatRoom")
       .where('users', arrayContains: userName)
@@ -69,46 +69,33 @@ Future<List<Map<String, dynamic>>> _getUserChats(String userName) async {
     }
   }
 
-  return chatRoomsWithLastMessage;
+  bool isUpToDate = true;
+  for (var chat in chatRoomsWithLastMessage) {
+    if (!chat.containsKey('lastRead') ||
+        chat["lastRead"] < chat['lastMessage']["time"]) {
+      isUpToDate = false;
+      break;
+    }
+  }
+
+  return isUpToDate;
 }
 
-List<Widget> chatWidgetsList(BuildContext context) {
+List<Widget> chatWidgetsList(
+    BuildContext context, bool? messagesNotification, dynamic widget) {
   return [
-    FutureBuilder<List<Map<String, dynamic>>>(
-      future: _getUserChats(appState.currentUser.username),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData) {
-          List<Map<String, dynamic>> userChats = snapshot.data!;
-
-          String isUpToDate = "UpToDate";
-
-          for (var chat in userChats) {
-            if (!chat.containsKey('lastRead')) {
-              isUpToDate = "NEW MESSAGE";
-            } else {
-              dynamic lastRead = chat["lastRead"];
-              dynamic lastMessage = chat['lastMessage']["time"];
-
-              if (lastRead < lastMessage) {
-                isUpToDate = "NEW MESSAGE";
-              }
-            }
-          }
-
-          return TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ChatRoom()),
-                );
-              },
-              child: new Text(isUpToDate));
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
-    ),
+    messagesNotification == null
+        ? CircularProgressIndicator()
+        : TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ChatRoom()),
+              ).then((_) {
+                widget.onReBuild();
+              });
+            },
+            child: Text(messagesNotification ? "Up To Date" : "New Message")),
     TextButton(
         onPressed: () {
           Navigator.push(

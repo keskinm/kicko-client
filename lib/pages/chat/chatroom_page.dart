@@ -8,7 +8,7 @@ import 'package:kicko/pages/chat/chat_page.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoom extends StatefulWidget {
-    @override
+  @override
   _ChatRoomState createState() => _ChatRoomState();
 }
 
@@ -66,7 +66,7 @@ class _ChatRoomState extends State<ChatRoom> {
     return Scaffold(
       appBar: AppBar(
         title: Text("ChatRoom"),
-                elevation: 0.0,
+        elevation: 0.0,
         centerTitle: false,
         actions: [
           GestureDetector(
