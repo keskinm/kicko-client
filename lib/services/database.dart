@@ -80,8 +80,9 @@ class DatabaseMethods {
     for (var chatRoomDoc in chatRoomSnapshot.docs) {
       String chatRoomId = chatRoomDoc.id;
       var chatRoomDataMap = chatRoomDoc.data() as Map<String, dynamic>;
-      dynamic lastRead = (chatRoomDataMap.containsKey('lastRead'))
-          ? chatRoomDataMap.containsKey('lastRead')
+      dynamic lastRead = (chatRoomDataMap.containsKey('lastRead') &&
+              chatRoomDataMap['lastRead'].containsKey(userName))
+          ? chatRoomDataMap['lastRead'][userName]
           : null;
 
       QuerySnapshot allMessagesSnapshot = await FirebaseFirestore.instance
@@ -99,6 +100,8 @@ class DatabaseMethods {
         if (data["time"] == lastRead) {
           break;
         } else if (data['sendBy'] != userName) {
+          print(
+              "senBy, ${data['sendBy']}, userName, ${userName}, lastRead, ${lastRead}, time, ${data['time']}, type last read, ${lastRead.runtimeType}, type time ${data['time'].runtimeType}");
           unReadMessages++;
         }
       }
