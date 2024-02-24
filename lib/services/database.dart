@@ -67,11 +67,51 @@ class DatabaseMethods {
     });
   }
 
-  getUserChats(String itIsMyName) async {
-    return await FirebaseFirestore.instance
+  getUserChats(String userName) async {
+    // ----- CACHEABLE (SHARED ON SAME TREE WITH OTHER METHOD)----
+
+    QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
         .collection("chatRoom")
-        .where('users', arrayContains: itIsMyName)
-        .snapshots();
+        .where('users', arrayContains: userName)
+        .get();
+    // ----- END CACHEABLE ----
+
+    List<Map<String, dynamic>> chatRoomsWithUnreadNumber = [];
+    for (var chatRoomDoc in chatRoomSnapshot.docs) {
+      String chatRoomId = chatRoomDoc.id;
+      var chatRoomDataMap = chatRoomDoc.data() as Map<String, dynamic>;
+      dynamic lastRead = (chatRoomDataMap.containsKey('lastRead'))
+          ? chatRoomDataMap.containsKey('lastRead')
+          : null;
+
+      QuerySnapshot allMessagesSnapshot = await FirebaseFirestore.instance
+          .collection("chatRoom")
+          .doc(chatRoomId)
+          .collection("chats")
+          .orderBy('time', descending: true)
+          .get();
+
+      int unReadMessages = 0;
+
+      for (var messageDoc in allMessagesSnapshot.docs) {
+        var data = messageDoc.data() as Map<String, dynamic>;
+
+        if (data["time"] == lastRead) {
+          break;
+        } else if (data['sendBy'] != userName) {
+          unReadMessages++;
+        }
+      }
+
+      chatRoomsWithUnreadNumber.add({
+        'chatRoomId': chatRoomId,
+        'unReadMessages': unReadMessages,
+      });
+    }
+
+    print("val chatRoomsWithUnreadNumber, $chatRoomsWithUnreadNumber");
+
+    return chatRoomsWithUnreadNumber;
   }
 
   Future<Map<String, dynamic>?> getLastMessage(String chatRoomId) async {
@@ -100,10 +140,12 @@ class DatabaseMethods {
   }
 
   Future<bool> checkUserMessageNotifications(String userName) async {
+    // ----- CACHEABLE (SHARED ON SAME TREE WITH OTHER METHOD)----
     QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
         .collection("chatRoom")
         .where('users', arrayContains: userName)
         .get();
+    // ----- END CACHEABLE ----
 
     List<Map<String, dynamic>> chatRoomsWithLastMessage = [];
     for (var chatRoomDoc in chatRoomSnapshot.docs) {

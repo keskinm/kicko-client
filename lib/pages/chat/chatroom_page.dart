@@ -13,51 +13,43 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  Stream<QuerySnapshot>? chatRooms;
+  List<Map<String, dynamic>>? chatRoomsData;
+  bool isLoading = true;
+
+  //@todo à suppr "title"?
   String title = 'Messagerie';
 
   Widget chatRoomsList() {
-    if (chatRooms == null) {
+    if (isLoading) {
       return Center(child: CircularProgressIndicator());
     }
 
-    return StreamBuilder(
-      stream: chatRooms,
-      builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ChatRoomsTile(
-                    userName: snapshot.data.docs[index]
-                        .data()['chatRoomId']
-                        .toString()
-                        .replaceAll('_', '')
-                        .replaceAll(appState.currentUser.username, ''),
-                    chatRoomId: snapshot.data.docs[index].data()['chatRoomId'],
-                  );
-                })
-            : Container();
+    return ListView.builder(
+      itemCount: chatRoomsData?.length ?? 0,
+      itemBuilder: (context, index) {
+        var chatRoom = chatRoomsData![index];
+        return ChatRoomsTile(
+          userName: chatRoom['chatRoomId']
+              .replaceAll('_', '')
+              .replaceAll(appState.currentUser.username, ''),
+          chatRoomId: chatRoom['chatRoomId'],
+        );
       },
     );
   }
 
   @override
   void initState() {
-    getUserInfogetChats();
     super.initState();
+    loadChatRooms();
   }
 
-  getUserInfogetChats() async {
-    DatabaseMethods()
-        .getUserChats(appState.currentUser.username)
-        .then((snapshots) {
-      setState(() {
-        chatRooms = snapshots;
-        print(
-            "we got the data + ${chatRooms.toString()} this is name  ${appState.currentUser.username}");
-      });
+  void loadChatRooms() async {
+    var chatsData =
+        await DatabaseMethods().getUserChats(appState.currentUser.username);
+    setState(() {
+      chatRoomsData = chatsData;
+      isLoading = false;
     });
   }
 
