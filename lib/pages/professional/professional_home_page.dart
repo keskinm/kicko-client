@@ -10,6 +10,7 @@ import '../common.dart';
 import 'job_offer_page.dart';
 import 'package:kicko/pages/medias.dart';
 import 'package:kicko/shared/user_page.dart';
+import 'package:kicko/shared/route.dart';
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
@@ -142,14 +143,11 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                   child: IconButton(
                     icon: const Icon(Icons.add_a_photo, color: Colors.black),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                DisplayProfileImages(bucket: imagesBucket)),
-                      ).then((_) {
-                        onReBuild();
-                      });
+                      pushSetStateWhenBack(
+                          context,
+                          (context) =>
+                              DisplayProfileImages(bucket: imagesBucket),
+                          onReBuild);
                     },
                   ),
                   decoration: BoxDecoration(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/pages/chat/search_page.dart';
 import 'package:kicko/pages/chat/chatroom_page.dart';
 import 'package:kicko/services/database.dart';
+import 'package:kicko/shared/route.dart';
 
 DatabaseMethods dataBaseMethods = DatabaseMethods();
 
@@ -38,12 +39,8 @@ List<Widget> chatWidgetsList(
         ? CircularProgressIndicator()
         : TextButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ChatRoom()),
-              ).then((_) {
-                widget.onReBuild();
-              });
+              pushSetStateWhenBack(
+                  context, (context) => ChatRoom(), widget.onRebuild);
             },
             child: Text(messagesNotification ? "Up To Date" : "New Message")),
     TextButton(
