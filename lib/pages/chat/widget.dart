@@ -85,16 +85,13 @@ List<Widget> chatWidgetsList(BuildContext context) {
 
           for (var chat in userChats) {
             if (!chat.containsKey('lastRead')) {
-              print("NOT CONTAINING");
               isUpToDate = "NEW MESSAGE";
             } else {
-              print("CONTAINING");
               dynamic lastRead = chat["lastRead"];
               dynamic lastMessage = chat['lastMessage']["time"];
 
               if (lastRead < lastMessage) {
                 isUpToDate = "NEW MESSAGE";
-                print("BUT INFERIOR");
               }
             }
           }
