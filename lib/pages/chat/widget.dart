@@ -43,16 +43,23 @@ Future<List<Map<String, dynamic>>> _getUserChats(String userName) async {
   for (var chatRoomDoc in chatRoomSnapshot.docs) {
     String chatRoomId = chatRoomDoc.id;
 
-    QuerySnapshot lastMessageSnapshot = await FirebaseFirestore.instance
+    QuerySnapshot allMessagesSnapshot = await FirebaseFirestore.instance
         .collection("chatRoom")
         .doc(chatRoomId)
         .collection("chats")
         .orderBy('time', descending: true)
-        .limit(1)
         .get();
 
-    if (lastMessageSnapshot.docs.isNotEmpty) {
-      var lastMessageData = lastMessageSnapshot.docs.first.data();
+    Map<String, dynamic>? lastMessageData;
+    for (var messageDoc in allMessagesSnapshot.docs) {
+      var data = messageDoc.data() as Map<String, dynamic>;
+      if (data['sendBy'] != userName) {
+        lastMessageData = data;
+        break;
+      }
+    }
+
+    if (lastMessageData != null) {
       var dataMap = chatRoomDoc.data() as Map<String, dynamic>;
       chatRoomsWithLastMessage.add({
         'chatRoomId': chatRoomId,
