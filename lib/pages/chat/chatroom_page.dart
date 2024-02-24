@@ -13,10 +13,14 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  late Stream<QuerySnapshot> chatRooms;
+  Stream<QuerySnapshot>? chatRooms;
   String title = 'Messagerie';
 
   Widget chatRoomsList() {
+    if (chatRooms == null) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     return StreamBuilder(
       stream: chatRooms,
       builder: (context, AsyncSnapshot snapshot) {
