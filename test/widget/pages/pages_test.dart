@@ -13,7 +13,6 @@ import 'package:kicko/firebase_options.dart';
 import 'package:kicko/pages/candidate/candidate_home_page.dart';
 
 void main() async {
-
   TestWidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -25,6 +24,3 @@ void main() async {
 //     expect(titleFinder, findsOneWidget);
   });
 }
-
-
-
