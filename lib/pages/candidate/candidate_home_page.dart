@@ -10,7 +10,7 @@ import 'package:kicko/pages/chat/widget.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
 import 'job_offer_page.dart';
-import 'package:kicko/shared/user_page.dart';
+import 'package:kicko/shared/user.dart';
 
 class CandidateHome extends StatefulWidget {
   const CandidateHome({Key? key}) : super(key: key);

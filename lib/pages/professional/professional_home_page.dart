@@ -9,7 +9,7 @@ import 'package:kicko/syntax.dart';
 import '../common.dart';
 import 'job_offer_page.dart';
 import 'package:kicko/pages/medias.dart';
-import 'package:kicko/shared/user_page.dart';
+import 'package:kicko/shared/user.dart';
 import 'package:kicko/shared/route.dart';
 
 class ProHome extends StatefulWidget {
