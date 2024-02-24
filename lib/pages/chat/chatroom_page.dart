@@ -6,15 +6,13 @@ import 'package:kicko/services/app_state.dart';
 import 'package:kicko/pages/chat/chat_page.dart';
 
 import 'package:flutter/material.dart';
-import 'package:kicko/shared/user.dart';
-import 'package:kicko/pages/chat/widget.dart';
 
 class ChatRoom extends StatefulWidget {
   @override
   _ChatRoomState createState() => _ChatRoomState();
 }
 
-class _ChatRoomState extends State<ChatRoom> with UserStateMixin {
+class _ChatRoomState extends State<ChatRoom> {
   Stream<QuerySnapshot>? chatRooms;
   String title = 'Messagerie';
 
@@ -45,16 +43,10 @@ class _ChatRoomState extends State<ChatRoom> with UserStateMixin {
     );
   }
 
-  // @todo je peux enlever cette merde et faire direct super.onRebuild()? x)
-  onReBuild() {
-    super.onRebuild();
-  }
-
   @override
   void initState() {
     getUserInfogetChats();
     super.initState();
-    onReBuild();
   }
 
   getUserInfogetChats() async {
@@ -77,7 +69,6 @@ class _ChatRoomState extends State<ChatRoom> with UserStateMixin {
         elevation: 0.0,
         centerTitle: false,
         actions: [
-          buildGoChatButton(context, messagesNotification, onReBuild),
           GestureDetector(
             onTap: () {
               // appState.authMethods.signOut();
