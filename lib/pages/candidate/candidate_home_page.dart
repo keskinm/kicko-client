@@ -4,13 +4,13 @@ import 'package:kicko/appbar.dart';
 import 'package:kicko/pages/candidate/scan.dart';
 
 import 'package:kicko/pages/common.dart';
-import 'package:kicko/services/app_state.dart';
 import 'package:kicko/syntax.dart';
 import 'package:kicko/pages/medias.dart';
 import 'package:kicko/pages/chat/widget.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
 import 'job_offer_page.dart';
+import 'package:kicko/shared/user_page.dart';
 
 class CandidateHome extends StatefulWidget {
   const CandidateHome({Key? key}) : super(key: key);
@@ -21,7 +21,7 @@ class CandidateHome extends StatefulWidget {
   }
 }
 
-class _CandidateHome extends State<CandidateHome> {
+class _CandidateHome extends State<CandidateHome> with UserStateMixin {
   Map<String, dynamic> jobOfferFilters = {"city": TextEditingController()};
   Map<String, dynamic> profileJson = {};
   Map<String, dynamic> profileJsonDropDown = {};
@@ -30,33 +30,21 @@ class _CandidateHome extends State<CandidateHome> {
   CandidateHomeStyle style = CandidateHomeStyle();
   late Future<Map> profile;
   late Future<List> jobOffers;
-  bool? messagesNotification;
 
-  String resumesBucket =
-      "${userGroupSyntax.candidate}/${appState.currentUser.username}/resumes";
+  String get resumesBucket => "${userGroupSyntax.candidate}/$userName/resumes";
+
+  @override
+  void initState() {
+    super.initState(); // This ensures UserStateMixin's initState is also called
+    onReBuild();
+  }
 
   onReBuild() {
     setState(() {
       profile = logic.getProfile();
       jobOffers = logic.getJobOffers(jobOfferFilters);
     });
-
-    // -------- Async setStates -----------
-    updateMessagesNotification();
-  }
-
-  Future<void> updateMessagesNotification() async {
-    bool isUpToDate =
-        await checkUserMessageNotifications(appState.currentUser.username);
-    setState(() {
-      messagesNotification = isUpToDate;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    onReBuild();
+    super.onRebuild();
   }
 
   Widget buildDropDown(String key, List<dynamic> list, int dropdownValueIdx) {

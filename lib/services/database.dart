@@ -9,7 +9,7 @@ import 'package:kicko/dio.dart';
 import 'dart:io';
 
 class DatabaseMethods {
-  // ------------------------FIREBASE--------------------------------------
+  // ------------------------CHAT FIREBASE--------------------------------------
 
   Future<void> addUserInfo(userData) async {
     FirebaseFirestore.instance
@@ -95,6 +95,56 @@ class DatabaseMethods {
         .doc(chatRoomId)
         .update({'lastRead': lastMessageTime});
   }
+
+  Future<bool> checkUserMessageNotifications(String userName) async {
+    QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
+        .collection("chatRoom")
+        .where('users', arrayContains: userName)
+        .get();
+
+    List<Map<String, dynamic>> chatRoomsWithLastMessage = [];
+    for (var chatRoomDoc in chatRoomSnapshot.docs) {
+      String chatRoomId = chatRoomDoc.id;
+
+      QuerySnapshot allMessagesSnapshot = await FirebaseFirestore.instance
+          .collection("chatRoom")
+          .doc(chatRoomId)
+          .collection("chats")
+          .orderBy('time', descending: true)
+          .get();
+
+      Map<String, dynamic>? lastMessageData;
+      for (var messageDoc in allMessagesSnapshot.docs) {
+        var data = messageDoc.data() as Map<String, dynamic>;
+        if (data['sendBy'] != userName) {
+          lastMessageData = data;
+          break;
+        }
+      }
+
+      if (lastMessageData != null) {
+        var dataMap = chatRoomDoc.data() as Map<String, dynamic>;
+        chatRoomsWithLastMessage.add({
+          'chatRoomId': chatRoomId,
+          'lastMessage': lastMessageData,
+          'lastRead': dataMap['lastRead'],
+        });
+      }
+    }
+
+    bool isUpToDate = true;
+    for (var chat in chatRoomsWithLastMessage) {
+      if (!chat.containsKey('lastRead') ||
+          chat["lastRead"] < chat['lastMessage']["time"]) {
+        isUpToDate = false;
+        break;
+      }
+    }
+
+    return isUpToDate;
+  }
+
+  // ----------------------- FILES DATA STORE ------------------------------------------
 
   Future<String> downloadFile(String bucket, String fileId) async {
     fs.Reference ref =
