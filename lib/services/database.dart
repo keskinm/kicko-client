@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:dio/dio.dart';
 import 'package:kicko/dio.dart';
+import 'package:kicko/logger.dart';
 
 import 'dart:io';
 
@@ -15,9 +16,7 @@ class DatabaseMethods {
     FirebaseFirestore.instance
         .collection("users")
         .add(userData)
-        .catchError((e) {
-      print(e.toString());
-    });
+        .catchError((e) {});
   }
 
   getUserInfo(String email) async {
@@ -25,9 +24,7 @@ class DatabaseMethods {
         .collection("users")
         .where("userEmail", isEqualTo: email)
         .get()
-        .catchError((e) {
-      print(e.toString());
-    });
+        .catchError((e) {});
   }
 
   searchByName(String searchField) {
@@ -42,9 +39,7 @@ class DatabaseMethods {
         .collection("chatRoom")
         .doc(chatRoomId)
         .set(chatRoom)
-        .catchError((e) {
-      print(e);
-    });
+        .catchError((e) {});
   }
 
   Future getChats(String chatRoomId) async {
@@ -62,9 +57,7 @@ class DatabaseMethods {
         .doc(chatRoomId)
         .collection("chats")
         .add(chatMessageData)
-        .catchError((e) {
-      print(e.toString());
-    });
+        .catchError((e) {});
   }
 
   getUserChats(String userName) async {
@@ -100,8 +93,10 @@ class DatabaseMethods {
         if (data["time"] == lastRead) {
           break;
         } else if (data['sendBy'] != userName) {
-          print(
-              "senBy, ${data['sendBy']}, userName, ${userName}, lastRead, ${lastRead}, time, ${data['time']}, type last read, ${lastRead.runtimeType}, type time ${data['time'].runtimeType}");
+          Logger.log(
+              "senBy, ${data['sendBy']}, userName, ${userName}, lastRead, ${lastRead}, time, ${data['time']}, type last read, ${lastRead.runtimeType}, type time ${data['time'].runtimeType}",
+              LogLevel.debug);
+
           unReadMessages++;
         }
       }
@@ -111,8 +106,6 @@ class DatabaseMethods {
         'unReadMessages': unReadMessages,
       });
     }
-
-    print("val chatRoomsWithUnreadNumber, $chatRoomsWithUnreadNumber");
 
     return chatRoomsWithUnreadNumber;
   }
@@ -281,8 +274,9 @@ class DatabaseMethods {
       await appState.authMethods.fAuth.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        print(
-            'The user must reauthenticate before this operation can be executed.');
+        Logger.log(
+            'The user must reauthenticate before this operation can be executed.',
+            LogLevel.warning);
       }
     }
   }

@@ -8,7 +8,7 @@ DatabaseMethods dataBaseMethods = DatabaseMethods();
 
 PreferredSizeWidget? appBarMain(BuildContext context) {
   return AppBar(
-    title: Text("????"),
+    title: Text(""),
     elevation: 0.0,
     centerTitle: false,
   );

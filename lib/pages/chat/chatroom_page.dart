@@ -114,12 +114,6 @@ class ChatRoomsTile extends StatelessWidget {
                   chatRoomId: chatRoomId,
                 ),
             setStates);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Chat(
-                      chatRoomId: chatRoomId,
-                    )));
       },
       child: Container(
         color: Colors.black26,

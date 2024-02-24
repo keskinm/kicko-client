@@ -28,7 +28,7 @@ class _SearchState extends State<Search> {
           .searchByName(searchEditingController.text)
           .then((snapshot) {
         searchResultSnapshot = snapshot;
-        print("$searchResultSnapshot");
+
         setState(() {
           isLoading = false;
           haveUserSearched = true;
