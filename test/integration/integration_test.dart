@@ -2,7 +2,7 @@
 // import 'package:flutter_test/flutter_test.dart';
 // import 'package:kicko/main.dart' as app;
 
-// void main() {
+void main() {
 //   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
 //   testWidgets("Integration test", (WidgetTester tester) async {
@@ -11,4 +11,4 @@
 
 //     // (write asserts)
 //   });
-// }
+}
