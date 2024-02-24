@@ -32,17 +32,52 @@ TextStyle biggerTextStyle() {
   return TextStyle(color: Colors.white, fontSize: 17);
 }
 
+Widget buildChatButton(
+    BuildContext context, bool? messagesNotification, dynamic widget) {
+  return messagesNotification == null
+      ? CircularProgressIndicator()
+      : GestureDetector(
+          onTap: () {
+            pushSetStateWhenBack(
+                context, (context) => ChatRoom(), widget.onRebuild);
+          },
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Icon(Icons.message, size: 50.0),
+              if (messagesNotification)
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    constraints: BoxConstraints(
+                      minWidth: 12,
+                      minHeight: 12,
+                    ),
+                    child: Text(
+                      'New Message',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 8,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+}
+
 List<Widget> chatWidgetsList(
     BuildContext context, bool? messagesNotification, dynamic widget) {
   return [
-    messagesNotification == null
-        ? CircularProgressIndicator()
-        : TextButton(
-            onPressed: () {
-              pushSetStateWhenBack(
-                  context, (context) => ChatRoom(), widget.onRebuild);
-            },
-            child: Text(messagesNotification ? "Up To Date" : "New Message")),
+    buildChatButton(context, messagesNotification, widget),
     TextButton(
         onPressed: () {
           Navigator.push(

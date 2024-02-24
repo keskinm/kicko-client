@@ -21,10 +21,10 @@ mixin UserStateMixin<T extends StatefulWidget> on State<T> {
   }
 
   Future<void> updateMessagesNotification() async {
-    bool isUpToDate =
+    bool _messagesNotification =
         await databaseMethods.checkUserMessageNotifications(userName);
     setState(() {
-      messagesNotification = isUpToDate;
+      messagesNotification = _messagesNotification;
     });
   }
 }

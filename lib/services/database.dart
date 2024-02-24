@@ -132,16 +132,16 @@ class DatabaseMethods {
       }
     }
 
-    bool isUpToDate = true;
+    bool messagesNotification = false;
     for (var chat in chatRoomsWithLastMessage) {
       if (!chat.containsKey('lastRead') ||
           chat["lastRead"] < chat['lastMessage']["time"]) {
-        isUpToDate = false;
+        messagesNotification = true;
         break;
       }
     }
 
-    return isUpToDate;
+    return messagesNotification;
   }
 
   // ----------------------- FILES DATA STORE ------------------------------------------
