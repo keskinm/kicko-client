@@ -4,6 +4,7 @@ import 'package:kicko/pages/chat/widget.dart';
 import 'package:kicko/shared/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -11,7 +12,6 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  FireBaseService databaseMethods = new FireBaseService();
   TextEditingController searchEditingController = new TextEditingController();
   late QuerySnapshot searchResultSnapshot;
 
@@ -24,7 +24,7 @@ class _SearchState extends State<Search> {
       setState(() {
         isLoading = true;
       });
-      await databaseMethods
+      await Provider.of<FireBaseServiceInterface>(context, listen: false)
           .searchByName(searchEditingController.text)
           .then((snapshot) {
         searchResultSnapshot = snapshot;

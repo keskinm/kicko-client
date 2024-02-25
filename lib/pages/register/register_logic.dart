@@ -9,10 +9,10 @@ import '../../syntax.dart';
 import '../candidate/candidate_home_page.dart';
 import 'package:kicko/pages/common.dart';
 import '../professional/professional_home_page.dart';
+import 'package:provider/provider.dart';
 
 class RegisterLogic {
   final formKey = GlobalKey<FormState>();
-  FireBaseService dataBaseMethods = FireBaseService();
 
   Validator validator = Validator();
 
@@ -78,7 +78,8 @@ class RegisterLogic {
           firebaseUid: firebaseUid);
 
       if (response == null) {
-        await dataBaseMethods.deleteUserFromFireBase(email, password);
+        await Provider.of<FireBaseServiceInterface>(context, listen: false)
+            .deleteUserFromFireBase(email, password);
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('XMLHttpRequest error.'),
         ));

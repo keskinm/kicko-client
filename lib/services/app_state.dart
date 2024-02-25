@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:kicko/syntax.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kicko/services/auth.dart';
@@ -6,6 +7,7 @@ import 'package:kicko/models/user.dart';
 
 import '../dio.dart';
 import 'database.dart';
+import 'package:provider/provider.dart';
 
 AppState appState = AppState();
 
@@ -19,8 +21,6 @@ enum AppStatus {
 
 class AppState {
   AppState();
-
-  FireBaseService dataBaseMethods = FireBaseService();
 
   String language = "french";
 
@@ -100,7 +100,7 @@ class AppState {
     }
   }
 
-  Future deleteAccount() async {
+  Future deleteAccount(BuildContext context) async {
     if (appState.checkToken(await appState.authMethods
         .authenticationToken(
             username: currentUser.username,
@@ -114,18 +114,21 @@ class AppState {
 
       if (response.statusCode == 200) {
         if (userGroup == userGroupSyntax.professional) {
-          await dataBaseMethods.deleteFireBaseStorageBucket(
-              '$userGroup/${appState.currentUser.username}/business_images');
+          await Provider.of<FireBaseServiceInterface>(context, listen: false)
+              .deleteFireBaseStorageBucket(
+                  '$userGroup/${appState.currentUser.username}/business_images');
 
-          await dataBaseMethods.deleteFireBaseStorageBucket(
-              '$userGroup/${appState.currentUser.username}/job_offer_qr_codes');
+          await Provider.of<FireBaseServiceInterface>(context, listen: false)
+              .deleteFireBaseStorageBucket(
+                  '$userGroup/${appState.currentUser.username}/job_offer_qr_codes');
         } else if (userGroup == userGroupSyntax.candidate) {
-          await dataBaseMethods.deleteFireBaseStorageBucket(
-              '$userGroup/${appState.currentUser.username}/resumes');
+          await Provider.of<FireBaseServiceInterface>(context, listen: false)
+              .deleteFireBaseStorageBucket(
+                  '$userGroup/${appState.currentUser.username}/resumes');
         }
 
-        await dataBaseMethods.deleteUserFromFireBase(
-            currentUser.email, currentUser.password);
+        await Provider.of<FireBaseServiceInterface>(context, listen: false)
+            .deleteUserFromFireBase(currentUser.email, currentUser.password);
         appState.zero();
       } else {
         throw Exception("Server failed deleteAccount");

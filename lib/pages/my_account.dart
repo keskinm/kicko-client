@@ -58,7 +58,7 @@ class _MyAccount extends State<MyAccount> {
                     children: <Widget>[
                       TextButton(
                           onPressed: () async {
-                            await appState.deleteAccount();
+                            await appState.deleteAccount(context);
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(

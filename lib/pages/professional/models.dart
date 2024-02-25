@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:kicko/services/app_state.dart';
 
 import 'package:kicko/services/database.dart';
+import 'package:provider/provider.dart';
 
 import '../../syntax.dart';
 
@@ -14,7 +16,6 @@ class JobOffer {
   late String description;
   late String requires;
   late String businessId;
-  FireBaseService dataBaseMethods = FireBaseService();
 
   JobOffer(
       {required this.requires,
@@ -35,7 +36,7 @@ class JobOffer {
         'requires': requires,
       };
 
-  Future<bool> addJobOffer() async {
+  Future<bool> addJobOffer(BuildContext context) async {
     String body =
         '{"name": "$name", "description":"$description", "requires":"$requires", "business_id": "$businessId"}';
     Response response = await dioHttpPost(
@@ -49,7 +50,7 @@ class JobOffer {
       String imageStr = data["img"].toString();
       Uint8List bytes = base64Decode(imageStr);
       String fileName = data["id"];
-      dataBaseMethods.uploadBytes(
+      Provider.of<FireBaseServiceInterface>(context, listen: false).uploadBytes(
           '${userGroupSyntax.professional}/${appState.currentUser.username}/job_offer_qr_codes',
           fileName,
           bytes);

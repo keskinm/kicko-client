@@ -6,6 +6,7 @@ import 'package:kicko/pages/chat/chat_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:kicko/shared/route.dart';
+import 'package:provider/provider.dart';
 
 class ChatRoom extends StatefulWidget {
   @override
@@ -49,7 +50,8 @@ class _ChatRoomState extends State<ChatRoom> {
 
   void loadChatRooms() async {
     var chatsData =
-        await FireBaseService().getUserChats(appState.currentUser.username);
+        await Provider.of<FireBaseServiceInterface>(context, listen: false)
+            .getUserChats(appState.currentUser.username);
     setState(() {
       chatRoomsData = chatsData;
     });

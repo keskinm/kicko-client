@@ -40,7 +40,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
   onReBuild() {
     setState(() {
       business = logic.getBusiness();
-      imageDownloadURL = logic.getProfileImage(business, imagesBucket);
+      imageDownloadURL = logic.getProfileImage(business, imagesBucket, context);
       jobOffers = logic.getJobOffers();
     });
     super.onRebuild();

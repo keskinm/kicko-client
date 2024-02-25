@@ -11,6 +11,7 @@ import 'package:kicko/services/database.dart';
 import '../../syntax.dart';
 import '../common.dart';
 import 'models.dart';
+import 'package:provider/provider.dart';
 
 class CandidateHomeLogic {
   final candidateForm = GlobalKey<FormState>();
@@ -65,25 +66,6 @@ class CandidateHomeLogic {
       token: false,
     );
     return response.data;
-  }
-
-  Future<String> getProfileImage(
-      Future<Map<String, dynamic>> futureBusinessJson) async {
-    String bucket;
-
-    Map<String, dynamic> businessJson = await futureBusinessJson;
-
-    String? profileImageId = businessJson['image_id'];
-
-    if (profileImageId == null) {
-      bucket = 'default';
-      profileImageId = 'ca_default_profile.jpg';
-    } else {
-      bucket =
-          '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
-    }
-
-    return FireBaseService().downloadFile(bucket, profileImageId);
   }
 
   Future<bool> updateProfile(Map profileJson) async {

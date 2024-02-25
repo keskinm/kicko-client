@@ -7,6 +7,7 @@ import 'package:kicko/appbar.dart';
 import 'package:kicko/services/database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
 Future selectFiles(int position) async {
   FilePickerResult? result =
@@ -44,10 +45,9 @@ class DisplayResumes extends StatefulWidget {
 class _DisplayResumes extends State<DisplayResumes> {
   bool isBlockedResumes = false;
   late dynamic resumes;
-  FireBaseService dataBaseMethods = FireBaseService();
-
   onReBuild() {
-    resumes = dataBaseMethods.downloadFiles(widget.bucket);
+    resumes = Provider.of<FireBaseServiceInterface>(context, listen: false)
+        .downloadFiles(widget.bucket);
   }
 
   @override
@@ -64,7 +64,8 @@ class _DisplayResumes extends State<DisplayResumes> {
     } else {
       String postId = DateTime.now().millisecondsSinceEpoch.toString();
       String fileName = "post_$postId.pdf";
-      await dataBaseMethods.uploadFile(widget.bucket, fileName, file);
+      await Provider.of<FireBaseServiceInterface>(context, listen: false)
+          .uploadFile(widget.bucket, fileName, file);
     }
   }
 
@@ -95,7 +96,8 @@ class _DisplayResumes extends State<DisplayResumes> {
                           isBlockedResumes = true;
                           onReBuild();
                         });
-                        dataBaseMethods
+                        Provider.of<FireBaseServiceInterface>(context,
+                                listen: false)
                             .deleteFireBaseStorageItem(storageReference);
                         setState(() {
                           isBlockedResumes = false;
@@ -175,7 +177,6 @@ class DisplayProfileImages extends StatefulWidget {
 class _DisplayProfileImages extends State<DisplayProfileImages> {
   bool inProcess = false;
   late dynamic profileImages;
-  FireBaseService dataBaseMethods = FireBaseService();
   SQLDataBaseMethods sQLDataBaseMethods = SQLDataBaseMethods();
 
   buildImageProfileWraps(dynamic storageReferences) {
@@ -238,7 +239,9 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
   }
 
   onReBuild() {
-    profileImages = dataBaseMethods.downloadFiles(widget.bucket);
+    profileImages =
+        Provider.of<FireBaseServiceInterface>(context, listen: false)
+            .downloadFiles(widget.bucket);
   }
 
   @override
@@ -271,8 +274,8 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     } else {
       String postId = DateTime.now().millisecondsSinceEpoch.toString();
       String imageName = "post_$postId.jpg";
-      await dataBaseMethods.uploadFile(
-          widget.bucket, imageName, image.readAsBytes());
+      await Provider.of<FireBaseServiceInterface>(context, listen: false)
+          .uploadFile(widget.bucket, imageName, image.readAsBytes());
       bool res = await sQLDataBaseMethods.updateTableField(
           imageName, "image_id", "update_business_fields");
       if (res) {

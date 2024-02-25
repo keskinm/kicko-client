@@ -11,6 +11,7 @@ import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
 
 import 'package:kicko/pages/common.dart';
+import 'package:provider/provider.dart';
 
 class ProfessionalHomeLogic {
   final jobOfferForm = GlobalKey<FormState>();
@@ -54,7 +55,7 @@ class ProfessionalHomeLogic {
     if (jobOfferForm.currentState!.validate()) {
       jobOfferJson["business_id"] = businessJson["id"];
       JobOffer jobOffer = JobOffer.fromJson(jobOfferJson);
-      bool success = await jobOffer.addJobOffer();
+      bool success = await jobOffer.addJobOffer(context);
 
       if (success) {
         Navigator.pushReplacement(
@@ -99,7 +100,8 @@ class ProfessionalHomeLogic {
 
   Future<String> getProfileImage(
       Future<Map<String, dynamic>> futureBusinessJson,
-      String imagesBucket) async {
+      String imagesBucket,
+      BuildContext context) async {
     String bucket;
 
     Map<String, dynamic> businessJson = await futureBusinessJson;

@@ -3,6 +3,7 @@ import 'package:kicko/services/database.dart';
 import 'package:kicko/pages/chat/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Chat extends StatefulWidget {
   final String chatRoomId;
@@ -47,7 +48,8 @@ class _ChatState extends State<Chat> {
         'time': DateTime.now().millisecondsSinceEpoch,
       };
 
-      FireBaseService().addMessage(widget.chatRoomId, chatMessageMap);
+      Provider.of<FireBaseServiceInterface>(context, listen: false)
+          .addMessage(widget.chatRoomId, chatMessageMap);
 
       setState(() {
         messageEditingController.text = "";
@@ -57,14 +59,19 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
-    FireBaseService().getLastMessage(widget.chatRoomId).then((lastMessage) {
+    Provider.of<FireBaseServiceInterface>(context, listen: false)
+        .getLastMessage(widget.chatRoomId)
+        .then((lastMessage) {
       if (lastMessage != null) {
-        FireBaseService().updateLastRead(appState.currentUser.username,
-            widget.chatRoomId, lastMessage['time']);
+        Provider.of<FireBaseServiceInterface>(context, listen: false)
+            .updateLastRead(appState.currentUser.username, widget.chatRoomId,
+                lastMessage['time']);
       }
     });
 
-    FireBaseService().getChats(widget.chatRoomId).then((val) {
+    Provider.of<FireBaseServiceInterface>(context, listen: false)
+        .getChats(widget.chatRoomId)
+        .then((val) {
       setState(() {
         chats = val;
       });

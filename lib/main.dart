@@ -7,7 +7,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:kicko/syntax.dart';
 import 'firebase_options.dart';
 import 'package:kicko/logger.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
+import 'package:kicko/services/database.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
   Logger.setLogLevel(LogLevel.info);
@@ -16,22 +18,31 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(ProviderScope(
+// @todo USE MULTIPROVIDER https://pub.dev/documentation/provider/latest/provider/MultiProvider-class.html
+// IF WE OPT FOR THIS SOLUTION !!
+
+  runApp(
+    Provider<FireBaseServiceInterface>(
+      create: (_) => FireBaseService(), // Provide your Firestore service
       child: MaterialApp(
-    title: 'KICKO!',
-    debugShowCheckedModeBanner: false,
-    home: const KickoApp(),
-    theme: ThemeData(
-      textTheme: const TextTheme(
-          displayLarge: TextStyle(backgroundColor: Colors.deepOrangeAccent),
-          displayMedium: TextStyle(backgroundColor: Colors.deepOrangeAccent),
-          displaySmall: TextStyle(backgroundColor: Colors.deepOrangeAccent)),
-      appBarTheme: const AppBarTheme(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.deepOrangeAccent,
+        title: 'KICKO!',
+        debugShowCheckedModeBanner: false,
+        home: const KickoApp(),
+        theme: ThemeData(
+          textTheme: const TextTheme(
+              displayLarge: TextStyle(backgroundColor: Colors.deepOrangeAccent),
+              displayMedium:
+                  TextStyle(backgroundColor: Colors.deepOrangeAccent),
+              displaySmall:
+                  TextStyle(backgroundColor: Colors.deepOrangeAccent)),
+          appBarTheme: const AppBarTheme(
+            iconTheme: IconThemeData(color: Colors.black),
+            backgroundColor: Colors.deepOrangeAccent,
+          ),
+        ),
       ),
     ),
-  )));
+  );
 }
 
 class KickoApp extends StatefulWidget {

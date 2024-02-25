@@ -5,6 +5,7 @@ import 'package:kicko/services/database.dart';
 
 import '../../services/app_state.dart';
 import '../../syntax.dart';
+import 'package:provider/provider.dart';
 
 class DisplayQRCodeImage extends StatefulWidget {
   final String jobOfferId;
@@ -18,7 +19,6 @@ class DisplayQRCodeImage extends StatefulWidget {
 class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   bool inProcess = false;
   late dynamic qrCodeImage;
-  FireBaseService dataBaseMethods = FireBaseService();
 
   buildQrCodeDisplay(dynamic storageReference) {
     return Container(
@@ -35,7 +35,8 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   getQrCodeImage() async {
     String bucket =
         '${userGroupSyntax.professional}/${appState.currentUser.username}/job_offer_qr_codes';
-    return dataBaseMethods.downloadFile(bucket, widget.jobOfferId);
+    return Provider.of<FireBaseServiceInterface>(context, listen: false)
+        .downloadFile(bucket, widget.jobOfferId);
   }
 
   @override

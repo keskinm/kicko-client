@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/pages/chat/chat_page.dart';
 import 'package:kicko/services/database.dart';
+import 'package:provider/provider.dart';
 
 getChatRoomId(String a, String b) {
   if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
@@ -21,8 +22,8 @@ sendMessage(BuildContext context, String userName) {
     "chatRoomId": chatRoomId,
   };
 
-  FireBaseService databaseMethods = new FireBaseService();
-  databaseMethods.addChatRoom(chatRoom, chatRoomId);
+  Provider.of<FireBaseServiceInterface>(context, listen: false)
+      .addChatRoom(chatRoom, chatRoomId);
 
   Navigator.push(
       context,

@@ -219,8 +219,7 @@ class FireBaseService implements FireBaseServiceInterface {
   // ----------------------- FILES DATA STORE ------------------------------------------
 
   Future<String> downloadFile(String bucket, String fileId) async {
-    fs.Reference ref =
-        firebaseStorage.ref().child(bucket).child(fileId);
+    fs.Reference ref = firebaseStorage.ref().child(bucket).child(fileId);
 
     String downloadURL = await ref.getDownloadURL();
     return downloadURL;
@@ -243,8 +242,7 @@ class FireBaseService implements FireBaseServiceInterface {
   Future<String> uploadFile(
       String bucket, String fileName, dynamic file) async {
     String downloadURL;
-    fs.Reference ref =
-        firebaseStorage.ref().child(bucket).child(fileName);
+    fs.Reference ref = firebaseStorage.ref().child(bucket).child(fileName);
 
     if (kIsWeb) {
       await ref.putData(await file);
@@ -260,16 +258,14 @@ class FireBaseService implements FireBaseServiceInterface {
   Future<String> uploadBytes(
       String bucket, String fileName, Uint8List bytes) async {
     String downloadURL;
-    fs.Reference ref =
-        firebaseStorage.ref().child(bucket).child(fileName);
+    fs.Reference ref = firebaseStorage.ref().child(bucket).child(fileName);
     await ref.putData(bytes);
     downloadURL = await ref.getDownloadURL();
     return downloadURL;
   }
 
   Future<bool> deleteFireBaseStorageBucket(String bucket) async {
-    fs.Reference toDeleteBucket =
-        firebaseStorage.ref().child(bucket);
+    fs.Reference toDeleteBucket = firebaseStorage.ref().child(bucket);
     final urls = await toDeleteBucket.listAll();
     dynamic refs = urls.items;
     for (dynamic ref in refs) {
