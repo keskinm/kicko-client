@@ -1,4 +1,4 @@
-// import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 // import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 // import 'package:firebase_storage_mocks/firebase_storage_mocks.dart';
 // import 'package:flutter/material.dart';
@@ -12,6 +12,8 @@
 // import 'package:kicko/get_it_service_locator.dart';
 
 // // the firebase app mocking is FOUND HERE: https://stackoverflow.com/questions/63662031/how-to-mock-the-firebaseapp-in-flutter
+
+void main() {}
 
 // void main() {
 //   setupFirebaseAuthMocks();
