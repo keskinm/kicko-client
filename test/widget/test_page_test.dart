@@ -23,52 +23,30 @@ void main() {
   setUpAll(() async {
     await Firebase.initializeApp();
 
-    // setupServiceLocator();
-    // Dio dio = getIt<Dio>();
-    // dioAdapter = getIt<DioAdapter>();
-    // getIt.unregister<Dio>(); // Make sure to clean up
-    // getIt.unregister<DioAdapter>();
-    Dio dio = Dio(BaseOptions());
-    getIt.registerLazySingleton<Dio>(() => dio);
-
-    dioAdapter = DioAdapter(dio: getIt<Dio>());
-
     const accessToken = <String, dynamic>{
       'token': 'ACCESS_TOKEN',
     };
     String userId = '';
     String body = '{"id": "$userId"}';
 
-    // dioAdapter
-    //   ..onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
-    //     server.reply(200, 200);
-    //   }, data: Matchers.any)
-    //   ..onPost(
-    //     'http://127.0.0.1:5000/api/candidate_get_profile',
-    //     (server) => server.reply(200, accessToken),
-    //     data: body,
-    //   );
+    // getIt.unregister<Dio>();
+    // getIt.unregister<DioAdapter>();
+    Dio dio = Dio(BaseOptions());
+    dioAdapter = DioAdapter(dio: dio);
+      dioAdapter
+    ..onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
+      server.reply(200, 200);
+    }, data: Matchers.any)
+    ..onPost(
+      'http://127.0.0.1:5000/api/candidate_get_profile',
+      (server) => server.reply(200, accessToken),
+      data: body,
+    );
+    getIt.registerLazySingleton<Dio>(() => dio);
 
-    getIt
-        .registerLazySingleton<DioAdapter>(() => DioAdapter(dio: getIt<Dio>()));
   });
 
   testWidgets('ensure mocking database services', (WidgetTester tester) async {
-    const accessToken = <String, dynamic>{
-      'token': 'ACCESS_TOKEN',
-    };
-    String userId = '';
-    String body = '{"id": "$userId"}';
-    dioAdapter
-      ..onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
-        server.reply(200, 200);
-      }, data: Matchers.any)
-      ..onPost(
-        'http://127.0.0.1:5000/api/candidate_get_profile',
-        (server) => server.reply(200, accessToken),
-        data: body,
-      );
-
     final fakeStorage = MockFirebaseStorage();
     final fakeFirestore = FakeFirebaseFirestore();
 
