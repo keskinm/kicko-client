@@ -11,9 +11,6 @@ import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:kicko/get_it_service_locator.dart';
 
-// import 'package:mockito/mockito.dart';
-// import 'package:kicko/firebase_options.dart';
-
 // the firebase app mocking is FOUND HERE: https://stackoverflow.com/questions/63662031/how-to-mock-the-firebaseapp-in-flutter
 
 void main() {
@@ -25,11 +22,11 @@ void main() {
     // getIt.unregister<Dio>();
     Dio dio = Dio();
     dioAdapter = DioAdapter(dio: dio);
-      dioAdapter.onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
+    dioAdapter.onPost('http://10.0.2.2:5000/api/candidate_get_profile',
+        (server) {
       server.reply(200, {"": ""});
     }, data: Matchers.any);
     getIt.registerLazySingleton<Dio>(() => dio);
-
   });
 
   testWidgets('ensure mocking database services', (WidgetTester tester) async {
@@ -47,6 +44,5 @@ void main() {
     );
 
     await tester.pumpAndSettle();
-
   });
 }
