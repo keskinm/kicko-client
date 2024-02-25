@@ -57,6 +57,13 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
+    DatabaseMethods().getLastMessage(widget.chatRoomId).then((lastMessage) {
+      if (lastMessage != null) {
+        DatabaseMethods().updateLastRead(appState.currentUser.username,
+            widget.chatRoomId, lastMessage['time']);
+      }
+    });
+
     DatabaseMethods().getChats(widget.chatRoomId).then((val) {
       setState(() {
         chats = val;
@@ -152,7 +159,10 @@ class MessageTile extends StatelessWidget {
             gradient: LinearGradient(
               colors: sendByMe
                   ? [const Color(0xff007EF4), const Color(0xff2A75BC)]
-                  : [const Color(0x1AFFFFFF), const Color(0x1AFFFFFF)],
+                  : [
+                      Color.fromARGB(183, 12, 128, 4),
+                      Color.fromARGB(147, 89, 169, 31)
+                    ],
             )),
         child: Text(message,
             textAlign: TextAlign.start,

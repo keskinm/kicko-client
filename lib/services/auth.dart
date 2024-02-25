@@ -18,7 +18,6 @@ class AuthMethods {
     try {
       Response response = await dioHttpPost(
           route: '${userGroup}_register', jsonData: json, token: false);
-      print(response.data);
       if (response.statusCode == 200) {
         appState.addCredentials(keys: {
           'username': username,
@@ -28,11 +27,9 @@ class AuthMethods {
         });
         return response;
       } else {
-        print('user_register response code != 200');
         return response;
       }
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -71,7 +68,6 @@ class AuthMethods {
     try {
       return await fAuth.signOut();
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }

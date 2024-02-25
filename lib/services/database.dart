@@ -5,19 +5,18 @@ import 'package:flutter/foundation.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:dio/dio.dart';
 import 'package:kicko/dio.dart';
+import 'package:kicko/logger.dart';
 
 import 'dart:io';
 
 class DatabaseMethods {
-  // ------------------------FIREBASE--------------------------------------
+  // ------------------------CHAT FIREBASE--------------------------------------
 
   Future<void> addUserInfo(userData) async {
     FirebaseFirestore.instance
         .collection("users")
         .add(userData)
-        .catchError((e) {
-      print(e.toString());
-    });
+        .catchError((e) {});
   }
 
   getUserInfo(String email) async {
@@ -25,9 +24,7 @@ class DatabaseMethods {
         .collection("users")
         .where("userEmail", isEqualTo: email)
         .get()
-        .catchError((e) {
-      print(e.toString());
-    });
+        .catchError((e) {});
   }
 
   searchByName(String searchField) {
@@ -42,9 +39,7 @@ class DatabaseMethods {
         .collection("chatRoom")
         .doc(chatRoomId)
         .set(chatRoom)
-        .catchError((e) {
-      print(e);
-    });
+        .catchError((e) {});
   }
 
   Future getChats(String chatRoomId) async {
@@ -62,17 +57,141 @@ class DatabaseMethods {
         .doc(chatRoomId)
         .collection("chats")
         .add(chatMessageData)
-        .catchError((e) {
-      print(e.toString());
+        .catchError((e) {});
+  }
+
+  getUserChats(String userName) async {
+    // ----- CACHEABLE (SHARED ON SAME TREE WITH OTHER METHOD)----
+
+    QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
+        .collection("chatRoom")
+        .where('users', arrayContains: userName)
+        .get();
+    // ----- END CACHEABLE ----
+
+    List<Map<String, dynamic>> chatRoomsWithUnreadNumber = [];
+    for (var chatRoomDoc in chatRoomSnapshot.docs) {
+      String chatRoomId = chatRoomDoc.id;
+      var chatRoomDataMap = chatRoomDoc.data() as Map<String, dynamic>;
+      dynamic lastRead = (chatRoomDataMap.containsKey('lastRead') &&
+              chatRoomDataMap['lastRead'].containsKey(userName))
+          ? chatRoomDataMap['lastRead'][userName]
+          : null;
+
+      QuerySnapshot allMessagesSnapshot = await FirebaseFirestore.instance
+          .collection("chatRoom")
+          .doc(chatRoomId)
+          .collection("chats")
+          .orderBy('time', descending: true)
+          .get();
+
+      int unReadMessages = 0;
+
+      for (var messageDoc in allMessagesSnapshot.docs) {
+        var data = messageDoc.data() as Map<String, dynamic>;
+
+        if (data["time"] == lastRead) {
+          break;
+        } else if (data['sendBy'] != userName) {
+          Logger.log(
+              "senBy, ${data['sendBy']}, userName, ${userName}, lastRead, ${lastRead}, time, ${data['time']}, type last read, ${lastRead.runtimeType}, type time ${data['time'].runtimeType}",
+              LogLevel.debug);
+
+          unReadMessages++;
+        }
+      }
+
+      chatRoomsWithUnreadNumber.add({
+        'chatRoomId': chatRoomId,
+        'unReadMessages': unReadMessages,
+      });
+    }
+
+    return chatRoomsWithUnreadNumber;
+  }
+
+  Future<Map<String, dynamic>?> getLastMessage(String chatRoomId) async {
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('chatRoom')
+        .doc(chatRoomId)
+        .collection('chats')
+        .orderBy('time', descending: true)
+        .limit(1)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      return snapshot.docs.first.data() as Map<String, dynamic>;
+    }
+    return null;
+  }
+
+  Future<void> updateLastRead(
+      String userName, String chatRoomId, int lastMessageTime) async {
+    return FirebaseFirestore.instance
+        .collection('chatRoom')
+        .doc(chatRoomId)
+        .update({
+      'lastRead.$userName': lastMessageTime,
     });
   }
 
-  getUserChats(String itIsMyName) async {
-    return await FirebaseFirestore.instance
+  Future<bool> checkUserMessageNotifications(String userName) async {
+    // ----- CACHEABLE (SHARED ON SAME TREE WITH OTHER METHOD)----
+    QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
         .collection("chatRoom")
-        .where('users', arrayContains: itIsMyName)
-        .snapshots();
+        .where('users', arrayContains: userName)
+        .get();
+    // ----- END CACHEABLE ----
+
+    List<Map<String, dynamic>> chatRoomsWithLastMessage = [];
+    for (var chatRoomDoc in chatRoomSnapshot.docs) {
+      String chatRoomId = chatRoomDoc.id;
+
+      QuerySnapshot allMessagesSnapshot = await FirebaseFirestore.instance
+          .collection("chatRoom")
+          .doc(chatRoomId)
+          .collection("chats")
+          .orderBy('time', descending: true)
+          .get();
+
+      Map<String, dynamic>? lastMessageData;
+      for (var messageDoc in allMessagesSnapshot.docs) {
+        var data = messageDoc.data() as Map<String, dynamic>;
+        if (data['sendBy'] != userName) {
+          lastMessageData = data;
+          break;
+        }
+      }
+
+      if (lastMessageData != null) {
+        var dataMap = chatRoomDoc.data() as Map<String, dynamic>;
+        int? lastReadTime;
+        if (dataMap.containsKey('lastRead') &&
+            dataMap['lastRead'].containsKey(userName)) {
+          lastReadTime = dataMap['lastRead'][userName];
+        }
+
+        chatRoomsWithLastMessage.add({
+          'chatRoomId': chatRoomId,
+          'lastMessage': lastMessageData,
+          'lastRead': lastReadTime,
+        });
+      }
+    }
+
+    bool messagesNotification = false;
+    for (var chat in chatRoomsWithLastMessage) {
+      if (chat['lastRead'] == null ||
+          chat["lastRead"] < chat['lastMessage']["time"]) {
+        messagesNotification = true;
+        break;
+      }
+    }
+
+    return messagesNotification;
   }
+
+  // ----------------------- FILES DATA STORE ------------------------------------------
 
   Future<String> downloadFile(String bucket, String fileId) async {
     fs.Reference ref =
@@ -155,8 +274,9 @@ class DatabaseMethods {
       await appState.authMethods.fAuth.currentUser!.delete();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'requires-recent-login') {
-        print(
-            'The user must reauthenticate before this operation can be executed.');
+        Logger.log(
+            'The user must reauthenticate before this operation can be executed.',
+            LogLevel.warning);
       }
     }
   }

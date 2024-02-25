@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kicko/services/database.dart';
 import 'package:kicko/pages/chat/theme.dart';
 
@@ -6,6 +5,7 @@ import 'package:kicko/services/app_state.dart';
 import 'package:kicko/pages/chat/chat_page.dart';
 
 import 'package:flutter/material.dart';
+import 'package:kicko/shared/route.dart';
 
 class ChatRoom extends StatefulWidget {
   @override
@@ -13,51 +13,45 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  Stream<QuerySnapshot>? chatRooms;
-  String title = 'Messagerie';
+  List<Map<String, dynamic>>? chatRoomsData;
 
   Widget chatRoomsList() {
-    if (chatRooms == null) {
+    if (chatRoomsData == null) {
       return Center(child: CircularProgressIndicator());
     }
 
-    return StreamBuilder(
-      stream: chatRooms,
-      builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ChatRoomsTile(
-                    userName: snapshot.data.docs[index]
-                        .data()['chatRoomId']
-                        .toString()
-                        .replaceAll('_', '')
-                        .replaceAll(appState.currentUser.username, ''),
-                    chatRoomId: snapshot.data.docs[index].data()['chatRoomId'],
-                  );
-                })
-            : Container();
+    return ListView.builder(
+      itemCount: chatRoomsData?.length ?? 0,
+      itemBuilder: (context, index) {
+        var chatRoom = chatRoomsData![index];
+        return ChatRoomsTile(
+          unReadMessages: chatRoom["unReadMessages"],
+          userName: chatRoom['chatRoomId']
+              .replaceAll('_', '')
+              .replaceAll(appState.currentUser.username, ''),
+          chatRoomId: chatRoom['chatRoomId'],
+          setStates: onRebuild,
+        );
       },
     );
   }
 
   @override
   void initState() {
-    getUserInfogetChats();
     super.initState();
+    loadChatRooms();
   }
 
-  getUserInfogetChats() async {
-    DatabaseMethods()
-        .getUserChats(appState.currentUser.username)
-        .then((snapshots) {
-      setState(() {
-        chatRooms = snapshots;
-        print(
-            "we got the data + ${chatRooms.toString()} this is name  ${appState.currentUser.username}");
-      });
+  onRebuild() {
+    // ------- ASYNC setSTates -------
+    loadChatRooms();
+  }
+
+  void loadChatRooms() async {
+    var chatsData =
+        await DatabaseMethods().getUserChats(appState.currentUser.username);
+    setState(() {
+      chatRoomsData = chatsData;
     });
   }
 
@@ -101,19 +95,25 @@ class _ChatRoomState extends State<ChatRoom> {
 class ChatRoomsTile extends StatelessWidget {
   final String userName;
   final String chatRoomId;
+  final int unReadMessages;
+  final Function setStates;
 
-  ChatRoomsTile({required this.userName, required this.chatRoomId});
+  ChatRoomsTile(
+      {required this.userName,
+      required this.chatRoomId,
+      required this.unReadMessages,
+      required this.setStates});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        pushSetStateWhenBack(
             context,
-            MaterialPageRoute(
-                builder: (context) => Chat(
-                      chatRoomId: chatRoomId,
-                    )));
+            (context) => Chat(
+                  chatRoomId: chatRoomId,
+                ),
+            setStates);
       },
       child: Container(
         color: Colors.black26,
@@ -143,7 +143,8 @@ class ChatRoomsTile extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 16,
                     fontFamily: 'OverpassRegular',
-                    fontWeight: FontWeight.w300))
+                    fontWeight: FontWeight.w300)),
+            Text("Unread: ${unReadMessages.toString()}")
           ],
         ),
       ),

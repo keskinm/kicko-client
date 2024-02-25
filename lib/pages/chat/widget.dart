@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/pages/chat/search_page.dart';
 import 'package:kicko/pages/chat/chatroom_page.dart';
+import 'package:kicko/services/database.dart';
+import 'package:kicko/shared/route.dart';
+
+DatabaseMethods dataBaseMethods = DatabaseMethods();
 
 PreferredSizeWidget? appBarMain(BuildContext context) {
   return AppBar(
-    title: Text("????"),
+    title: Text(""),
     elevation: 0.0,
     centerTitle: false,
   );
@@ -28,16 +32,94 @@ TextStyle biggerTextStyle() {
   return TextStyle(color: Colors.white, fontSize: 17);
 }
 
-List<Widget> chatWidgetsList(BuildContext context) {
+Widget buildGoChatButton(
+    BuildContext context, bool? messagesNotification, Function setStates) {
+  return messagesNotification == null
+      ? CircularProgressIndicator()
+      : GestureDetector(
+          onTap: () =>
+              pushSetStateWhenBack(context, (context) => ChatRoom(), setStates),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Icon(Icons.message, size: 50.0),
+              if (messagesNotification)
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    constraints: BoxConstraints(
+                      minWidth: 12,
+                      minHeight: 12,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+}
+
+Widget buildGoChatRoomButton(
+    BuildContext context, bool? messagesNotification, Function setStates) {
+  return messagesNotification == null
+      ? CircularProgressIndicator()
+      : GestureDetector(
+          onTap: () =>
+              pushSetStateWhenBack(context, (context) => ChatRoom(), setStates),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Icon(Icons.message, size: 50.0),
+              if (messagesNotification)
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    padding: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    constraints: BoxConstraints(
+                      minWidth: 12,
+                      minHeight: 12,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        );
+}
+
+List<Widget> chatWidgetsList(
+    BuildContext context, bool? messagesNotification, dynamic widget) {
   return [
-    TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ChatRoom()),
-          );
-        },
-        child: const Text("CHAT ROOM")),
+    buildGoChatRoomButton(context, messagesNotification, widget.onRebuild),
     TextButton(
         onPressed: () {
           Navigator.push(

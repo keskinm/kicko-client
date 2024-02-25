@@ -6,10 +6,11 @@ import 'package:kicko/pages/professional/qr_code_image.dart';
 import 'package:kicko/pages/chat/widget.dart';
 
 import 'package:kicko/syntax.dart';
-import 'package:kicko/services/app_state.dart';
 import '../common.dart';
 import 'job_offer_page.dart';
 import 'package:kicko/pages/medias.dart';
+import 'package:kicko/shared/user.dart';
+import 'package:kicko/shared/route.dart';
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
@@ -20,25 +21,29 @@ class ProHome extends StatefulWidget {
   }
 }
 
-class _ProHome extends State<ProHome> {
+class _ProHome extends State<ProHome> with UserStateMixin {
   ProfessionalHomeLogic logic = ProfessionalHomeLogic();
   ProfessionalHomeStyle style = ProfessionalHomeStyle();
   late Future<Map<String, dynamic>> business;
   late Future<String> imageDownloadURL;
   late Future<List<dynamic>> jobOffers;
-  String imagesBucket =
-      '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
 
-  onReBuild() {
-    business = logic.getBusiness();
-    imageDownloadURL = logic.getProfileImage(business, imagesBucket);
-    jobOffers = logic.getJobOffers();
-  }
+  String get imagesBucket =>
+      '${userGroupSyntax.professional}/$userName/business_images';
 
   @override
   void initState() {
     super.initState();
     onReBuild();
+  }
+
+  onReBuild() {
+    setState(() {
+      business = logic.getBusiness();
+      imageDownloadURL = logic.getProfileImage(business, imagesBucket);
+      jobOffers = logic.getJobOffers();
+    });
+    super.onRebuild();
   }
 
   Container buildContainerWithText(String text) {
@@ -138,16 +143,11 @@ class _ProHome extends State<ProHome> {
                   child: IconButton(
                     icon: const Icon(Icons.add_a_photo, color: Colors.black),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                DisplayProfileImages(bucket: imagesBucket)),
-                      ).then((_) {
-                        setState(() {
-                          onReBuild();
-                        });
-                      });
+                      pushSetStateWhenBack(
+                          context,
+                          (context) =>
+                              DisplayProfileImages(bucket: imagesBucket),
+                          onReBuild);
                     },
                   ),
                   decoration: BoxDecoration(
@@ -412,7 +412,7 @@ class _ProHome extends State<ProHome> {
                     .toList(),
               ),
             ),
-            ...chatWidgetsList(context)
+            ...chatWidgetsList(context, messagesNotification, this)
           ],
         )));
   }
