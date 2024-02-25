@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-// import 'package:kicko/pages/candidate/candidate_home_page.dart';
+import 'package:kicko/pages/candidate/candidate_home_page.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_storage_mocks/firebase_storage_mocks.dart';
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:kicko/services/database.dart';
 // import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +10,9 @@ import 'package:provider/provider.dart';
 
 void main() {
   testWidgets('shows messages', (WidgetTester tester) async {
-    final storage = MockFirebaseStorage();
+    final fakeStorage = MockFirebaseStorage();
     final fakeFirestore = FakeFirebaseFirestore();
-    final mockDatabaseService = FireBaseService(firestore: fakeFirestore, firebaseStorage: storage);
+    final mockDatabaseService = FireBaseService(firestore: fakeFirestore, firebaseStorage: fakeStorage);
 
     await mockDatabaseService.addMessage("EH", {'coucou': 'hello world'});
 
@@ -37,12 +37,17 @@ void main() {
     // });
 
     // await tester.pumpWidget(
-    //   ProviderScope(
-    //     overrides: [
-    //       databaseServiceProvider.overrideWithValue(mockDatabaseService),
-    //     ],
-    //     child: MaterialApp(home: CandidateHome()),
+    //   Provider<FireBaseServiceInterface>(
+    //     create: (_) => FireBaseService(
+    //       firestore: fakeFirestore,
+    //       firebaseStorage: fakeStorage
+    //       // Pass your mocked FirebaseStorage if necessary
+    //     ),
+    //     child: MaterialApp(
+    //       home: CandidateHome(),
+    //     ),
     //   ),
     // );
+
   });
 }
