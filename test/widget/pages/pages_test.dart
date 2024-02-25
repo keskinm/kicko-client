@@ -6,21 +6,30 @@ import 'package:kicko/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kicko/easy_tests/mock_firebase_app_workaround.dart';
-// import 'package:mockito/mockito.dart';
-// import 'package:kicko/firebase_options.dart';
 import 'package:kicko/pages/candidate/candidate_home_page.dart';
-import 'package:kicko/easy_tests/test_page.dart';
+import 'package:dio/dio.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:kicko/get_it_service_locator.dart';
 
 // the firebase app mocking is FOUND HERE: https://stackoverflow.com/questions/63662031/how-to-mock-the-firebaseapp-in-flutter
 
 void main() {
   setupFirebaseAuthMocks();
+  late DioAdapter dioAdapter;
 
   setUpAll(() async {
     await Firebase.initializeApp();
+    // getIt.unregister<Dio>();
+    Dio dio = Dio();
+    dioAdapter = DioAdapter(dio: dio);
+    dioAdapter.onPost(RegExp('.*'),
+        (server) {
+      server.reply(200, {"": ""});
+    }, data: Matchers.any);
+    getIt.registerLazySingleton<Dio>(() => dio);
   });
 
-  testWidgets('shows messages', (WidgetTester tester) async {
+  testWidgets('Candidate Home', (WidgetTester tester) async {
     final fakeStorage = MockFirebaseStorage();
     final fakeFirestore = FakeFirebaseFirestore();
 
@@ -33,5 +42,7 @@ void main() {
         ),
       ),
     );
+
+    await tester.pumpAndSettle();
   });
 }
