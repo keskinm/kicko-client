@@ -9,18 +9,49 @@ import 'package:kicko/logger.dart';
 
 import 'dart:io';
 
-class DatabaseMethods {
+abstract class DatabaseService {
+  addUserInfo(userData);
+  getUserInfo(String email);
+  searchByName(String searchField);
+  Future<void> addChatRoom(chatRoom, chatRoomId);
+  Future getChats(String chatRoomId);
+  Future<void> addMessage(String chatRoomId, chatMessageData);
+  getUserChats(String userName);
+  Future<Map<String, dynamic>?> getLastMessage(String chatRoomId);
+    Future<void> updateLastRead(
+      String userName, String chatRoomId, int lastMessageTime);
+  Future<bool> checkUserMessageNotifications(String userName);
+  Future<String> downloadFile(String bucket, String fileId);
+  downloadFiles(String bucket);
+  Future<String> uploadFile(
+    String bucket, String fileName, dynamic file);
+  Future<String> uploadBytes(
+    String bucket, String fileName, Uint8List bytes);
+  Future<bool> deleteFireBaseStorageBucket(String bucket);
+  bool deleteFireBaseStorageItem(String storageReference);
+  Future deleteUserFromFireBase(String email, String password);
+
+  
+
+}
+
+class DatabaseMethods implements DatabaseService {
+  FirebaseFirestore firestore;
+
+  DatabaseMethods({FirebaseFirestore? firestore})
+      : this.firestore = firestore ?? FirebaseFirestore.instance;
+
   // ------------------------CHAT FIREBASE--------------------------------------
 
   Future<void> addUserInfo(userData) async {
-    FirebaseFirestore.instance
+    firestore
         .collection("users")
         .add(userData)
         .catchError((e) {});
   }
 
   getUserInfo(String email) async {
-    return FirebaseFirestore.instance
+    return firestore
         .collection("users")
         .where("userEmail", isEqualTo: email)
         .get()
@@ -28,14 +59,14 @@ class DatabaseMethods {
   }
 
   searchByName(String searchField) {
-    return FirebaseFirestore.instance
+    return firestore
         .collection("users")
         .where('userName', isEqualTo: searchField)
         .get();
   }
 
   Future<void> addChatRoom(chatRoom, chatRoomId) async {
-    FirebaseFirestore.instance
+    firestore
         .collection("chatRoom")
         .doc(chatRoomId)
         .set(chatRoom)
@@ -43,7 +74,7 @@ class DatabaseMethods {
   }
 
   Future getChats(String chatRoomId) async {
-    return FirebaseFirestore.instance
+    return firestore
         .collection("chatRoom")
         .doc(chatRoomId)
         .collection("chats")
@@ -52,7 +83,7 @@ class DatabaseMethods {
   }
 
   Future<void> addMessage(String chatRoomId, chatMessageData) async {
-    FirebaseFirestore.instance
+    firestore
         .collection("chatRoom")
         .doc(chatRoomId)
         .collection("chats")
@@ -63,7 +94,7 @@ class DatabaseMethods {
   getUserChats(String userName) async {
     // ----- CACHEABLE (SHARED ON SAME TREE WITH OTHER METHOD)----
 
-    QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
+    QuerySnapshot chatRoomSnapshot = await firestore
         .collection("chatRoom")
         .where('users', arrayContains: userName)
         .get();
@@ -78,7 +109,7 @@ class DatabaseMethods {
           ? chatRoomDataMap['lastRead'][userName]
           : null;
 
-      QuerySnapshot allMessagesSnapshot = await FirebaseFirestore.instance
+      QuerySnapshot allMessagesSnapshot = await firestore
           .collection("chatRoom")
           .doc(chatRoomId)
           .collection("chats")
@@ -111,7 +142,7 @@ class DatabaseMethods {
   }
 
   Future<Map<String, dynamic>?> getLastMessage(String chatRoomId) async {
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
+    QuerySnapshot snapshot = await firestore
         .collection('chatRoom')
         .doc(chatRoomId)
         .collection('chats')
@@ -127,7 +158,7 @@ class DatabaseMethods {
 
   Future<void> updateLastRead(
       String userName, String chatRoomId, int lastMessageTime) async {
-    return FirebaseFirestore.instance
+    return firestore
         .collection('chatRoom')
         .doc(chatRoomId)
         .update({
@@ -135,9 +166,10 @@ class DatabaseMethods {
     });
   }
 
+  @override
   Future<bool> checkUserMessageNotifications(String userName) async {
     // ----- CACHEABLE (SHARED ON SAME TREE WITH OTHER METHOD)----
-    QuerySnapshot chatRoomSnapshot = await FirebaseFirestore.instance
+    QuerySnapshot chatRoomSnapshot = await firestore
         .collection("chatRoom")
         .where('users', arrayContains: userName)
         .get();
@@ -147,7 +179,7 @@ class DatabaseMethods {
     for (var chatRoomDoc in chatRoomSnapshot.docs) {
       String chatRoomId = chatRoomDoc.id;
 
-      QuerySnapshot allMessagesSnapshot = await FirebaseFirestore.instance
+      QuerySnapshot allMessagesSnapshot = await firestore
           .collection("chatRoom")
           .doc(chatRoomId)
           .collection("chats")
@@ -281,6 +313,14 @@ class DatabaseMethods {
     }
   }
 
+
+
+}
+
+
+
+class SQLDataBaseMethods {
+
   // ------------------------SQL--------------------------------------
 
   Future<bool> updateTableField(
@@ -299,20 +339,20 @@ class DatabaseMethods {
     }
   }
 
-  getTableField(String userId, String route) async {
-    String body = '{"professional_id": "$userId"}';
-    Response response = await dioHttpPost(
-      route: route,
-      jsonData: body,
-      token: false,
-    );
+// @todo plus besoin de ça ???:
+//   getTableField(String userId, String route) async {
+//     String body = '{"professional_id": "$userId"}';
+//     Response response = await dioHttpPost(
+//       route: route,
+//       jsonData: body,
+//       token: false,
+//     );
 
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      return {"error": true};
-    }
-  }
+//     if (response.statusCode == 200) {
+//       return response.data;
+//     } else {
+//       return {"error": true};
+//     }
+//   }
+
 }
-
-// -------------------------------------------------------------------------

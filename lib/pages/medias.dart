@@ -176,6 +176,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
   bool inProcess = false;
   late dynamic profileImages;
   DatabaseMethods dataBaseMethods = DatabaseMethods();
+  SQLDataBaseMethods sQLDataBaseMethods = SQLDataBaseMethods();
 
   buildImageProfileWraps(dynamic storageReferences) {
     List<Widget> r = [];
@@ -196,7 +197,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
                       children: <Widget>[
                         TextButton(
                             onPressed: () async {
-                              await dataBaseMethods.updateTableField(
+                              await sQLDataBaseMethods.updateTableField(
                                   storageReferenceBasename,
                                   "image_id",
                                   "update_business_fields");
@@ -272,7 +273,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       String imageName = "post_$postId.jpg";
       await dataBaseMethods.uploadFile(
           widget.bucket, imageName, image.readAsBytes());
-      bool res = await dataBaseMethods.updateTableField(
+      bool res = await sQLDataBaseMethods.updateTableField(
           imageName, "image_id", "update_business_fields");
       if (res) {
         setState(() {});
