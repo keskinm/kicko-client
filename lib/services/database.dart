@@ -32,9 +32,13 @@ abstract class DatabaseService {
 
 class DatabaseMethods implements DatabaseService {
   FirebaseFirestore firestore;
+  fs.FirebaseStorage firebaseStorage;
 
-  DatabaseMethods({FirebaseFirestore? firestore})
-      : this.firestore = firestore ?? FirebaseFirestore.instance;
+  DatabaseMethods({
+    FirebaseFirestore? firestore,
+    fs.FirebaseStorage? firebaseStorage,
+  })  : this.firestore = firestore ?? FirebaseFirestore.instance,
+        this.firebaseStorage = firebaseStorage ?? fs.FirebaseStorage.instance;
 
   // ------------------------CHAT FIREBASE--------------------------------------
 
@@ -216,14 +220,14 @@ class DatabaseMethods implements DatabaseService {
 
   Future<String> downloadFile(String bucket, String fileId) async {
     fs.Reference ref =
-        fs.FirebaseStorage.instance.ref().child(bucket).child(fileId);
+        firebaseStorage.ref().child(bucket).child(fileId);
 
     String downloadURL = await ref.getDownloadURL();
     return downloadURL;
   }
 
   dynamic downloadFiles(String bucket) async {
-    fs.Reference ref = fs.FirebaseStorage.instance.ref().child(bucket);
+    fs.Reference ref = firebaseStorage.ref().child(bucket);
 
     final urls = await ref.listAll();
     dynamic refs = urls.items;
@@ -240,7 +244,7 @@ class DatabaseMethods implements DatabaseService {
       String bucket, String fileName, dynamic file) async {
     String downloadURL;
     fs.Reference ref =
-        fs.FirebaseStorage.instance.ref().child(bucket).child(fileName);
+        firebaseStorage.ref().child(bucket).child(fileName);
 
     if (kIsWeb) {
       await ref.putData(await file);
@@ -257,7 +261,7 @@ class DatabaseMethods implements DatabaseService {
       String bucket, String fileName, Uint8List bytes) async {
     String downloadURL;
     fs.Reference ref =
-        fs.FirebaseStorage.instance.ref().child(bucket).child(fileName);
+        firebaseStorage.ref().child(bucket).child(fileName);
     await ref.putData(bytes);
     downloadURL = await ref.getDownloadURL();
     return downloadURL;
@@ -265,18 +269,18 @@ class DatabaseMethods implements DatabaseService {
 
   Future<bool> deleteFireBaseStorageBucket(String bucket) async {
     fs.Reference toDeleteBucket =
-        fs.FirebaseStorage.instance.ref().child(bucket);
+        firebaseStorage.ref().child(bucket);
     final urls = await toDeleteBucket.listAll();
     dynamic refs = urls.items;
     for (dynamic ref in refs) {
-      fs.FirebaseStorage.instance.ref(ref.fullPath).delete();
+      firebaseStorage.ref(ref.fullPath).delete();
     }
 
     return true;
   }
 
   bool deleteFireBaseStorageItem(String storageReference) {
-    fs.Reference storageReferenceBase = fs.FirebaseStorage.instance.ref();
+    fs.Reference storageReferenceBase = firebaseStorage.ref();
 
     bool success = false;
 
