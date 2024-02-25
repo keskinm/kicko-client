@@ -7,6 +7,9 @@ import 'package:kicko/shared/user.dart';
 import 'package:dio/dio.dart';
 
 class TestPage extends StatefulWidget {
+  // @todo A changer le isClicked avec un onpressed navigator qui repush sur la meme page et qui
+  // @todo change la value en yes.
+  // @todo Tester push puis back fetch et met à jour de la data.
   final String isClicked;
   const TestPage({Key? key, this.isClicked = "NO"}) : super(key: key);
 
@@ -36,11 +39,7 @@ Future<Map> getProfile() async {
 
 // class _TestPage extends State<TestPage> with UserStateMixin {
 class _TestPage extends State<TestPage> {
-  Map<String, dynamic> jobOfferFilters = {"city": TextEditingController()};
-  Map<String, dynamic> profileJson = {};
-  Map<String, dynamic> profileJsonDropDown = {};
-
-  late Future<Map> sqlFetchedData;
+  // late Future<Map> sqlFetchedData;
 
   // @todo A MOCKER appState.userName JUSTE APRES AVOIR FAIT MARCHER CE TEST
   // String get resumesBucket => "${userGroupSyntax.candidate}/$userName/resumes";
@@ -48,6 +47,13 @@ class _TestPage extends State<TestPage> {
   @override
   void initState() {
     super.initState();
+    // onReBuild();
+  }
+
+  onReBuild() {
+    setState(() {
+      // sqlFetchedData = getProfile();
+    });
   }
 
   @override
