@@ -19,8 +19,7 @@ void main() {
 
     test('Test GET request', () async {
       final responsePayload = {'key': 'value'};
-      when(mockDio.get(any)).thenAnswer(
-          (_) async => Response(data: responsePayload, statusCode: 200));
+      when(mockDio.get(any as String)).thenAnswer((_) async => Response(data: responsePayload, requestOptions: RequestOptions(path: ''), statusCode: 200));
 
       var result = await myApiService.fetchData();
 
