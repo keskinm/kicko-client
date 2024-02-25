@@ -23,7 +23,7 @@ void main() {
   setUpAll(() async {
     await Firebase.initializeApp();
     // getIt.unregister<Dio>();
-    Dio dio = Dio(BaseOptions());
+    Dio dio = Dio();
     dioAdapter = DioAdapter(dio: dio);
       dioAdapter.onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
       server.reply(200, {"": ""});
