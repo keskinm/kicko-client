@@ -33,15 +33,9 @@ void main() {
     // getIt.unregister<DioAdapter>();
     Dio dio = Dio(BaseOptions());
     dioAdapter = DioAdapter(dio: dio);
-      dioAdapter
-    ..onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
-      server.reply(200, 200);
-    }, data: Matchers.any)
-    ..onPost(
-      'http://127.0.0.1:5000/api/candidate_get_profile',
-      (server) => server.reply(200, accessToken),
-      data: body,
-    );
+      dioAdapter.onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
+      server.reply(200, {"": ""});
+    }, data: Matchers.any);
     getIt.registerLazySingleton<Dio>(() => dio);
 
   });
