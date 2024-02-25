@@ -117,14 +117,17 @@ Widget buildGoChatRoomButton(
 List<Widget> chatWidgetsList(
     BuildContext context, bool? messagesNotification, dynamic widget) {
   return [
-    Expanded(child: buildGoChatRoomButton(context, messagesNotification, widget.onRebuild)),
-    Expanded(child: TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Search()),
-          );
-        },
-        child: const Text("SEARCH"))),
+    Expanded(
+        child: buildGoChatRoomButton(
+            context, messagesNotification, widget.onRebuild)),
+    Expanded(
+        child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Search()),
+              );
+            },
+            child: const Text("SEARCH"))),
   ];
 }
