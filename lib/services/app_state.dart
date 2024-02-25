@@ -20,7 +20,7 @@ enum AppStatus {
 class AppState {
   AppState();
 
-  DatabaseMethods dataBaseMethods = DatabaseMethods();
+  FireBaseService dataBaseMethods = FireBaseService();
 
   String language = "french";
 

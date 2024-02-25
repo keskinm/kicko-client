@@ -12,7 +12,7 @@ import '../professional/professional_home_page.dart';
 
 class RegisterLogic {
   final formKey = GlobalKey<FormState>();
-  DatabaseMethods dataBaseMethods = DatabaseMethods();
+  FireBaseService dataBaseMethods = FireBaseService();
 
   Validator validator = Validator();
 

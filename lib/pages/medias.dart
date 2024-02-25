@@ -44,7 +44,7 @@ class DisplayResumes extends StatefulWidget {
 class _DisplayResumes extends State<DisplayResumes> {
   bool isBlockedResumes = false;
   late dynamic resumes;
-  DatabaseMethods dataBaseMethods = DatabaseMethods();
+  FireBaseService dataBaseMethods = FireBaseService();
 
   onReBuild() {
     resumes = dataBaseMethods.downloadFiles(widget.bucket);
@@ -175,7 +175,7 @@ class DisplayProfileImages extends StatefulWidget {
 class _DisplayProfileImages extends State<DisplayProfileImages> {
   bool inProcess = false;
   late dynamic profileImages;
-  DatabaseMethods dataBaseMethods = DatabaseMethods();
+  FireBaseService dataBaseMethods = FireBaseService();
   SQLDataBaseMethods sQLDataBaseMethods = SQLDataBaseMethods();
 
   buildImageProfileWraps(dynamic storageReferences) {

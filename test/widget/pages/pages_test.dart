@@ -10,7 +10,7 @@ import 'package:kicko/providers.dart';
 void main() {
   testWidgets('shows messages', (WidgetTester tester) async {
     final fakeFirestore = FakeFirebaseFirestore();
-    final mockDatabaseService = DatabaseMethods(firestore: fakeFirestore);
+    final mockDatabaseService = FireBaseService(firestore: fakeFirestore);
 
     await mockDatabaseService.addMessage("EH", {'coucou': 'hello world'});
 

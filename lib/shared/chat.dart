@@ -21,7 +21,7 @@ sendMessage(BuildContext context, String userName) {
     "chatRoomId": chatRoomId,
   };
 
-  DatabaseMethods databaseMethods = new DatabaseMethods();
+  FireBaseService databaseMethods = new FireBaseService();
   databaseMethods.addChatRoom(chatRoom, chatRoomId);
 
   Navigator.push(

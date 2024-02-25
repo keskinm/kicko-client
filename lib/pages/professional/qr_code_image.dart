@@ -18,7 +18,7 @@ class DisplayQRCodeImage extends StatefulWidget {
 class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   bool inProcess = false;
   late dynamic qrCodeImage;
-  DatabaseMethods dataBaseMethods = DatabaseMethods();
+  FireBaseService dataBaseMethods = FireBaseService();
 
   buildQrCodeDisplay(dynamic storageReference) {
     return Container(

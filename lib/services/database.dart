@@ -9,7 +9,7 @@ import 'package:kicko/logger.dart';
 
 import 'dart:io';
 
-abstract class DatabaseService {
+abstract class FireBaseServiceInterface {
   addUserInfo(userData);
   getUserInfo(String email);
   searchByName(String searchField);
@@ -30,11 +30,11 @@ abstract class DatabaseService {
   Future deleteUserFromFireBase(String email, String password);
 }
 
-class DatabaseMethods implements DatabaseService {
+class FireBaseService implements FireBaseServiceInterface {
   FirebaseFirestore firestore;
   fs.FirebaseStorage firebaseStorage;
 
-  DatabaseMethods({
+  FireBaseService({
     FirebaseFirestore? firestore,
     fs.FirebaseStorage? firebaseStorage,
   })  : this.firestore = firestore ?? FirebaseFirestore.instance,

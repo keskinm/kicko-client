@@ -113,7 +113,7 @@ class ProfessionalHomeLogic {
       bucket = imagesBucket;
     }
 
-    return DatabaseMethods().downloadFile(bucket, profileImageId);
+    return FireBaseService().downloadFile(bucket, profileImageId);
   }
 
   Future<List> getJobOffers() async {

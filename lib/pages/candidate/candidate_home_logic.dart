@@ -83,7 +83,7 @@ class CandidateHomeLogic {
           '${userGroupSyntax.professional}/${appState.currentUser.username}/business_images';
     }
 
-    return DatabaseMethods().downloadFile(bucket, profileImageId);
+    return FireBaseService().downloadFile(bucket, profileImageId);
   }
 
   Future<bool> updateProfile(Map profileJson) async {

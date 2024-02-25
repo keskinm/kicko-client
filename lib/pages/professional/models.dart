@@ -14,7 +14,7 @@ class JobOffer {
   late String description;
   late String requires;
   late String businessId;
-  DatabaseMethods dataBaseMethods = DatabaseMethods();
+  FireBaseService dataBaseMethods = FireBaseService();
 
   JobOffer(
       {required this.requires,

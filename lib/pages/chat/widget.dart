@@ -4,7 +4,7 @@ import 'package:kicko/pages/chat/chatroom_page.dart';
 import 'package:kicko/services/database.dart';
 import 'package:kicko/shared/route.dart';
 
-DatabaseMethods dataBaseMethods = DatabaseMethods();
+FireBaseService dataBaseMethods = FireBaseService();
 
 PreferredSizeWidget? appBarMain(BuildContext context) {
   return AppBar(

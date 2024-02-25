@@ -49,7 +49,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
   void loadChatRooms() async {
     var chatsData =
-        await DatabaseMethods().getUserChats(appState.currentUser.username);
+        await FireBaseService().getUserChats(appState.currentUser.username);
     setState(() {
       chatRoomsData = chatsData;
     });

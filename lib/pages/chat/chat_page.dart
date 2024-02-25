@@ -47,7 +47,7 @@ class _ChatState extends State<Chat> {
         'time': DateTime.now().millisecondsSinceEpoch,
       };
 
-      DatabaseMethods().addMessage(widget.chatRoomId, chatMessageMap);
+      FireBaseService().addMessage(widget.chatRoomId, chatMessageMap);
 
       setState(() {
         messageEditingController.text = "";
@@ -57,14 +57,14 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
-    DatabaseMethods().getLastMessage(widget.chatRoomId).then((lastMessage) {
+    FireBaseService().getLastMessage(widget.chatRoomId).then((lastMessage) {
       if (lastMessage != null) {
-        DatabaseMethods().updateLastRead(appState.currentUser.username,
+        FireBaseService().updateLastRead(appState.currentUser.username,
             widget.chatRoomId, lastMessage['time']);
       }
     });
 
-    DatabaseMethods().getChats(widget.chatRoomId).then((val) {
+    FireBaseService().getChats(widget.chatRoomId).then((val) {
       setState(() {
         chats = val;
       });

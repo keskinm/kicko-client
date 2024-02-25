@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
 
-DatabaseMethods databaseMethods = DatabaseMethods();
+FireBaseService databaseMethods = FireBaseService();
 
 mixin UserStateMixin<T extends StatefulWidget> on State<T> {
   late String userName;
