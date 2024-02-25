@@ -25,23 +25,25 @@ void main() {
       print(document.data());
     }
 
+    // ----------------------------------------
+
     // final messages = await fakeFirestore.collection('messages').get();
     // expect(messages.docs.length, 1);
     // expect(messages.docs.first['message'], 'Hello world!');
 
-    // ----------------------------------------
 
     // await fakeFirestore.collection('messages').add({
     //   'message': 'Hello world!',
     //   'created_at': DateTime.now(),
     // });
 
+    // ----------------------------------------
+
     // await tester.pumpWidget(
     //   Provider<FireBaseServiceInterface>(
     //     create: (_) => FireBaseService(
     //       firestore: fakeFirestore,
     //       firebaseStorage: fakeStorage
-    //       // Pass your mocked FirebaseStorage if necessary
     //     ),
     //     child: MaterialApp(
     //       home: CandidateHome(),
