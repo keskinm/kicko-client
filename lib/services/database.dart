@@ -18,21 +18,16 @@ abstract class DatabaseService {
   Future<void> addMessage(String chatRoomId, chatMessageData);
   getUserChats(String userName);
   Future<Map<String, dynamic>?> getLastMessage(String chatRoomId);
-    Future<void> updateLastRead(
+  Future<void> updateLastRead(
       String userName, String chatRoomId, int lastMessageTime);
   Future<bool> checkUserMessageNotifications(String userName);
   Future<String> downloadFile(String bucket, String fileId);
   downloadFiles(String bucket);
-  Future<String> uploadFile(
-    String bucket, String fileName, dynamic file);
-  Future<String> uploadBytes(
-    String bucket, String fileName, Uint8List bytes);
+  Future<String> uploadFile(String bucket, String fileName, dynamic file);
+  Future<String> uploadBytes(String bucket, String fileName, Uint8List bytes);
   Future<bool> deleteFireBaseStorageBucket(String bucket);
   bool deleteFireBaseStorageItem(String storageReference);
   Future deleteUserFromFireBase(String email, String password);
-
-  
-
 }
 
 class DatabaseMethods implements DatabaseService {
@@ -44,10 +39,7 @@ class DatabaseMethods implements DatabaseService {
   // ------------------------CHAT FIREBASE--------------------------------------
 
   Future<void> addUserInfo(userData) async {
-    firestore
-        .collection("users")
-        .add(userData)
-        .catchError((e) {});
+    firestore.collection("users").add(userData).catchError((e) {});
   }
 
   getUserInfo(String email) async {
@@ -158,10 +150,7 @@ class DatabaseMethods implements DatabaseService {
 
   Future<void> updateLastRead(
       String userName, String chatRoomId, int lastMessageTime) async {
-    return firestore
-        .collection('chatRoom')
-        .doc(chatRoomId)
-        .update({
+    return firestore.collection('chatRoom').doc(chatRoomId).update({
       'lastRead.$userName': lastMessageTime,
     });
   }
@@ -312,15 +301,9 @@ class DatabaseMethods implements DatabaseService {
       }
     }
   }
-
-
-
 }
 
-
-
 class SQLDataBaseMethods {
-
   // ------------------------SQL--------------------------------------
 
   Future<bool> updateTableField(
@@ -354,5 +337,4 @@ class SQLDataBaseMethods {
 //       return {"error": true};
 //     }
 //   }
-
 }

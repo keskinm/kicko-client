@@ -2,10 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kicko/pages/candidate/candidate_home_page.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:kicko/services/database.dart';
 import 'package:mockito/mockito.dart';
-
 
 void main() {
   testWidgets('shows messages', (WidgetTester tester) async {
@@ -14,9 +12,11 @@ void main() {
 
     await mockDatabaseService.addMessage("EH", {'coucou': 'hello world'});
 
-    final message = await fakeFirestore.collection("chatRoom")
+    final message = await fakeFirestore
+        .collection("chatRoom")
         .doc("EH")
-        .collection("chats").get();
+        .collection("chats")
+        .get();
     for (var document in message.docs) {
       print(document.data());
     }
@@ -38,6 +38,5 @@ void main() {
     //     child: MaterialApp(home: CandidateHome()),
     //   ),
     // );
-
   });
 }

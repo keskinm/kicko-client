@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:kicko/syntax.dart';
 import 'firebase_options.dart';
 import 'package:kicko/logger.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
   Logger.setLogLevel(LogLevel.info);
@@ -15,7 +16,8 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MaterialApp(
+  runApp(ProviderScope(
+      child: MaterialApp(
     title: 'KICKO!',
     debugShowCheckedModeBanner: false,
     home: const KickoApp(),
@@ -29,7 +31,7 @@ Future<void> main() async {
         backgroundColor: Colors.deepOrangeAccent,
       ),
     ),
-  ));
+  )));
 }
 
 class KickoApp extends StatefulWidget {
