@@ -4,7 +4,8 @@ import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/services/database.dart';
 import 'package:mockito/mockito.dart';
-import 'package:kicko/providers.dart';
+import 'package:provider/provider.dart';
+
 
 void main() {
   testWidgets('shows messages', (WidgetTester tester) async {

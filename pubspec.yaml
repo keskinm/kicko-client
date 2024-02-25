@@ -46,7 +46,6 @@ dependencies:
   dart_style: ^2.2.3
   file_picker: ^6.1.1
   url_launcher: ^6.1.6
-  flutter_riverpod: ^2.4.10
   provider: ^6.1.1
 
 dev_dependencies:
