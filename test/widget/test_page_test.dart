@@ -22,15 +22,7 @@ void main() {
 
   setUpAll(() async {
     await Firebase.initializeApp();
-
-    const accessToken = <String, dynamic>{
-      'token': 'ACCESS_TOKEN',
-    };
-    String userId = '';
-    String body = '{"id": "$userId"}';
-
     // getIt.unregister<Dio>();
-    // getIt.unregister<DioAdapter>();
     Dio dio = Dio(BaseOptions());
     dioAdapter = DioAdapter(dio: dio);
       dioAdapter.onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
