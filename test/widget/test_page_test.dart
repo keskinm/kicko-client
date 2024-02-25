@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kicko/easy_tests/mock_firebase_app_workaround.dart';
 import 'package:kicko/easy_tests/test_page.dart';
+import 'package:dio/dio.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:kicko/get_it_service_locator.dart';
 
 // import 'package:mockito/mockito.dart';
 // import 'package:kicko/firebase_options.dart';
@@ -15,12 +18,57 @@ import 'package:kicko/easy_tests/test_page.dart';
 
 void main() {
   setupFirebaseAuthMocks();
+  late DioAdapter dioAdapter;
 
   setUpAll(() async {
     await Firebase.initializeApp();
+
+    // setupServiceLocator();
+    // Dio dio = getIt<Dio>();
+    // dioAdapter = getIt<DioAdapter>();
+    // getIt.unregister<Dio>(); // Make sure to clean up
+    // getIt.unregister<DioAdapter>();
+    Dio dio = Dio(BaseOptions());
+    getIt.registerLazySingleton<Dio>(() => dio);
+
+    dioAdapter = DioAdapter(dio: getIt<Dio>());
+
+    const accessToken = <String, dynamic>{
+      'token': 'ACCESS_TOKEN',
+    };
+    String userId = '';
+    String body = '{"id": "$userId"}';
+
+    // dioAdapter
+    //   ..onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
+    //     server.reply(200, 200);
+    //   }, data: Matchers.any)
+    //   ..onPost(
+    //     'http://127.0.0.1:5000/api/candidate_get_profile',
+    //     (server) => server.reply(200, accessToken),
+    //     data: body,
+    //   );
+
+    getIt
+        .registerLazySingleton<DioAdapter>(() => DioAdapter(dio: getIt<Dio>()));
   });
 
   testWidgets('ensure mocking database services', (WidgetTester tester) async {
+    const accessToken = <String, dynamic>{
+      'token': 'ACCESS_TOKEN',
+    };
+    String userId = '';
+    String body = '{"id": "$userId"}';
+    dioAdapter
+      ..onPost('http://10.0.2.2:5000/api/candidate_get_profile', (server) {
+        server.reply(200, 200);
+      }, data: Matchers.any)
+      ..onPost(
+        'http://127.0.0.1:5000/api/candidate_get_profile',
+        (server) => server.reply(200, accessToken),
+        data: body,
+      );
+
     final fakeStorage = MockFirebaseStorage();
     final fakeFirestore = FakeFirebaseFirestore();
 

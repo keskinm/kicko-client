@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:kicko/services/app_state.dart';
+import 'package:kicko/get_it_service_locator.dart';
 
 Future<Response> dioHttpGet(
     {required String route, required bool token}) async {
@@ -30,7 +31,9 @@ Future<Response> dioHttpPost(
 }
 
 Dio getDio({required bool token}) {
-  Dio dio = Dio();
+  // @todo virer le "final" ?
+  final dio = getIt<Dio>();
+  // Dio dio = Dio();
   dio.options = BaseOptions(
       followRedirects: false,
       headers: token

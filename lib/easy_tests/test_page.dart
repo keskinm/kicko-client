@@ -39,7 +39,7 @@ Future<Map> getProfile() async {
 
 // class _TestPage extends State<TestPage> with UserStateMixin {
 class _TestPage extends State<TestPage> {
-  // late Future<Map> sqlFetchedData;
+  late Future<Map> sqlFetchedData;
 
   // @todo A MOCKER appState.userName JUSTE APRES AVOIR FAIT MARCHER CE TEST
   // String get resumesBucket => "${userGroupSyntax.candidate}/$userName/resumes";
@@ -47,12 +47,12 @@ class _TestPage extends State<TestPage> {
   @override
   void initState() {
     super.initState();
-    // onReBuild();
+    onReBuild();
   }
 
   onReBuild() {
     setState(() {
-      // sqlFetchedData = getProfile();
+      sqlFetchedData = getProfile();
     });
   }
 

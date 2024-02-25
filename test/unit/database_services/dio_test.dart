@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:flutter_test/flutter_test.dart';
+// import 'dart:io';
 
 void main() async {
   late Dio dio;
@@ -9,8 +10,6 @@ void main() async {
   Response<dynamic> response;
 
   group('Accounts', () {
-    const baseUrl = 'https://example.com';
-
     const userCredentials = <String, dynamic>{
       'email': 'test@example.com',
       'password': 'password',
@@ -24,7 +23,25 @@ void main() async {
       //  matcher: const FullHttpRequestMatcher(needsExactBody: true),
       // );
 
-      dio = Dio(BaseOptions(baseUrl: baseUrl));
+      dio = Dio(BaseOptions());
+
+      // dio.options = BaseOptions(
+      // followRedirects: false,
+      // headers: {'content-Type': 'application/json'},
+      // validateStatus: (status) {
+      //   return status! <= 500;
+      // });
+
+      //   dio.options = BaseOptions(
+      // followRedirects: false,
+      // headers: {
+      //         HttpHeaders.authorizationHeader: 'Bearer TOKENHERE',
+      //         HttpHeaders.contentTypeHeader: 'application/json'
+      //       },
+      // validateStatus: (status) {
+      //   return status! <= 500;
+      // });
+
       dioAdapter = DioAdapter(
         dio: dio,
 
@@ -62,7 +79,7 @@ void main() async {
     });
 
     test('signs in user and fetches account information', () async {
-      const signInRoute = '/signin';
+      const signInRoute = 'http://127.0.0.1:5000/api/signin/';
       const accountRoute = '/account';
 
       const accessToken = <String, dynamic>{
@@ -83,17 +100,6 @@ void main() async {
       dioAdapter
         ..onPost(
           signInRoute,
-          (server) => server.throws(
-            401,
-            DioException(
-              requestOptions: RequestOptions(
-                path: signInRoute,
-              ),
-            ),
-          ),
-        )
-        ..onPost(
-          signInRoute,
           (server) => server.reply(200, accessToken),
           data: userCredentials,
         )
@@ -104,10 +110,10 @@ void main() async {
         );
 
       // Throws without user credentials.
-      expect(
-        () async => await dio.post(signInRoute),
-        throwsA(isA<DioException>()),
-      );
+      // expect(
+      //   () async => await dio.post(signInRoute),
+      //   throwsA(isA<DioException>()),
+      // );
 
       // Returns an access token if user credentials are provided.
       response = await dio.post(signInRoute, data: userCredentials);

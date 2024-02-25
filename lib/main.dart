@@ -9,9 +9,12 @@ import 'firebase_options.dart';
 import 'package:kicko/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:kicko/services/database.dart';
+import 'package:kicko/get_it_service_locator.dart';
+
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
+  setupServiceLocator();
   Logger.setLogLevel(LogLevel.info);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
