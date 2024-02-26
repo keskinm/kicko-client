@@ -87,23 +87,6 @@ class CandidateHomeLogic {
     }
   }
 
-  Future<Map> getProfile() async {
-    String userId = appState.currentUser.id;
-    String body = '{"id": "$userId"}';
-
-    Response response = await dioHttpPost(
-      route: 'candidate_get_profile',
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      throw Exception("getProfile HTTP Error");
-    }
-  }
-
   Future<List> getJobOffers(Map jobOfferFilters) async {
     String body = '{';
 

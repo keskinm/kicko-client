@@ -28,7 +28,10 @@ class UrlPattern {
   UrlPattern({required this.url, required this.token});
 }
 
-getRequest(String url, List<dynamic> args) async {
+Future<T> getRequest<T>(
+  String url,
+  List<dynamic> args,
+) async {
   if (!urlPatterns.containsKey(url)) {
     throw Exception("URL pattern for '$url' not registered.");
   }
@@ -50,7 +53,7 @@ getRequest(String url, List<dynamic> args) async {
   try {
     final response = await dio.get(serverUrl + compiledUrl);
     if (response.statusCode == 200) {
-      return response;
+      return response.data;
     } else {
       throw Exception("HTTP Error: ${response.statusCode}");
     }
@@ -59,7 +62,7 @@ getRequest(String url, List<dynamic> args) async {
   }
 }
 
-postRequest(String url, List<dynamic> args, Map jsonData) async {
+Future<T> postRequest<T>(String url, List<dynamic> args, Map jsonData) async {
   if (!urlPatterns.containsKey(url)) {
     throw Exception("URL pattern for '$url' not registered.");
   }
@@ -82,7 +85,7 @@ postRequest(String url, List<dynamic> args, Map jsonData) async {
     final response =
         await dio.post(serverUrl + compiledUrl, data: json.encode(jsonData));
     if (response.statusCode == 200) {
-      return response;
+      return response.data;
     } else {
       throw Exception("HTTP Error: ${response.statusCode}");
     }
@@ -92,8 +95,8 @@ postRequest(String url, List<dynamic> args, Map jsonData) async {
 }
 
 final Map<String, UrlPattern> urlPatterns = {
-  "fake_route_to_delete": UrlPattern(
-    url: "fake_route_to_delete/<id>",
+  "candidate_get_profile": UrlPattern(
+    url: "candidate_get_profile/<id>",
     token: false,
   ),
   "candidate_update_profile": UrlPattern(

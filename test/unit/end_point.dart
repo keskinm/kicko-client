@@ -20,14 +20,15 @@ void main() {
   test('test getRequest', () async {
     Dio dio = getIt<Dio>();
     dioAdapter = DioAdapter(dio: dio);
-    dioAdapter.onGet('http://10.0.2.2:5000/api/fake_route_to_delete/123',
+    dioAdapter.onGet('http://10.0.2.2:5000/api/candidate_get_profile/123',
         (server) {
       server.reply(200, {"": ""});
     });
     // dio.httpClientAdapter = dioAdapter;
 
-    final result = await getRequest('fake_route_to_delete', ["123"]);
-    expect(result, isA<Response<dynamic>>());
+    final result = await getRequest('candidate_get_profile', ["123"]);
+    expect(result, isA<Map>());
+    expect(result, containsPair("", ""));
   });
 
   test('test postRequest', () async {
@@ -41,6 +42,7 @@ void main() {
 
     final result =
         await postRequest('candidate_update_profile', ["123"], {"k": "v"});
-    expect(result, isA<Response<dynamic>>());
+    expect(result, isA<Map>());
+    expect(result, containsPair("", ""));
   });
 }

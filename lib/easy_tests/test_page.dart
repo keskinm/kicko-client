@@ -5,6 +5,7 @@ import 'package:kicko/dio.dart';
 import 'package:kicko/syntax.dart';
 import 'package:kicko/shared/user.dart';
 import 'package:dio/dio.dart';
+import 'package:kicko/end_point.dart';
 
 class TestPage extends StatefulWidget {
   // @todo A changer le isClicked avec un onpressed navigator qui repush sur la meme page et qui
@@ -16,24 +17,6 @@ class TestPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _TestPage();
-  }
-}
-
-Future<Map> getProfile() async {
-  // String userId = appState.currentUser.id;
-  String userId = '';
-  String body = '{"id": "$userId"}';
-
-  Response response = await dioHttpPost(
-    route: 'candidate_get_profile',
-    jsonData: body,
-    token: false,
-  );
-
-  if (response.statusCode == 200) {
-    return response.data;
-  } else {
-    throw Exception("getProfile HTTP Error");
   }
 }
 
@@ -52,7 +35,7 @@ class _TestPage extends State<TestPage> {
 
   onReBuild() {
     setState(() {
-      sqlFetchedData = getProfile();
+      sqlFetchedData = postRequest<Map>("candidate_get_profile", [""], {});
     });
   }
 
