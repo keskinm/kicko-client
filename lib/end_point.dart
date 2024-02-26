@@ -92,8 +92,8 @@ postRequest(String url, List<dynamic> args, Map jsonData) async {
 }
 
 final Map<String, UrlPattern> urlPatterns = {
-  "get_profile_image": UrlPattern(
-    url: "candidate_get_profile/<id>",
+  "fake_route_to_delete": UrlPattern(
+    url: "fake_route_to_delete/<id>",
     token: false,
   ),
   "candidate_update_profile": UrlPattern(
