@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/get_it_service_locator.dart';
 
+// MIGRATE TO end_point.dart !!!
+
 Future<Response> dioHttpGet(
     {required String route, required bool token}) async {
   Dio dio = getDio(token: token);
