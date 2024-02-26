@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:kicko/appbar.dart';
-import 'package:kicko/shared/job_offers_logic.dart';
+import 'package:kicko/end_point.dart';
 import 'package:kicko/shared/candidate_logic.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/syntax.dart';
@@ -25,7 +25,6 @@ class ProfessionalJobOfferPage extends StatefulWidget {
 class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   Map<String, dynamic> jobOfferFilters = {"city": TextEditingController()};
   ProfessionalHomeLogic logic = ProfessionalHomeLogic();
-  JobOfferLogic jobOfferLogic = JobOfferLogic();
   CandidateLogic candidateLogic = CandidateLogic();
   ProfessionalHomeStyle style = ProfessionalHomeStyle();
   String userId = appState.currentUser.id;
@@ -46,7 +45,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
     super.initState();
     candidateSyntax = candidateLogic.getCandidateSyntax(
         userGroup: userGroupSyntax.professional, userId: userId);
-    jobOffer = jobOfferLogic.getJobOffer(jobOfferId: widget.jobOfferId);
+    jobOffer = getRequest<Map>("candidate_get_job_offer", [widget.jobOfferId]);
     onReBuild();
   }
 

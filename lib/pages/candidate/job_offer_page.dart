@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kicko/end_point.dart';
 
-import 'package:kicko/shared/job_offers_logic.dart';
 import 'package:kicko/appbar.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
@@ -19,7 +19,6 @@ class CandidateJobOfferPage extends StatefulWidget {
 class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
   Map<String, dynamic> jobOfferFilters = {"city": TextEditingController()};
   CandidateHomeLogic logic = CandidateHomeLogic();
-  JobOfferLogic jobOfferLogic = JobOfferLogic();
   CandidateHomeStyle style = CandidateHomeStyle();
   late Future<Map> jobOffer;
   late Future<bool> appliedJobOffer;
@@ -29,7 +28,7 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
   @override
   void initState() {
     super.initState();
-    jobOffer = jobOfferLogic.getJobOffer(jobOfferId: widget.jobOfferId);
+    jobOffer = getRequest<Map>("candidate_get_job_offer", [widget.jobOfferId]);
     appliedJobOffer = logic.appliedJobOffer(jobOfferId: widget.jobOfferId);
   }
 
