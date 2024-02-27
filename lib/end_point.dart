@@ -104,6 +104,8 @@ final Map<String, UrlPattern> urlPatterns = {
       url: "apply_job_offer/<candidate_id>/<job_offer_id>", token: false),
   "applied_job_offer": UrlPattern(
       url: "applied_job_offer/<candidate_id>/<job_offer_id>", token: false),
+  "get_business": UrlPattern(
+      url: "get_business/<pro_id>", token: false),
   // -----------POST METHODS-----------------
   "candidate_update_profile": UrlPattern(
     url: "candidate_update_profile/<id>",

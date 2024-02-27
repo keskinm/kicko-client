@@ -86,17 +86,6 @@ class ProfessionalHomeLogic {
     }
   }
 
-  Future<Map<String, dynamic>> getBusiness() async {
-    String userId = appState.currentUser.id;
-    String body = '{"professional_id": "$userId"}';
-    Response response = await dioHttpPost(
-      route: 'get_business',
-      jsonData: body,
-      token: false,
-    );
-    // Map<String, String> jsonResponse = json.decode(response.data);
-    return response.data;
-  }
 
   Future<String> getProfileImage(
       Future<Map<String, dynamic>> futureBusinessJson,

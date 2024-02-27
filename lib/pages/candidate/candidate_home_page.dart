@@ -13,7 +13,7 @@ import 'job_offer_page.dart';
 import 'package:kicko/shared/user.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
-import 'package:kicko/end_point.dart';
+
 
 class CandidateHome extends StatefulWidget {
   const CandidateHome({Key? key}) : super(key: key);

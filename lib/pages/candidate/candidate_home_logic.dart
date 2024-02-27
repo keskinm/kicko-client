@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:kicko/dio.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/widgets/forms/validator.dart';
 
