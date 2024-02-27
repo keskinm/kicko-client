@@ -53,38 +53,4 @@ class CandidateHomeLogic {
     }
     return newMap;
   }
-
-  Future<bool> appliedJobOffer({required String jobOfferId}) async {
-    String userId = appState.currentUser.id;
-    String body = '{"candidate_id": "$userId", "job_offer_id": "$jobOfferId"}';
-
-    Response response = await dioHttpPost(
-      route: 'applied_job_offer',
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      throw Exception('CandidateHomeLogic.appliedJobOffer server error');
-    }
-  }
-
-  Future<bool> applyJobOffer({required String jobOfferId}) async {
-    String userId = appState.currentUser.id;
-    String body = '{"candidate_id": "$userId", "job_offer_id": "$jobOfferId"}';
-
-    Response response = await dioHttpPost(
-      route: 'apply_job_offer',
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

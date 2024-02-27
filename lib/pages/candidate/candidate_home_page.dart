@@ -104,8 +104,10 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
                     TextButton(
                         onPressed: () async {
                           try {
-                            Map success =
-                                await postRequest("candidate_update_profile", [appState.currentUser.id], profileJson);
+                            Map success = await postRequest(
+                                "candidate_update_profile",
+                                [appState.currentUser.id],
+                                profileJson);
                             if (!success.isEmpty) {
                               setState(() {
                                 showAlert(

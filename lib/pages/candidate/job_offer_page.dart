@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/end_point.dart';
 
 import 'package:kicko/appbar.dart';
+import 'package:kicko/services/app_state.dart';
 import 'candidate_home_logic.dart';
 import 'candidate_home_style.dart';
 
@@ -28,8 +29,9 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
   @override
   void initState() {
     super.initState();
-    jobOffer = getRequest<Map>("candidate_get_job_offer", [widget.jobOfferId]);
-    appliedJobOffer = logic.appliedJobOffer(jobOfferId: widget.jobOfferId);
+    jobOffer = getRequest("candidate_get_job_offer", [widget.jobOfferId]);
+    appliedJobOffer = getRequest<bool>(
+        "applied_job_offer", [appState.currentUser.id, widget.jobOfferId]);
   }
 
   Widget buildJobOffer() {
@@ -63,7 +65,8 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
               ),
               TextButton(
                   onPressed: () {
-                    logic.applyJobOffer(jobOfferId: widget.jobOfferId);
+                    getRequest("apply_job_offer",
+                        [appState.currentUser.id, widget.jobOfferId]);
                   },
                   child: (_applyJobOffer == false)
                       ? Text("Je suis intéressé par cette offre !")
