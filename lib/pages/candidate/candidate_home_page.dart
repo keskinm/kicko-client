@@ -13,6 +13,7 @@ import 'job_offer_page.dart';
 import 'package:kicko/shared/user.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
+import 'package:kicko/end_point.dart';
 
 class CandidateHome extends StatefulWidget {
   const CandidateHome({Key? key}) : super(key: key);
@@ -45,7 +46,8 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
     setState(() {
       profile = getRequest<Map<String, dynamic>>(
           "candidate_get_profile", [appState.currentUser.id]);
-      jobOffers = logic.getJobOffers(jobOfferFilters);
+      jobOffers = postRequest("candidate_get_job_offers", [],
+          logic.formatJobOfferFilters(jobOfferFilters));
     });
     super.onRebuild();
   }

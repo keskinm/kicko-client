@@ -6,12 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:kicko/widgets/forms/validator.dart';
 
 import 'package:kicko/services/app_state.dart';
-import 'package:kicko/services/database.dart';
-
-import '../../syntax.dart';
 import '../common.dart';
 import 'models.dart';
-import 'package:provider/provider.dart';
 
 class CandidateHomeLogic {
   final candidateForm = GlobalKey<FormState>();
@@ -87,39 +83,13 @@ class CandidateHomeLogic {
     }
   }
 
-  Future<List> getJobOffers(Map jobOfferFilters) async {
-    String body = '{';
-
-    jobOfferFilters.forEach((key, value) {
-      if (value is TextEditingController) {
-        value = value.text;
-      }
-      if (!value.isEmpty) {
-        body = body + '"$key":"$value", ';
-      }
-    });
-
-    if (body.endsWith(", "))
-    // THROW THE COMMA
-    {
-      body = body.substring(0, body.length - 2);
+  Map<String, dynamic> formatJobOfferFilters(Map jobOfferFilters) {
+    Map<String, dynamic> newMap = {};
+    for (var entry in jobOfferFilters.entries) {
+      newMap[entry.key] =
+          entry.value is TextEditingController ? entry.value.text : entry.value;
     }
-
-    body = body + '}';
-
-    Response response = await dioHttpPost(
-      route: 'candidate_get_job_offers',
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      return [
-        {"error": true}
-      ];
-    }
+    return newMap;
   }
 
   Future<bool> appliedJobOffer({required String jobOfferId}) async {

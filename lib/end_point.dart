@@ -104,5 +104,7 @@ final Map<String, UrlPattern> urlPatterns = {
     token: false,
   ),
   "candidate_get_job_offer":
-      UrlPattern(url: "candidate_get_job_offer/<j_o_id>", token: false)
+      UrlPattern(url: "candidate_get_job_offer/<j_o_id>", token: false),
+  "candidate_get_job_offers":
+      UrlPattern(url: "candidate_get_job_offers", token: false),
 };
