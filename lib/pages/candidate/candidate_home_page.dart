@@ -104,13 +104,13 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
                     TextButton(
                         onPressed: () async {
                           try {
-                            bool success =
-                                await logic.updateProfile(profileJson);
-                            if (success) {
+                            Map success =
+                                await postRequest("candidate_update_profile", [appState.currentUser.id], profileJson);
+                            if (!success.isEmpty) {
                               setState(() {
                                 showAlert(
                                     context,
-                                    "Votre profile a été mise à jour avec succès !",
+                                    "Votre profile a été mise à jour avec succès!",
                                     "Bonne nouvelle",
                                     "fermer");
                                 // profileJsonDropDown = {};

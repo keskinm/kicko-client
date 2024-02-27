@@ -95,16 +95,18 @@ Future<T> postRequest<T>(String url, List<dynamic> args, Map jsonData) async {
 }
 
 final Map<String, UrlPattern> urlPatterns = {
+  // -----------GET METHODS-----------------
   "candidate_get_profile": UrlPattern(
     url: "candidate_get_profile/<id>",
     token: false,
   ),
+  // -----------POST METHODS-----------------
   "candidate_update_profile": UrlPattern(
     url: "candidate_update_profile/<id>",
     token: false,
   ),
   "candidate_get_job_offer":
-      UrlPattern(url: "candidate_get_job_offer/<j_o_id>", token: false),
+  UrlPattern(url: "candidate_get_job_offer/<j_o_id>", token: false),
   "candidate_get_job_offers":
-      UrlPattern(url: "candidate_get_job_offers", token: false),
+  UrlPattern(url: "candidate_get_job_offers", token: false),
 };

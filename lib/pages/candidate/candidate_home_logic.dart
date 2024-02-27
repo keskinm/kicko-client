@@ -45,44 +45,6 @@ class CandidateHomeLogic {
     }
   }
 
-  String? nonNullable(
-      {required String? value, required String key, required Map jsonModel}) {
-    if (!validator.nonNullable(value: value)) {
-      return 'Le champ ne doit pas être vide.';
-    } else {
-      jsonModel[key] = value;
-      return null;
-    }
-  }
-
-  Future<Map<String, dynamic>> getCandidate() async {
-    Response response = await dioHttpPost(
-      route: '',
-      jsonData: '',
-      token: false,
-    );
-    return response.data;
-  }
-
-  Future<bool> updateProfile(Map profileJson) async {
-    String userId = appState.currentUser.id;
-    profileJson["id"] = userId;
-
-    String body = json.encode(profileJson);
-
-    Response response = await dioHttpPost(
-      route: 'candidate_update_profile',
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      throw Exception("getProfile HTTP Error");
-    }
-  }
-
   Map<String, dynamic> formatJobOfferFilters(Map jobOfferFilters) {
     Map<String, dynamic> newMap = {};
     for (var entry in jobOfferFilters.entries) {
