@@ -1,6 +1,3 @@
-import 'package:kicko/dio.dart';
-import 'package:dio/dio.dart';
-
 class Candidate {
   List<String> attrs = ["name", "city"];
   late String? name;
@@ -55,27 +52,4 @@ class Candidate {
         'name': name,
         'city': city,
       };
-
-  Future<bool> updateFields({required String userId}) async {
-    String body = '{"professional_id": "$userId"';
-    for (final attr in attrs) {
-      dynamic attrValue = getAttr(attr);
-      if (getAttr(attr) != null) {
-        body = body + ', "$attr":"$attrValue"';
-      }
-    }
-    body = body + '}';
-
-    Response response = await dioHttpPost(
-      route: 'update_candidate_fields',
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

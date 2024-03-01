@@ -6,7 +6,6 @@ import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
 import 'package:kicko/shared/common.dart';
 
-
 class ProfessionalHomeLogic {
   final jobOfferForm = GlobalKey<FormState>();
   final businessForm = GlobalKey<FormState>();
