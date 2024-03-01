@@ -4,10 +4,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
+import 'package:kicko/end_point.dart';
 import 'package:kicko/services/database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
+import 'package:kicko/services/app_state.dart';
 
 Future selectFiles(int position) async {
   FilePickerResult? result =
@@ -177,7 +179,6 @@ class DisplayProfileImages extends StatefulWidget {
 class _DisplayProfileImages extends State<DisplayProfileImages> {
   bool inProcess = false;
   late dynamic profileImages;
-  SQLDataBaseMethods sQLDataBaseMethods = SQLDataBaseMethods();
 
   buildImageProfileWraps(dynamic storageReferences) {
     List<Widget> r = [];
@@ -198,10 +199,10 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
                       children: <Widget>[
                         TextButton(
                             onPressed: () async {
-                              await sQLDataBaseMethods.updateTableField(
-                                  storageReferenceBasename,
-                                  "image_id",
-                                  "update_business_fields");
+                              await postRequest(
+                                  "update_business_fields",
+                                  [appState.currentUser.id],
+                                  {"image_id": storageReferenceBasename});
                               Navigator.of(context).pop();
                             },
                             child: Text("Définir comme image de profil",
@@ -276,9 +277,9 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       String imageName = "post_$postId.jpg";
       await Provider.of<FireBaseServiceInterface>(context, listen: false)
           .uploadFile(widget.bucket, imageName, image.readAsBytes());
-      bool res = await sQLDataBaseMethods.updateTableField(
-          imageName, "image_id", "update_business_fields");
-      if (res) {
+      Map res = await postRequest("update_business_fields",
+          [appState.currentUser.id], {"image_id": imageName});
+      if (res.containsKey("success") && res["success"]) {
         setState(() {});
       } else {}
     }

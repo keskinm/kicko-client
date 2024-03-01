@@ -86,7 +86,6 @@ class ProfessionalHomeLogic {
     }
   }
 
-
   Future<String> getProfileImage(
       Future<Map<String, dynamic>> futureBusinessJson,
       String imagesBucket,
@@ -106,6 +105,4 @@ class ProfessionalHomeLogic {
 
     return FireBaseService().downloadFile(bucket, profileImageId);
   }
-
-
 }

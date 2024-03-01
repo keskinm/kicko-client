@@ -34,13 +34,15 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   Map<String, dynamic> appliersFilterJsonDropDown = {};
 
   onReBuild() {
-    appliers = postRequest("professional_get_appliers", [widget.jobOfferId], appliersFilterJson);
+    appliers = postRequest(
+        "professional_get_appliers", [widget.jobOfferId], appliersFilterJson);
   }
 
   @override
   void initState() {
     super.initState();
-    candidateSyntax = postRequest("get_candidate_syntax", [userId], {"user_group": userGroupSyntax.professional});
+    candidateSyntax = postRequest("get_candidate_syntax", [userId],
+        {"user_group": userGroupSyntax.professional});
     jobOffer = getRequest<Map>("candidate_get_job_offer", [widget.jobOfferId]);
     onReBuild();
   }

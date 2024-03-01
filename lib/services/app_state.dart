@@ -10,7 +10,6 @@ import 'database.dart';
 import 'package:provider/provider.dart';
 import 'package:kicko/end_point.dart';
 
-
 AppState appState = AppState();
 
 enum AppStatus {

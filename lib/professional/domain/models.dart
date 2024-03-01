@@ -152,6 +152,4 @@ class Business {
       return false;
     }
   }
-
-
 }

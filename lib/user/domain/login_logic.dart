@@ -49,7 +49,8 @@ class LoginLogic {
         appState
             .addCredentials(keys: {'username': username, 'password': password});
 
-        final res = await getRequest("get_current_user", [userGroup]).catchError((Object e, StackTrace stackTrace) {
+        final res = await getRequest("get_current_user", [userGroup])
+            .catchError((Object e, StackTrace stackTrace) {
           showAlert(context, e.toString(), "oups", "Fermer");
         });
 

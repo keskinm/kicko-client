@@ -302,24 +302,3 @@ class FireBaseService implements FireBaseServiceInterface {
     }
   }
 }
-
-class SQLDataBaseMethods {
-  // ------------------------SQL--------------------------------------
-
-  Future<bool> updateTableField(
-      String value, String field, String route) async {
-    String userId = appState.currentUser.id;
-
-    String jsonData = '{"professional_id": "$userId", "$field": "$value"}';
-
-    Response response =
-        await dioHttpPost(route: route, jsonData: jsonData, token: true);
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-}

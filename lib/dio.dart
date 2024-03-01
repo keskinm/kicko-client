@@ -6,7 +6,6 @@ import 'package:kicko/get_it_service_locator.dart';
 
 // MIGRATE TO end_point.dart !!!
 
-
 Future<Response> dioHttpPost(
     {required String route,
     required String jsonData,

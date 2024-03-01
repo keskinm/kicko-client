@@ -14,7 +14,6 @@ import 'package:kicko/user/ui/user.dart';
 import 'package:kicko/shared/route.dart';
 import 'package:kicko/end_point.dart';
 
-
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
 
@@ -44,7 +43,8 @@ class _ProHome extends State<ProHome> with UserStateMixin {
     setState(() {
       business = getRequest("get_business", [appState.currentUser.id]);
       imageDownloadURL = logic.getProfileImage(business, imagesBucket, context);
-      jobOffers = getRequest("professional_get_job_offers", [appState.currentUser.id]);
+      jobOffers =
+          getRequest("professional_get_job_offers", [appState.currentUser.id]);
     });
     super.onRebuild();
   }
@@ -267,7 +267,8 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () async {
-                        Map resp = await getRequest("delete_job_offer", [appState.currentUser.id, jobOfferId]);
+                        Map resp = await getRequest("delete_job_offer",
+                            [appState.currentUser.id, jobOfferId]);
 
                         if (resp.containsKey("success") && resp["success"]) {
                           Navigator.pushReplacement(

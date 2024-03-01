@@ -14,7 +14,6 @@ import 'package:kicko/user/ui/user.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
 
-
 class CandidateHome extends StatefulWidget {
   const CandidateHome({Key? key}) : super(key: key);
 

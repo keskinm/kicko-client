@@ -26,7 +26,7 @@ class UrlPattern {
   final String url;
   final bool token;
   final bool getData;
-  UrlPattern({required this.url, this.token=false, this.getData=true});
+  UrlPattern({required this.url, this.token = false, this.getData = true});
 }
 
 Future<T> getRequest<T>(
@@ -106,18 +106,16 @@ final Map<String, UrlPattern> urlPatterns = {
   "candidate_get_profile": UrlPattern(
     url: "candidate_get_profile/<id>",
   ),
-  "apply_job_offer": UrlPattern(
-      url: "apply_job_offer/<candidate_id>/<job_offer_id>"),
-  "applied_job_offer": UrlPattern(
-      url: "applied_job_offer/<candidate_id>/<job_offer_id>"),
-  "get_business": UrlPattern(
-      url: "get_business/<pro_id>"),
-  "professional_get_job_offers": UrlPattern(
-      url: "professional_get_job_offers/<pro_id>"),
+  "apply_job_offer":
+      UrlPattern(url: "apply_job_offer/<candidate_id>/<job_offer_id>"),
+  "applied_job_offer":
+      UrlPattern(url: "applied_job_offer/<candidate_id>/<job_offer_id>"),
+  "get_business": UrlPattern(url: "get_business/<pro_id>"),
+  "professional_get_job_offers":
+      UrlPattern(url: "professional_get_job_offers/<pro_id>"),
   "delete_account": UrlPattern(
-    url: "delete_<userGroup>_account", token: true, getData: false),
-  "get_current_user": UrlPattern(
-    url: "<userGroup>", token: true),
+      url: "delete_<userGroup>_account", token: true, getData: false),
+  "get_current_user": UrlPattern(url: "<userGroup>", token: true),
 
   // -----------POST METHODS-----------------
   "candidate_update_profile": UrlPattern(
@@ -125,12 +123,12 @@ final Map<String, UrlPattern> urlPatterns = {
   ),
   "candidate_get_job_offer":
       UrlPattern(url: "candidate_get_job_offer/<j_o_id>"),
-  "candidate_get_job_offers":
-      UrlPattern(url: "candidate_get_job_offers"),
+  "candidate_get_job_offers": UrlPattern(url: "candidate_get_job_offers"),
   "delete_job_offer":
       UrlPattern(url: "delete_job_offer/<pro_id>/<job_offer_id>"),
   "professional_get_appliers":
       UrlPattern(url: "professional_get_appliers/<pro_id>"),
-  "get_candidate_syntax":
-      UrlPattern(url: "get_candidate_syntax/<user_id>"),
+  "get_candidate_syntax": UrlPattern(url: "get_candidate_syntax/<user_id>"),
+  "update_business_fields":
+      UrlPattern(url: "update_business_fields/<professional_id>"),
 };

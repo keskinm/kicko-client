@@ -78,6 +78,4 @@ class Candidate {
       return false;
     }
   }
-
-
 }

@@ -52,7 +52,6 @@ class AuthMethods {
     }
   }
 
-
   //@todo rajouter signout pas seulement FireBase mais aussi de l'app.
   Future signOut() async {
     try {
