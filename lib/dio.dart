@@ -6,17 +6,6 @@ import 'package:kicko/get_it_service_locator.dart';
 
 // MIGRATE TO end_point.dart !!!
 
-Future<Response> dioHttpGet(
-    {required String route, required bool token}) async {
-  Dio dio = getDio(token: token);
-  String serverUrl;
-  if (kIsWeb) {
-    serverUrl = 'http://127.0.0.1:5000/api/';
-  } else {
-    serverUrl = 'http://10.0.2.2:5000/api/';
-  }
-  return await dio.get(serverUrl + route);
-}
 
 Future<Response> dioHttpPost(
     {required String route,

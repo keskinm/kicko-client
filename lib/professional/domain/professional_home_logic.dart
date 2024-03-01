@@ -3,14 +3,14 @@ import 'dart:convert';
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:kicko/pages/professional/models.dart';
-import 'package:kicko/pages/professional/professional_home_page.dart';
-import 'package:kicko/widgets/forms/validator.dart';
+import 'package:kicko/professional/domain/models.dart';
+import 'package:kicko/professional/ui/professional_home_page.dart';
+import 'package:kicko/shared/validator.dart';
 
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
 
-import 'package:kicko/pages/common.dart';
+import 'package:kicko/shared/common.dart';
 import 'package:provider/provider.dart';
 
 class ProfessionalHomeLogic {
@@ -107,45 +107,5 @@ class ProfessionalHomeLogic {
     return FireBaseService().downloadFile(bucket, profileImageId);
   }
 
-  Future<List> getJobOffers() async {
-    String userId = appState.currentUser.id;
-    String body = '{"professional_id": "$userId"}';
-    Response response = await dioHttpPost(
-      route: 'professional_get_job_offers',
-      jsonData: body,
-      token: false,
-    );
-    return response.data;
-  }
 
-  Future<List> appliers(
-      {required String jobOfferId, Map filters = const {}}) async {
-    Map jobOfferIdMap = {"professional_id": jobOfferId};
-    Map bodyMap = {...jobOfferIdMap, ...filters};
-
-    String body = json.encode(bodyMap);
-
-    Response response = await dioHttpPost(
-      route: 'professional_get_appliers',
-      jsonData: body,
-      token: false,
-    );
-    return response.data;
-  }
-
-  Future<bool> deleteJobOffer(String jobOfferId) async {
-    String userId = appState.currentUser.id;
-    String body = '{"professional_id": "$userId", "id": "$jobOfferId"}';
-    Response response = await dioHttpPost(
-      route: 'delete_job_offer',
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

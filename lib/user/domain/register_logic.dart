@@ -2,13 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kicko/services/app_state.dart';
-import 'package:kicko/widgets/forms/validator.dart';
+import 'package:kicko/shared/validator.dart';
+import 'package:kicko/end_point.dart';
 
 import '../../services/database.dart';
 import '../../syntax.dart';
-import '../candidate/candidate_home_page.dart';
-import 'package:kicko/pages/common.dart';
-import '../professional/professional_home_page.dart';
+import '../../candidate/ui/candidate_home_page.dart';
+import 'package:kicko/shared/common.dart';
+import '../../professional/ui/professional_home_page.dart';
 import 'package:provider/provider.dart';
 
 class RegisterLogic {
@@ -95,14 +96,12 @@ class RegisterLogic {
               .catchError((Object e, StackTrace stackTrace) {
             showAlert(context, e.toString(), "oups", "Fermer");
           }))) {
-            final res = await appState.authMethods
-                .getCurrentUser(
-                    token: appState.currentUser.token, userGroup: userGroup)
+            final res = await getRequest("get_current_user", [userGroup])
                 .catchError((Object e, StackTrace stackTrace) {
               showAlert(context, e.toString(), "oups", "Fermer");
             });
 
-            appState.currentUser.setParameters(res);
+            appState.currentUser.setParameters(res["data"]);
             appState.appStatus = AppStatus.connected;
             Navigator.push(
               context,

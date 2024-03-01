@@ -25,7 +25,8 @@ Dio getDio({required bool token}) {
 class UrlPattern {
   final String url;
   final bool token;
-  UrlPattern({required this.url, required this.token});
+  final bool getData;
+  UrlPattern({required this.url, this.token=false, this.getData=true});
 }
 
 Future<T> getRequest<T>(
@@ -52,6 +53,9 @@ Future<T> getRequest<T>(
 
   try {
     final response = await dio.get(serverUrl + compiledUrl);
+    if (!pattern.getData) {
+      return response as T;
+    }
     if (response.statusCode == 200) {
       return response.data;
     } else {
@@ -84,6 +88,9 @@ Future<T> postRequest<T>(String url, List<dynamic> args, Map jsonData) async {
   try {
     final response =
         await dio.post(serverUrl + compiledUrl, data: json.encode(jsonData));
+    if (!pattern.getData) {
+      return response as T;
+    }
     if (response.statusCode == 200) {
       return response.data;
     } else {
@@ -98,21 +105,32 @@ final Map<String, UrlPattern> urlPatterns = {
   // -----------GET METHODS-----------------
   "candidate_get_profile": UrlPattern(
     url: "candidate_get_profile/<id>",
-    token: false,
   ),
   "apply_job_offer": UrlPattern(
-      url: "apply_job_offer/<candidate_id>/<job_offer_id>", token: false),
+      url: "apply_job_offer/<candidate_id>/<job_offer_id>"),
   "applied_job_offer": UrlPattern(
-      url: "applied_job_offer/<candidate_id>/<job_offer_id>", token: false),
+      url: "applied_job_offer/<candidate_id>/<job_offer_id>"),
   "get_business": UrlPattern(
-      url: "get_business/<pro_id>", token: false),
+      url: "get_business/<pro_id>"),
+  "professional_get_job_offers": UrlPattern(
+      url: "professional_get_job_offers/<pro_id>"),
+  "delete_account": UrlPattern(
+    url: "delete_<userGroup>_account", token: true, getData: false),
+  "get_current_user": UrlPattern(
+    url: "<userGroup>", token: true),
+
   // -----------POST METHODS-----------------
   "candidate_update_profile": UrlPattern(
     url: "candidate_update_profile/<id>",
-    token: false,
   ),
   "candidate_get_job_offer":
-      UrlPattern(url: "candidate_get_job_offer/<j_o_id>", token: false),
+      UrlPattern(url: "candidate_get_job_offer/<j_o_id>"),
   "candidate_get_job_offers":
-      UrlPattern(url: "candidate_get_job_offers", token: false),
+      UrlPattern(url: "candidate_get_job_offers"),
+  "delete_job_offer":
+      UrlPattern(url: "delete_job_offer/<pro_id>/<job_offer_id>"),
+  "professional_get_appliers":
+      UrlPattern(url: "professional_get_appliers/<pro_id>"),
+  "get_candidate_syntax":
+      UrlPattern(url: "get_candidate_syntax/<user_id>"),
 };

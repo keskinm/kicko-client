@@ -1,8 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:kicko/pages/register/register_page.dart';
-import 'package:kicko/pages/login/login_logic.dart';
-import 'package:kicko/pages/login/login_style.dart';
+import 'package:kicko/user/ui/register_page.dart';
+import 'package:kicko/user/domain/login_logic.dart';
+import 'package:kicko/styles/login_style.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/syntax.dart';
 

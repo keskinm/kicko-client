@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/pages/my_account.dart';
+import 'package:kicko/user/ui/my_account.dart';
 
 AppBar protoAppBar(String text) {
   return AppBar(

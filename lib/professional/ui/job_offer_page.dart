@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:kicko/appbar.dart';
 import 'package:kicko/end_point.dart';
-import 'package:kicko/shared/candidate_logic.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/syntax.dart';
 
-import 'package:kicko/shared/chat.dart';
+import 'package:kicko/shared/domain/chat.dart';
 
-import 'professional_home_logic.dart';
-import 'professional_home_style.dart';
+import '../domain/professional_home_logic.dart';
+import '../../styles/professional_home_style.dart';
 
 class ProfessionalJobOfferPage extends StatefulWidget {
   final String jobOfferId;
@@ -25,7 +24,6 @@ class ProfessionalJobOfferPage extends StatefulWidget {
 class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   Map<String, dynamic> jobOfferFilters = {"city": TextEditingController()};
   ProfessionalHomeLogic logic = ProfessionalHomeLogic();
-  CandidateLogic candidateLogic = CandidateLogic();
   ProfessionalHomeStyle style = ProfessionalHomeStyle();
   String userId = appState.currentUser.id;
   late Future<Map> jobOffer;
@@ -36,15 +34,13 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   Map<String, dynamic> appliersFilterJsonDropDown = {};
 
   onReBuild() {
-    appliers = logic.appliers(
-        jobOfferId: widget.jobOfferId, filters: appliersFilterJson);
+    appliers = postRequest("professional_get_appliers", [widget.jobOfferId], appliersFilterJson);
   }
 
   @override
   void initState() {
     super.initState();
-    candidateSyntax = candidateLogic.getCandidateSyntax(
-        userGroup: userGroupSyntax.professional, userId: userId);
+    candidateSyntax = postRequest("get_candidate_syntax", [userId], {"user_group": userGroupSyntax.professional});
     jobOffer = getRequest<Map>("candidate_get_job_offer", [widget.jobOfferId]);
     onReBuild();
   }

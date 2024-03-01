@@ -153,21 +153,5 @@ class Business {
     }
   }
 
-  Future<bool> updateField(
-      {required String userId,
-      required String key,
-      required String value}) async {
-    String body = '{"professional_id": "$userId", "$key":"$value"}';
-    Response response = await dioHttpPost(
-      route: 'update_business_field',
-      jsonData: body,
-      token: false,
-    );
 
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }

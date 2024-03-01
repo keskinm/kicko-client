@@ -1,6 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:kicko/appbar.dart';
-import 'package:kicko/pages/login/login_page.dart';
+import 'package:kicko/user/ui/login_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/services/app_state.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);

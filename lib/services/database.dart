@@ -322,19 +322,4 @@ class SQLDataBaseMethods {
     }
   }
 
-// @todo plus besoin de ça ???:
-//   getTableField(String userId, String route) async {
-//     String body = '{"professional_id": "$userId"}';
-//     Response response = await dioHttpPost(
-//       route: route,
-//       jsonData: body,
-//       token: false,
-//     );
-
-//     if (response.statusCode == 200) {
-//       return response.data;
-//     } else {
-//       return {"error": true};
-//     }
-//   }
 }

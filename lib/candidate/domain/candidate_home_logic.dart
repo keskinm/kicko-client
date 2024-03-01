@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/widgets/forms/validator.dart';
+import 'package:kicko/shared/validator.dart';
 
 import 'package:kicko/services/app_state.dart';
-import '../common.dart';
+import '../../shared/common.dart';
 import 'models.dart';
 
 class CandidateHomeLogic {

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
-import 'package:kicko/pages/professional/professional_home_logic.dart';
-import 'package:kicko/pages/professional/professional_home_style.dart';
-import 'package:kicko/pages/professional/qr_code_image.dart';
-import 'package:kicko/pages/chat/widget.dart';
+import 'package:kicko/professional/domain/professional_home_logic.dart';
+import 'package:kicko/styles/professional_home_style.dart';
+import 'package:kicko/professional/ui/qr_code_image.dart';
+import 'package:kicko/chat/widget.dart';
 import 'package:kicko/services/app_state.dart';
 
 import 'package:kicko/syntax.dart';
-import '../common.dart';
+import '../../shared/common.dart';
 import 'job_offer_page.dart';
-import 'package:kicko/pages/medias.dart';
-import 'package:kicko/shared/user.dart';
+import 'package:kicko/user/ui/medias.dart';
+import 'package:kicko/user/ui/user.dart';
 import 'package:kicko/shared/route.dart';
 import 'package:kicko/end_point.dart';
 
@@ -44,7 +44,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
     setState(() {
       business = getRequest("get_business", [appState.currentUser.id]);
       imageDownloadURL = logic.getProfileImage(business, imagesBucket, context);
-      jobOffers = logic.getJobOffers();
+      jobOffers = getRequest("professional_get_job_offers", [appState.currentUser.id]);
     });
     super.onRebuild();
   }
@@ -267,9 +267,9 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () async {
-                        bool success = await logic.deleteJobOffer(jobOfferId);
+                        Map resp = await getRequest("delete_job_offer", [appState.currentUser.id, jobOfferId]);
 
-                        if (success) {
+                        if (resp.containsKey("success") && resp["success"]) {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

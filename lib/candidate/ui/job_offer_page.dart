@@ -3,8 +3,8 @@ import 'package:kicko/end_point.dart';
 
 import 'package:kicko/appbar.dart';
 import 'package:kicko/services/app_state.dart';
-import 'candidate_home_logic.dart';
-import 'candidate_home_style.dart';
+import '../domain/candidate_home_logic.dart';
+import '../../styles/candidate_home_style.dart';
 
 class CandidateJobOfferPage extends StatefulWidget {
   final String jobOfferId;

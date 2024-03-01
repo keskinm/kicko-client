@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
-import 'package:kicko/pages/candidate/scan.dart';
+import 'package:kicko/candidate/ui/scan.dart';
 
-import 'package:kicko/pages/common.dart';
+import 'package:kicko/shared/common.dart';
 import 'package:kicko/syntax.dart';
-import 'package:kicko/pages/medias.dart';
-import 'package:kicko/pages/chat/widget.dart';
-import 'candidate_home_logic.dart';
-import 'candidate_home_style.dart';
+import 'package:kicko/user/ui/medias.dart';
+import 'package:kicko/chat/widget.dart';
+import '../domain/candidate_home_logic.dart';
+import '../../styles/candidate_home_style.dart';
 import 'job_offer_page.dart';
-import 'package:kicko/shared/user.dart';
+import 'package:kicko/user/ui/user.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
 

@@ -52,16 +52,6 @@ class AuthMethods {
     }
   }
 
-  Future getCurrentUser(
-      {required String token, required String userGroup}) async {
-    Response response = await dioHttpGet(route: userGroup, token: true);
-
-    if (response.statusCode == 200) {
-      return response.data["data"];
-    } else {
-      throw Exception("exception getCurrentUser");
-    }
-  }
 
   //@todo rajouter signout pas seulement FireBase mais aussi de l'app.
   Future signOut() async {

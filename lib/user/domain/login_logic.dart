@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/pages/candidate/candidate_home_page.dart';
-import 'package:kicko/pages/common.dart';
+import 'package:kicko/candidate/ui/candidate_home_page.dart';
+import 'package:kicko/end_point.dart';
+import 'package:kicko/shared/common.dart';
 import 'package:kicko/services/app_state.dart';
-import 'package:kicko/widgets/forms/validator.dart';
+import 'package:kicko/shared/validator.dart';
 
 import '../../syntax.dart';
-import '../professional/professional_home_page.dart';
+import '../../professional/ui/professional_home_page.dart';
 
 class LoginLogic {
   final formKey = GlobalKey<FormState>();
@@ -47,17 +48,15 @@ class LoginLogic {
         //Stockage des infos pour connexion auto
         appState
             .addCredentials(keys: {'username': username, 'password': password});
-        final res = await appState.authMethods
-            .getCurrentUser(
-                token: appState.currentUser.token, userGroup: userGroup)
-            .catchError((Object e, StackTrace stackTrace) {
+
+        final res = await getRequest("get_current_user", [userGroup]).catchError((Object e, StackTrace stackTrace) {
           showAlert(context, e.toString(), "oups", "Fermer");
         });
 
         await appState.authMethods
-            .firebaseSignInWithEmailAndPassword(res['email'], password);
+            .firebaseSignInWithEmailAndPassword(res["data"]['email'], password);
 
-        appState.currentUser.setParameters(res);
+        appState.currentUser.setParameters(res["data"]);
         appState.appStatus = AppStatus.connected;
         //Lancement app
         Navigator.push(

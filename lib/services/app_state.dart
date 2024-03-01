@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:kicko/syntax.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kicko/services/auth.dart';
-import 'package:kicko/models/user.dart';
+import 'package:kicko/user/models/user.dart';
 
 import '../dio.dart';
 import 'database.dart';
 import 'package:provider/provider.dart';
+import 'package:kicko/end_point.dart';
+
 
 AppState appState = AppState();
 
@@ -47,12 +49,11 @@ class AppState {
           username: currentUser.username,
           password: currentUser.password,
           userGroup: userGroup))) {
-        final res = await authMethods
-            .getCurrentUser(token: currentUser.token, userGroup: userGroup)
+        final res = await getRequest("get_current_user", [userGroup])
             .catchError((Object e, StackTrace stackTrace) {
           throw Exception(e.toString());
         });
-        currentUser.setParameters(res);
+        currentUser.setParameters(res["data"]);
         appStatus = AppStatus.connected;
         return AppStatus.connected;
       } else {
@@ -109,8 +110,7 @@ class AppState {
         .catchError((Object e, StackTrace stackTrace) {
       throw Exception(e.toString());
     }))) {
-      Response response =
-          await dioHttpGet(route: "delete_${userGroup}_account", token: true);
+      Response response = await getRequest("delete_account", [userGroup]);
 
       if (response.statusCode == 200) {
         if (userGroup == userGroupSyntax.professional) {

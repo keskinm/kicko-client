@@ -1,7 +1,7 @@
-import 'package:kicko/pages/chat/theme.dart';
+import 'package:kicko/chat/theme.dart';
 import 'package:kicko/services/database.dart';
-import 'package:kicko/pages/chat/widget.dart';
-import 'package:kicko/shared/chat.dart';
+import 'package:kicko/chat/widget.dart';
+import 'package:kicko/shared/domain/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
