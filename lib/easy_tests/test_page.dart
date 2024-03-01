@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
-import 'package:kicko/dio.dart';
-
-import 'package:kicko/syntax.dart';
-import 'package:kicko/user/ui/user.dart';
-import 'package:dio/dio.dart';
 import 'package:kicko/end_point.dart';
 
 class TestPage extends StatefulWidget {

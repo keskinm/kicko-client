@@ -3,8 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fs;
 import 'package:flutter/foundation.dart';
 import 'package:kicko/services/app_state.dart';
-import 'package:dio/dio.dart';
-import 'package:kicko/dio.dart';
 import 'package:kicko/logger.dart';
 
 import 'dart:io';
