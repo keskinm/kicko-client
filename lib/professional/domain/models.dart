@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
+import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
 
 import 'package:kicko/services/database.dart';
@@ -37,13 +38,12 @@ class JobOffer {
       };
 
   Future<bool> addJobOffer(BuildContext context) async {
-    String body =
-        '{"name": "$name", "description":"$description", "requires":"$requires", "business_id": "$businessId"}';
-    Response response = await dioHttpPost(
-      route: 'add_job_offer',
-      jsonData: body,
-      token: false,
-    );
+    Response response = await postRequest("add_job_offer", [], {
+      "name": name,
+      "description": description,
+      "requires": requires,
+      "business_id": businessId
+    });
 
     if (response.statusCode == 200) {
       Map data = json.decode(response.data);
