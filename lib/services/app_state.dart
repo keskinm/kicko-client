@@ -44,10 +44,12 @@ class AppState {
       await authMethods.firebaseSignInWithEmailAndPassword(
           currentUser.email, currentUser.password);
 
-      if (checkToken(await authMethods.authenticationToken(
-          username: currentUser.username,
-          password: currentUser.password,
-          userGroup: userGroup))) {
+      if (checkToken(await postRequest("authentication_token", [
+        userGroup
+      ], {
+        "username": currentUser.username,
+        "password": currentUser.password
+      }))) {
         final res = await getRequest("get_current_user", [userGroup])
             .catchError((Object e, StackTrace stackTrace) {
           throw Exception(e.toString());
@@ -101,12 +103,12 @@ class AppState {
   }
 
   Future deleteAccount(BuildContext context) async {
-    if (appState.checkToken(await appState.authMethods
-        .authenticationToken(
-            username: currentUser.username,
-            password: currentUser.password,
-            userGroup: userGroup)
-        .catchError((Object e, StackTrace stackTrace) {
+    if (appState.checkToken(await postRequest("authentication_token", [
+      userGroup
+    ], {
+      "username": currentUser.username,
+      "password": currentUser.password
+    }).catchError((Object e, StackTrace stackTrace) {
       throw Exception(e.toString());
     }))) {
       Response response = await getRequest("delete_account", [userGroup]);

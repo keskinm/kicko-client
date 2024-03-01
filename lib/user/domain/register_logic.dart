@@ -90,10 +90,12 @@ class RegisterLogic {
           await appState.authMethods
               .firebaseSignInWithEmailAndPassword(email, password);
 
-          if (appState.checkToken(await appState.authMethods
-              .authenticationToken(
-                  username: username, password: password, userGroup: userGroup)
-              .catchError((Object e, StackTrace stackTrace) {
+          if (appState.checkToken(await postRequest("authentication_token", [
+            userGroup
+          ], {
+            "username": username,
+            "password": password
+          }).catchError((Object e, StackTrace stackTrace) {
             showAlert(context, e.toString(), "oups", "Fermer");
           }))) {
             final res = await getRequest("get_current_user", [userGroup])

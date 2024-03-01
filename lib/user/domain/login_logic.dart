@@ -37,9 +37,10 @@ class LoginLogic {
       {required BuildContext context, required userGroup}) async {
     if (formKey.currentState!.validate()) {
       appState.userGroup = userGroup;
-      final bool res = appState.checkToken(await appState.authMethods
-          .authenticationToken(
-              username: username, password: password, userGroup: userGroup)
+      final bool res = appState.checkToken(await postRequest(
+              "authentication_token",
+              [userGroup],
+              {"username": username, "password": password})
           .catchError((Object e, StackTrace stackTrace) {
         showAlert(context, e.toString(), "oups", "Fermer");
       }));

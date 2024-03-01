@@ -38,24 +38,6 @@ class AuthMethods {
     }
   }
 
-  Future authenticationToken(
-      {required String username,
-      required String password,
-      required String userGroup}) async {
-    String body = '{"username": "$username" ,"password":"$password"}';
-    Response response = await dioHttpPost(
-      route: "${userGroup}_authentication_token",
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return response.data;
-    } else {
-      throw Exception("exception ${userGroup}_authentication_token");
-    }
-  }
-
   //@todo rajouter signout pas seulement FireBase mais aussi de l'app.
   Future signOut() async {
     try {
