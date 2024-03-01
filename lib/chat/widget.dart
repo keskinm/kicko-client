@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/chat/ui/search_page.dart';
 import 'package:kicko/chat/ui/chatroom_page.dart';
-import 'package:kicko/services/database.dart';
 import 'package:kicko/shared/route.dart';
 
 PreferredSizeWidget? appBarMain(BuildContext context) {

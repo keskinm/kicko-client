@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:kicko/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
@@ -130,26 +129,15 @@ class Business {
         'city': city,
       };
 
-  Future<bool> updateFields({required String userId}) async {
-    String body = '{"professional_id": "$userId"';
+  Future<Map> updateFields({required String userId}) async {
+    Map<String, dynamic> body = {};
     for (final attr in updateAttrs) {
-      dynamic attrValue = getAttr(attr);
-      if (getAttr(attr) != null) {
-        body = body + ', "$attr":"$attrValue"';
+      final attrValue = getAttr(attr);
+      if (attrValue != null) {
+        body[attr] = attrValue;
       }
     }
-    body = body + '}';
 
-    Response response = await dioHttpPost(
-      route: 'update_business_fields',
-      jsonData: body,
-      token: false,
-    );
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
+    return postRequest("update_business_fields", [userId], body);
   }
 }

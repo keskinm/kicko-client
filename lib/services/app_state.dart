@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kicko/services/auth.dart';
 import 'package:kicko/user/models/user.dart';
 
-import '../dio.dart';
 import 'database.dart';
 import 'package:provider/provider.dart';
 import 'package:kicko/end_point.dart';

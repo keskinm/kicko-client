@@ -1,17 +1,11 @@
-import 'dart:convert';
-
-import 'package:kicko/dio.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/professional/domain/models.dart';
 import 'package:kicko/professional/ui/professional_home_page.dart';
 import 'package:kicko/shared/validator.dart';
-
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/database.dart';
-
 import 'package:kicko/shared/common.dart';
-import 'package:provider/provider.dart';
+
 
 class ProfessionalHomeLogic {
   final jobOfferForm = GlobalKey<FormState>();
@@ -24,10 +18,9 @@ class ProfessionalHomeLogic {
   Future<void> validateBusiness({required BuildContext context}) async {
     if (businessForm.currentState!.validate()) {
       Business business = Business.fromJson(businessJson);
-      bool success =
-          await business.updateFields(userId: appState.currentUser.id);
+      Map res = await business.updateFields(userId: appState.currentUser.id);
 
-      if (success) {
+      if (res.containsKey("success") && res["success"]) {
         showDialog<String>(
             context: context,
             builder: (BuildContext context) {
