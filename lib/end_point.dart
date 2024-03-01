@@ -131,4 +131,5 @@ final Map<String, UrlPattern> urlPatterns = {
   "get_candidate_syntax": UrlPattern(url: "get_candidate_syntax/<user_id>"),
   "update_business_fields":
       UrlPattern(url: "update_business_fields/<professional_id>"),
+  "user_register": UrlPattern(url: "<user_group>_register", getData: false),
 };

@@ -1,3 +1,4 @@
+import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:dio/dio.dart';
 import 'package:kicko/dio.dart';
@@ -12,12 +13,15 @@ class AuthMethods {
       required String password,
       required String email,
       required String firebaseUid}) async {
-    String json =
-        '{"username": "$username","password":"$password", "email":"$email", "firebase_id": "$firebaseUid"}';
-
     try {
-      Response response = await dioHttpPost(
-          route: '${userGroup}_register', jsonData: json, token: false);
+      Response response = await postRequest("user_register", [
+        userGroup
+      ], {
+        "username": username,
+        "password": password,
+        "email": email,
+        "firebase_id": firebaseUid
+      });
       if (response.statusCode == 200) {
         appState.addCredentials(keys: {
           'username': username,

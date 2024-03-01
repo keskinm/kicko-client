@@ -21,9 +21,7 @@ Future<Response> dioHttpPost(
 }
 
 Dio getDio({required bool token}) {
-  // @todo virer le "final" ?
   final dio = getIt<Dio>();
-  // Dio dio = Dio();
   dio.options = BaseOptions(
       followRedirects: false,
       headers: token
