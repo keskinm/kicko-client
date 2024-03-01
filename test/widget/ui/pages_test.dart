@@ -43,6 +43,9 @@ void main() {
       ),
     );
 
+    // Check for loading indicators before data is fetched with pumpAndSettle
+    expect(find.byType(CircularProgressIndicator), findsWidgets);
+
     await tester.pumpAndSettle();
   });
 }
