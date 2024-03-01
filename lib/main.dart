@@ -8,7 +8,7 @@ import 'package:kicko/syntax.dart';
 import 'firebase_options.dart';
 import 'package:kicko/logger.dart';
 import 'package:provider/provider.dart';
-import 'package:kicko/services/database.dart';
+import 'package:kicko/services/firebase.dart';
 import 'package:kicko/get_it_service_locator.dart';
 
 // import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,5 +1,5 @@
 import 'package:kicko/chat/theme.dart';
-import 'package:kicko/services/database.dart';
+import 'package:kicko/services/firebase.dart';
 import 'package:kicko/chat/widget.dart';
 import 'package:kicko/shared/domain/chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

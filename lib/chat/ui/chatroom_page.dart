@@ -1,4 +1,4 @@
-import 'package:kicko/services/database.dart';
+import 'package:kicko/services/firebase.dart';
 import 'package:kicko/chat/theme.dart';
 
 import 'package:kicko/services/app_state.dart';

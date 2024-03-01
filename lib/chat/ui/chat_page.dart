@@ -1,5 +1,5 @@
 import 'package:kicko/services/app_state.dart';
-import 'package:kicko/services/database.dart';
+import 'package:kicko/services/firebase.dart';
 import 'package:kicko/chat/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

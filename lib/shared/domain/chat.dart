@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/chat/ui/chat_page.dart';
-import 'package:kicko/services/database.dart';
+import 'package:kicko/services/firebase.dart';
 import 'package:provider/provider.dart';
 
 getChatRoomId(String a, String b) {

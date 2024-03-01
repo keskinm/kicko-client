@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_storage_mocks/firebase_storage_mocks.dart';
-import 'package:kicko/services/database.dart';
+import 'package:kicko/services/firebase.dart';
 
 // import 'package:mockito/mockito.dart';
 // import 'package:kicko/firebase_options.dart';

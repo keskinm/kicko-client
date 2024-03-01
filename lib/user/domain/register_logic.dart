@@ -5,7 +5,7 @@ import 'package:kicko/services/app_state.dart';
 import 'package:kicko/shared/validator.dart';
 import 'package:kicko/end_point.dart';
 
-import '../../services/database.dart';
+import '../../services/firebase.dart';
 import '../../syntax.dart';
 import '../../candidate/ui/candidate_home_page.dart';
 import 'package:kicko/shared/common.dart';

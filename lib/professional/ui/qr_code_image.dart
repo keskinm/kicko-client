@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
-import 'package:kicko/services/database.dart';
+import 'package:kicko/services/firebase.dart';
 
 import '../../services/app_state.dart';
 import '../../syntax.dart';
