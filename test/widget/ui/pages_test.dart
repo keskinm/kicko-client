@@ -17,13 +17,17 @@ import 'package:kicko/services/app_state.dart';
 void main() {
   setupFirebaseAuthMocks();
   late DioAdapter dioAdapter;
+  late Dio dio;
 
-  setUpAll(() async {
+  setUp(() async {
     await Firebase.initializeApp();
-    // getIt.unregister<Dio>();
-    Dio dio = Dio();
+    dio = Dio();
     dioAdapter = DioAdapter(dio: dio);
     getIt.registerLazySingleton<Dio>(() => dio);
+  });
+
+  tearDown(() {
+    getIt.unregister<Dio>();
   });
 
   testWidgets('Candidate Home', (WidgetTester tester) async {
