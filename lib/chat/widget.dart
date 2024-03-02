@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/chat/ui/search_page.dart';
 import 'package:kicko/chat/ui/chatroom_page.dart';
 import 'package:kicko/shared/route.dart';
 
@@ -119,14 +118,5 @@ List<Widget> chatWidgetsList(
     Expanded(
         child: buildGoChatRoomButton(
             context, messagesNotification, widget.onRebuild)),
-    Expanded(
-        child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Search()),
-              );
-            },
-            child: const Text("SEARCH"))),
   ];
 }
