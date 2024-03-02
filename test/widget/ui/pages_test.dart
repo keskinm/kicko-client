@@ -47,5 +47,8 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsWidgets);
 
     await tester.pumpAndSettle();
+
+    expect(find.text('Mes CV'), findsOneWidget);
+
   });
 }
