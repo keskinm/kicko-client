@@ -32,32 +32,37 @@ void main() {
 
     appState.currentUser.id = "5";
 
-    dioAdapter.onGet(
-        "http://10.0.2.2:5000/api/candidate_get_profile/${appState.currentUser.id}",
-        (server) {
-      server.reply(200, {
-        'instance': {
-          'id': '5',
-          'firebase_id': 'AMMRFGuk88ZCuoL5bPkfCmCOoe13',
-          'username': 'bachata6',
-          'password': 'bachata6',
-          'email': 'bachata6@gmail.com',
-          'study_level': 2,
-          'l_study_level': 'Master',
-          'sex': 2,
-          'l_sex': 'Femme',
-          'language': 'french'
-        },
-        'syntax': {
-          'sex': ['', 'Homme', 'Femme', 'Non genré'],
-          'study_level': ['', 'Licence', 'Master']
-        }
-      });
-    });
-
-    dioAdapter.onPost("http://10.0.2.2:5000/api/candidate_get_job_offers", (server) {
-      server.reply(200, []);
-    }, data: Matchers.any);
+    dioAdapter
+      ..onGet(
+          "http://10.0.2.2:5000/api/candidate_get_profile/${appState.currentUser.id}",
+          (server) {
+        server.reply(200, {
+          'instance': {
+            'id': '5',
+            'firebase_id': 'AMMRFGuk88ZCuoL5bPkfCmCOoe13',
+            'username': 'bachata6',
+            'password': 'bachata6',
+            'email': 'bachata6@gmail.com',
+            'study_level': 2,
+            'l_study_level': 'Master',
+            'sex': 2,
+            'l_sex': 'Femme',
+            'language': 'french'
+          },
+          'syntax': {
+            'sex': ['', 'Homme', 'Femme', 'Non genré'],
+            'study_level': ['', 'Licence', 'Master']
+          }
+        });
+      })
+      ..onPost("http://10.0.2.2:5000/api/candidate_get_job_offers", (server) {
+        server.reply(200, []);
+      }, data: Matchers.any)
+      ..onPost(
+          "http://10.0.2.2:5000/api/candidate_update_profile/${appState.currentUser.id}",
+          (server) {
+        server.reply(200, {"success": true});
+      }, data: Matchers.any);
 
     await tester.pumpWidget(
       Provider<FireBaseServiceInterface>(
@@ -83,40 +88,15 @@ void main() {
     expect(find.text('Mes CV'), findsOneWidget);
 
     // ---------------------------------------------------------
-    // await tester.pump();
-    // await tester.pumpAndSettle();
-    // await tester.tap(find.byKey(Key('save_profile_button')));
+
+    await tester.tap(find.byKey(Key('save_profile_button')));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(AlertDialog), findsOneWidget);
+
+    await tester.tap(find.text('fermer'));
+    await tester.pumpAndSettle();
 
     // ---------------------------------------------------------
-
-    //     // Tap a button
-    // await tester.tap(find.byType(ElevatedButton));
-    // await tester.pump(); // Trigger a frame
-
-    // // Enter text in a TextField
-    // await tester.enterText(find.byType(TextField), 'Your input');
-    // await tester.pump();
-
-    // ---------------------------------------------------------
-
-    // Verify changes in the UI after interaction
-    // expect(find.text('New Text'), findsOneWidget);
-
-    // // Check for a widget's property change
-    // final Finder widgetFinder = find.byType(YourWidget);
-    // final YourWidget widget = tester.widget(widgetFinder) as YourWidget;
-    // expect(widget.property, expectedValue);
-
-    // ---------------------------------------------------------
-
-    // Example: Simulate a user interaction
-    // await tester.tap(find.byType(ElevatedButton));
-    // await tester.pump(); // Trigger a frame to start animations/effects
-
-    // Then use pumpAndSettle to wait for those animations/effects to complete
-    // await tester.pumpAndSettle();
-
-    // Example: Verify UI changes or state after interactions or data loading
-    // expect(find.text('New Text'), findsOneWidget);
   });
 }

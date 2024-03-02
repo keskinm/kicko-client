@@ -162,7 +162,8 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
             },
             icon: const Icon(Icons.check_box),
           );
-          Widget cityChild = Expanded(child: Wrap(children: [cityFilter, validateCityFilter]));
+          Widget cityChild =
+              Expanded(child: Wrap(children: [cityFilter, validateCityFilter]));
 
           if (snapshot.data!.isEmpty) {
             body = Column(children: [
