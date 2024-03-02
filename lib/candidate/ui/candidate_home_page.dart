@@ -101,6 +101,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
               children: dropDownButtons +
                   [
                     TextButton(
+                        key: Key("save_profile_button"),
                         onPressed: () async {
                           try {
                             Map success = await postRequest(
@@ -132,7 +133,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
                   ],
             );
           } else if (snapshot.hasError) {
-            body = Text('Error: ${snapshot.error}');
+            body = Text('buildProfile Error: ${snapshot.error}');
           } else {
             body = const CircularProgressIndicator(
               color: Colors.orangeAccent,
@@ -225,7 +226,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
             body = Column(children: [cityChild, Expanded(child: listView)]);
           }
         } else if (snapshot.hasError) {
-          body = Text('Error: ${snapshot.error}');
+          body = Text('buildJobOffers Error: ${snapshot.error}');
         } else {
           body = const Text('Awaiting result...');
         }

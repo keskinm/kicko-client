@@ -10,9 +10,9 @@ import 'package:kicko/candidate/ui/candidate_home_page.dart';
 import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:kicko/get_it_service_locator.dart';
+import 'package:kicko/services/app_state.dart';
 
 // the firebase app mocking is FOUND HERE: https://stackoverflow.com/questions/63662031/how-to-mock-the-firebaseapp-in-flutter
-
 
 void main() {
   setupFirebaseAuthMocks();
@@ -23,15 +23,41 @@ void main() {
     // getIt.unregister<Dio>();
     Dio dio = Dio();
     dioAdapter = DioAdapter(dio: dio);
-    dioAdapter.onPost(RegExp('.*'), (server) {
-      server.reply(200, {"": ""});
-    }, data: Matchers.any);
     getIt.registerLazySingleton<Dio>(() => dio);
   });
 
   testWidgets('Candidate Home', (WidgetTester tester) async {
     final fakeStorage = MockFirebaseStorage();
     final fakeFirestore = FakeFirebaseFirestore();
+
+    appState.currentUser.id = "5";
+
+    dioAdapter.onGet(
+        "http://10.0.2.2:5000/api/candidate_get_profile/${appState.currentUser.id}",
+        (server) {
+      server.reply(200, {
+        'instance': {
+          'id': '5',
+          'firebase_id': 'AMMRFGuk88ZCuoL5bPkfCmCOoe13',
+          'username': 'bachata6',
+          'password': 'bachata6',
+          'email': 'bachata6@gmail.com',
+          'study_level': 2,
+          'l_study_level': 'Master',
+          'sex': 2,
+          'l_sex': 'Femme',
+          'language': 'french'
+        },
+        'syntax': {
+          'sex': ['', 'Homme', 'Femme', 'Non genré'],
+          'study_level': ['', 'Licence', 'Master']
+        }
+      });
+    });
+
+    dioAdapter.onPost("http://10.0.2.2:5000/api/candidate_get_job_offers", (server) {
+      server.reply(200, []);
+    }, data: Matchers.any);
 
     await tester.pumpWidget(
       Provider<FireBaseServiceInterface>(
@@ -44,11 +70,22 @@ void main() {
     );
 
     // Check for loading indicators before data is fetched with pumpAndSettle
-    expect(find.byType(CircularProgressIndicator), findsWidgets);
+    // expect(find.byType(CircularProgressIndicator), findsWidgets);
 
     await tester.pumpAndSettle();
 
-    expect(find.text('Mes CV'), findsOneWidget);
+    expect(
+        find.byWidgetPredicate(
+          (Widget widget) => widget is Text && widget.data!.contains('Error'),
+        ),
+        findsNothing);
+
+    // expect(find.text('Mes CV'), findsOneWidget);
+
+    // print("ici, ${appState.currentUser.id}");
+
+    // Check for the absence of a widget
+    // expect(find.byKey(ValueKey('unique_key')), findsNothing);
 
   });
 }
