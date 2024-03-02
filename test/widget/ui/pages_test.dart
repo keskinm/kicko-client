@@ -70,7 +70,7 @@ void main() {
     );
 
     // Check for loading indicators before data is fetched with pumpAndSettle
-    // expect(find.byType(CircularProgressIndicator), findsWidgets);
+    expect(find.byType(CircularProgressIndicator), findsWidgets);
 
     await tester.pumpAndSettle();
 
@@ -80,12 +80,43 @@ void main() {
         ),
         findsNothing);
 
-    // expect(find.text('Mes CV'), findsOneWidget);
+    expect(find.text('Mes CV'), findsOneWidget);
 
-    // print("ici, ${appState.currentUser.id}");
+    // ---------------------------------------------------------
+    // await tester.pump();
+    // await tester.pumpAndSettle();
+    // await tester.tap(find.byKey(Key('save_profile_button')));
 
-    // Check for the absence of a widget
-    // expect(find.byKey(ValueKey('unique_key')), findsNothing);
+    // ---------------------------------------------------------
 
+    //     // Tap a button
+    // await tester.tap(find.byType(ElevatedButton));
+    // await tester.pump(); // Trigger a frame
+
+    // // Enter text in a TextField
+    // await tester.enterText(find.byType(TextField), 'Your input');
+    // await tester.pump();
+
+    // ---------------------------------------------------------
+
+    // Verify changes in the UI after interaction
+    // expect(find.text('New Text'), findsOneWidget);
+
+    // // Check for a widget's property change
+    // final Finder widgetFinder = find.byType(YourWidget);
+    // final YourWidget widget = tester.widget(widgetFinder) as YourWidget;
+    // expect(widget.property, expectedValue);
+
+    // ---------------------------------------------------------
+
+    // Example: Simulate a user interaction
+    // await tester.tap(find.byType(ElevatedButton));
+    // await tester.pump(); // Trigger a frame to start animations/effects
+
+    // Then use pumpAndSettle to wait for those animations/effects to complete
+    // await tester.pumpAndSettle();
+
+    // Example: Verify UI changes or state after interactions or data loading
+    // expect(find.text('New Text'), findsOneWidget);
   });
 }
