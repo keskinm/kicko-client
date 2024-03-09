@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/services/app_state.dart';
 
-import '../../main.dart';
+import 'package:kicko/main.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -89,8 +89,7 @@ class _MyAccount extends State<MyAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-            userAppBar("Bienvenu dans la gestion de votre compte !", context),
+        appBar: userAppBar("", context),
         body: Center(
             child: Column(
           children: [

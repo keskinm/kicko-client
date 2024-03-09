@@ -23,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     String title = userGroupSyntax.titleMap[widget.userGroup];
     return Scaffold(
-      appBar: simpleAppBar("Inscription espace $title"),
+      appBar: simpleAppBar(),
       backgroundColor: Colors.white,
       body: Center(
         child: Column(
@@ -32,11 +32,10 @@ class _RegisterPageState extends State<RegisterPage> {
             AnimatedTextKit(
               repeatForever: true,
               animatedTexts: [
-                ColorizeAnimatedText(
-                  "Inscription espace $title",
-                  textStyle: style.colorizeTextStyle(size: 20),
-                  colors: style.colorizeColors,
-                ),
+                ColorizeAnimatedText("Inscription espace $title",
+                    textStyle: style.colorizeTextStyle(size: 20),
+                    colors: style.colorizeColors,
+                    textAlign: TextAlign.center),
               ],
             ),
             SizedBox(

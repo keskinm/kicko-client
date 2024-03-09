@@ -35,11 +35,10 @@ class _LoginPageState extends State<LoginPage> {
                   child: AnimatedTextKit(
                     repeatForever: true,
                     animatedTexts: [
-                      ColorizeAnimatedText(
-                        "Connexion espace $title",
-                        textStyle: style.colorizeTitleTextStyle,
-                        colors: style.colorizeColors,
-                      ),
+                      ColorizeAnimatedText("Connexion espace $title",
+                          textStyle: style.colorizeTitleTextStyle,
+                          colors: style.colorizeColors,
+                          textAlign: TextAlign.center),
                     ],
                   ),
                 ),

@@ -3,7 +3,7 @@ import 'package:kicko/user/ui/my_account.dart';
 
 AppBar simpleAppBar([String? text]) {
   return AppBar(
-      // backgroundColor: Colors.deepOrangeAccent,
+      // backgroundColor: Colors.white,
       // No need backgroundColor because done in ThemData of MaterialApp.
       title: text != null ? Center(child: Text(text)) : null);
 }
@@ -12,8 +12,6 @@ AppBar userAppBar(String text, BuildContext pageContext) {
   return AppBar(
     title: Text(text),
     centerTitle: true,
-    // backgroundColor: Colors.orange,
-    // No need backgroundColor because done in ThemData of MaterialApp. ??
     actions: [
       PopupMenuButton(itemBuilder: (context) {
         return [

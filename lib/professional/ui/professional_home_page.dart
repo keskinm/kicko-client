@@ -7,7 +7,7 @@ import 'package:kicko/chat/widget.dart';
 import 'package:kicko/services/app_state.dart';
 
 import 'package:kicko/syntax.dart';
-import '../../shared/common.dart';
+import 'package:kicko/shared/common.dart';
 import 'job_offer_page.dart';
 import 'package:kicko/user/ui/medias.dart';
 import 'package:kicko/user/ui/user.dart';
@@ -397,7 +397,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: userAppBar("Bienvenu dans votre tableau de bord !", context),
+        appBar: userAppBar("", context),
         body: Center(
             child: Column(
           children: [
