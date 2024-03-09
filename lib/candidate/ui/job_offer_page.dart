@@ -24,14 +24,18 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
   late Future<Map> jobOffer;
   late Future<bool> appliedJobOffer;
 
-  onReBuild() {}
+  onReBuild() {
+    setState(() {
+      appliedJobOffer = getRequest<bool>(
+          "applied_job_offer", [appState.currentUser.id, widget.jobOfferId]);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    onReBuild();
     jobOffer = getRequest("candidate_get_job_offer", [widget.jobOfferId]);
-    appliedJobOffer = getRequest<bool>(
-        "applied_job_offer", [appState.currentUser.id, widget.jobOfferId]);
   }
 
   Widget buildJobOffer() {
@@ -64,9 +68,10 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
                 child: Text(_jobOffer['requires']),
               ),
               TextButton(
-                  onPressed: () {
-                    getRequest("apply_job_offer",
+                  onPressed: () async {
+                    await getRequest("apply_job_offer",
                         [appState.currentUser.id, widget.jobOfferId]);
+                    onReBuild();
                   },
                   child: (_applyJobOffer == false)
                       ? Text("Je suis intéressé par cette offre !")
