@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     String title = userGroupSyntax.titleMap[widget.userGroup];
     return Scaffold(
-      appBar: simpleAppBar("Connexion espace $title"),
+      appBar: simpleAppBar(),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
@@ -32,17 +32,15 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Container(
                   padding: const EdgeInsets.only(top: 90),
-                  child: Center(
-                    child: AnimatedTextKit(
-                      repeatForever: true,
-                      animatedTexts: [
-                        ColorizeAnimatedText(
-                          "Connexion espace $title",
-                          textStyle: style.colorizeTitleTextStyle,
-                          colors: style.colorizeColors,
-                        ),
-                      ],
-                    ),
+                  child: AnimatedTextKit(
+                    repeatForever: true,
+                    animatedTexts: [
+                      ColorizeAnimatedText(
+                        "Connexion espace $title",
+                        textStyle: style.colorizeTitleTextStyle,
+                        colors: style.colorizeColors,
+                      ),
+                    ],
                   ),
                 ),
                 Padding(

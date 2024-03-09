@@ -34,11 +34,12 @@ Future<void> main() async {
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           textTheme: const TextTheme(
-              displayLarge: TextStyle(backgroundColor: Color.fromARGB(255, 240, 236, 10)),
+              displayLarge:
+                  TextStyle(backgroundColor: Color.fromARGB(255, 240, 236, 10)),
               displayMedium:
                   TextStyle(backgroundColor: Color.fromARGB(255, 240, 236, 10)),
-              displaySmall:
-                  TextStyle(backgroundColor: Color.fromARGB(255, 240, 236, 10))),
+              displaySmall: TextStyle(
+                  backgroundColor: Color.fromARGB(255, 240, 236, 10))),
           appBarTheme: const AppBarTheme(
             iconTheme: IconThemeData(color: Colors.black),
             backgroundColor: Colors.white,
@@ -63,12 +64,13 @@ class _KickoApp extends State<KickoApp> {
   }
 
   Widget buildRow(String text, String userGroup) {
-    Widget child = TextButton(onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => LoginPage(userGroup: userGroup)),
-          ),
-          child: Text(text, style: TextStyle(fontSize: 50)));
+    Widget child = TextButton(
+        onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => LoginPage(userGroup: userGroup)),
+            ),
+        child: Text(text, style: TextStyle(fontSize: 50)));
 
     return DefaultTextStyle(
       style: const TextStyle(

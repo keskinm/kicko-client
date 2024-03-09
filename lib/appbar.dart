@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/user/ui/my_account.dart';
 
-AppBar simpleAppBar(String text) {
+AppBar simpleAppBar([String? text]) {
   return AppBar(
-    // backgroundColor: Colors.deepOrangeAccent,
-    // No need backgroundColor because done in ThemData of MaterialApp.
-    title: Center(child: Text(text)),
-  );
+      // backgroundColor: Colors.deepOrangeAccent,
+      // No need backgroundColor because done in ThemData of MaterialApp.
+      title: text != null ? Center(child: Text(text)) : null);
 }
 
 AppBar userAppBar(String text, BuildContext pageContext) {
