@@ -89,8 +89,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
     );
   }
 
-  Widget buildDropDown(String key, List<dynamic> list, int dropdownValueIdx) {
-    String dropdownValue = list[dropdownValueIdx];
+  Widget buildDropDown(String key, List<dynamic> list, String dropdownValue) {
     return DropdownButton<String>(
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
@@ -102,8 +101,8 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
       ),
       onChanged: (String? value) {
         setState(() {
-          appliersFilterJson[key] = list.indexOf(value);
-          appliersFilterJsonDropDown[key] = list.indexOf(value);
+          appliersFilterJson[key] = value;
+          appliersFilterJsonDropDown[key] = value;
         });
       },
       items: list.map<DropdownMenuItem<String>>((dynamic value) {
@@ -132,7 +131,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
             if (appliersFilterJsonDropDown.containsKey(key)) {
               appliersFilterJson[key] = appliersFilterJsonDropDown[key];
             } else {
-              appliersFilterJson[key] = 0;
+              appliersFilterJson[key] = "";
             }
             dropDownButtons.add(
               buildDropDown(
@@ -171,12 +170,12 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
                     Container(
                       height: 50,
                       color: Colors.amber[500],
-                      child: Text(_applier['l_study_level']),
+                      child: Text(_applier['study_level']),
                     ),
                     Container(
                       height: 50,
                       color: Colors.amber[100],
-                      child: Text(_applier['l_sex']),
+                      child: Text(_applier['sex']),
                     ),
                     IconButton(
                       icon: Icon(Icons.message),

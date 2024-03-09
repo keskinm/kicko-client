@@ -51,8 +51,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
     super.onRebuild();
   }
 
-  Widget buildDropDown(String key, List<dynamic> list, int dropdownValueIdx) {
-    String dropdownValue = list[dropdownValueIdx];
+  Widget buildDropDown(String key, List<dynamic> list, String dropdownValue) {
     return DropdownButton<String>(
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
@@ -64,9 +63,8 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
       ),
       onChanged: (String? value) {
         setState(() {
-          profileJson["l_" + key] = value;
-          profileJson[key] = list.indexOf(value);
-          profileJsonDropDown[key] = list.indexOf(value);
+          profileJson[key] = value;
+          profileJsonDropDown[key] = value;
         });
       },
       items: list.map<DropdownMenuItem<String>>((dynamic value) {
