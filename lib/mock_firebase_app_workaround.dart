@@ -3,6 +3,9 @@ import 'package:firebase_core_platform_interface/firebase_core_platform_interfac
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// the firebase app mocking is FOUND HERE: https://stackoverflow.com/questions/63662031/how-to-mock-the-firebaseapp-in-flutter
+
+
 typedef Callback = void Function(MethodCall call);
 
 void setupFirebaseAuthMocks([Callback? customHandlers]) {

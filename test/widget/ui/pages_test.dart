@@ -12,7 +12,6 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:kicko/get_it_service_locator.dart';
 import 'package:kicko/services/app_state.dart';
 
-// the firebase app mocking is FOUND HERE: https://stackoverflow.com/questions/63662031/how-to-mock-the-firebaseapp-in-flutter
 
 void main() {
   setupFirebaseAuthMocks();
