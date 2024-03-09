@@ -41,8 +41,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   @override
   void initState() {
     super.initState();
-    candidateSyntax = postRequest("get_candidate_syntax", [userId],
-        {"user_group": userGroupSyntax.professional});
+    candidateSyntax = getRequest("get_candidate_syntax", []);
     jobOffer = getRequest<Map>("candidate_get_job_offer", [widget.jobOfferId]);
     onReBuild();
   }

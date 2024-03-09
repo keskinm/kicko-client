@@ -116,6 +116,7 @@ final Map<String, UrlPattern> urlPatterns = {
   "delete_account": UrlPattern(
       url: "delete_<userGroup>_account", token: true, getData: false),
   "get_current_user": UrlPattern(url: "<userGroup>", token: true),
+  "get_candidate_syntax": UrlPattern(url: "get_candidate_syntax"),
 
   // -----------POST METHODS-----------------
   "candidate_update_profile": UrlPattern(
@@ -128,7 +129,6 @@ final Map<String, UrlPattern> urlPatterns = {
       UrlPattern(url: "delete_job_offer/<pro_id>/<job_offer_id>"),
   "professional_get_appliers":
       UrlPattern(url: "professional_get_appliers/<pro_id>"),
-  "get_candidate_syntax": UrlPattern(url: "get_candidate_syntax/<user_id>"),
   "update_business_fields":
       UrlPattern(url: "update_business_fields/<professional_id>"),
   "user_register": UrlPattern(url: "<user_group>_register", getData: false),
