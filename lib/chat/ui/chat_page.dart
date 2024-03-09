@@ -95,17 +95,21 @@ class _ChatState extends State<Chat> {
               child: Row(
                 children: [
                   Expanded(
-                      child: TextField(
-                    controller: messageEditingController,
-                    style: simpleTextStyle(),
-                    decoration: const InputDecoration(
-                        hintText: 'Message ...',
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                        border: InputBorder.none),
-                  )),
+                    child: TextField(
+                      onSubmitted: (value) => {
+                        addMessage()
+                      },
+                      controller: messageEditingController,
+                      style: simpleTextStyle(),
+                      decoration: const InputDecoration(
+                          hintText: 'Message ...',
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                          border: InputBorder.none),
+                    )
+                  ),
                   const SizedBox(
                     width: 16,
                   ),
@@ -123,7 +127,7 @@ class _ChatState extends State<Chat> {
                                 end: FractionalOffset.bottomRight),
                             borderRadius: BorderRadius.circular(40)),
                         padding: const EdgeInsets.all(12),
-                        child: Text("send")),
+                        child: Icon(Icons.send)),
                   ),
                 ],
               ),
