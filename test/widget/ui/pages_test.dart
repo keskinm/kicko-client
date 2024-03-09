@@ -41,19 +41,19 @@ void main() {
           "http://10.0.2.2:5000/api/candidate_get_profile/${appState.currentUser.id}",
           (server) {
         server.reply(200, {
-          'instance': {
-            'id': '5',
-            'firebase_id': 'AMMRFGuk88ZCuoL5bPkfCmCOoe13',
-            'username': 'bachata6',
-            'password': 'bachata6',
-            'email': 'bachata6@gmail.com',
-            'study_level': 'Master',
-            'sex': 'Homme',
-          },
-          'syntax': {
-            'sex': ['', 'Homme', 'Femme', 'Non genré'],
-            'study_level': ['', 'Licence', 'Master']
-          }
+          'id': '5',
+          'firebase_id': 'AMMRFGuk88ZCuoL5bPkfCmCOoe13',
+          'username': 'bachata6',
+          'password': 'bachata6',
+          'email': 'bachata6@gmail.com',
+          'study_level': 'Master',
+          'sex': 'Homme',
+        });
+      })
+      ..onGet("http://10.0.2.2:5000/api/get_candidate_syntax", (server) {
+        server.reply(200, {
+          'sex': ['', 'Homme', 'Femme', 'Non genré'],
+          'study_level': ['', 'Licence', 'Master']
         });
       })
       ..onPost("http://10.0.2.2:5000/api/candidate_get_job_offers", (server) {

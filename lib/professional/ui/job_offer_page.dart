@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
-import 'package:kicko/syntax.dart';
 
 import 'package:kicko/shared/domain/chat.dart';
 
-import '../domain/professional_home_logic.dart';
-import '../../styles/professional_home_style.dart';
+import 'package:kicko/professional/domain/professional_home_logic.dart';
+import 'package:kicko/styles/professional_home_style.dart';
 
 class ProfessionalJobOfferPage extends StatefulWidget {
   final String jobOfferId;

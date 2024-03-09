@@ -32,6 +32,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
   CandidateHomeStyle style = CandidateHomeStyle();
   late Future<Map> profile;
   late Future<List> jobOffers;
+  late Future<Map> profileChoices;
 
   String get resumesBucket => "${userGroupSyntax.candidate}/$userName/resumes";
 
@@ -48,6 +49,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
       jobOffers = postRequest("candidate_get_job_offers", [],
           logic.formatJobOfferFilters(jobOfferFilters));
     });
+    profileChoices = getRequest("get_candidate_syntax", []);
     super.onRebuild();
   }
 
@@ -77,22 +79,24 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
   }
 
   Widget buildProfile() {
-    return FutureBuilder<Map>(
-        future: profile,
-        builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
+    return FutureBuilder<List>(
+        future: Future.wait([profile, profileChoices]),
+        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
           Widget body;
           if (snapshot.hasData) {
+            Map _profile = snapshot.data![0];
+            Map _profileChoices = snapshot.data![1];
+
             List<Widget> dropDownButtons = [];
 
             for (String key in ["sex", "study_level"]) {
               if (profileJsonDropDown.containsKey(key)) {
                 profileJson[key] = profileJsonDropDown[key];
               } else {
-                profileJson[key] = snapshot.data!["instance"][key];
+                profileJson[key] = _profile[key];
               }
               dropDownButtons.add(
-                buildDropDown(
-                    key, snapshot.data!["syntax"][key], profileJson[key]),
+                buildDropDown(key, _profileChoices[key], profileJson[key]),
               );
             }
             body = Column(
