@@ -116,6 +116,6 @@ class _KickoApp extends State<KickoApp> {
       ],
     )));
 
-    return Scaffold(appBar: protoAppBar("Kicko!"), body: body);
+    return Scaffold(body: body);
   }
 }
