@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kicko/services/firebase.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:kicko/easy_tests/mock_firebase_app_workaround.dart';
+import 'package:kicko/mock_firebase_app_workaround.dart';
 import 'package:kicko/candidate/ui/candidate_home_page.dart';
 import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
@@ -47,11 +47,8 @@ void main() {
             'username': 'bachata6',
             'password': 'bachata6',
             'email': 'bachata6@gmail.com',
-            'study_level': 2,
-            'l_study_level': 'Master',
-            'sex': 2,
-            'l_sex': 'Femme',
-            'language': 'french'
+            'study_level': 'Master',
+            'sex': 'Homme',
           },
           'syntax': {
             'sex': ['', 'Homme', 'Femme', 'Non genré'],
