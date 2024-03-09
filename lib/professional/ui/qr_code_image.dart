@@ -48,27 +48,28 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simpleAppBar("Image de profil"),
-      body: Column(
-        children: [
-          FutureBuilder(
-            future: qrCodeImage,
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                dynamic qrCodeImageRef = snapshot.data;
+        appBar: simpleAppBar(),
+        body: Center(
+          child: Column(
+            children: [
+              FutureBuilder(
+                future: qrCodeImage,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    dynamic qrCodeImageRef = snapshot.data;
 
-                return buildQrCodeDisplay(qrCodeImageRef);
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return const CircularProgressIndicator(
-                  color: Colors.orangeAccent,
-                );
-              }
-            },
+                    return buildQrCodeDisplay(qrCodeImageRef);
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return const CircularProgressIndicator(
+                      color: Colors.orangeAccent,
+                    );
+                  }
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }

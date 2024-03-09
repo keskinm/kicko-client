@@ -263,7 +263,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                                     DisplayQRCodeImage(jobOfferId: jobOfferId)),
                           );
                         },
-                        child: const Text("J'inprime mon QR code")),
+                        child: const Text("Imprimer mon QR Code")),
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () async {
