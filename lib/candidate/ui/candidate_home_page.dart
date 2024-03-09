@@ -278,7 +278,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
     children.addAll(chatWidgetsList(context, messagesNotification, this));
 
     return Scaffold(
-        appBar: menuAppBar("Bienvenu dans votre tableau de bord !", context),
+        appBar: userAppBar("Bienvenu dans votre tableau de bord !", context),
         body: Center(
             child: Column(
           children: children,

@@ -90,7 +90,7 @@ class _MyAccount extends State<MyAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar:
-            menuAppBar("Bienvenu dans la gestion de votre compte !", context),
+            userAppBar("Bienvenu dans la gestion de votre compte !", context),
         body: Center(
             child: Column(
           children: [

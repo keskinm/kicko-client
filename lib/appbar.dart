@@ -9,7 +9,7 @@ AppBar protoAppBar(String text) {
   );
 }
 
-AppBar menuAppBar(String text, BuildContext pageContext) {
+AppBar userAppBar(String text, BuildContext pageContext) {
   return AppBar(
     title: Text(text),
     centerTitle: true,

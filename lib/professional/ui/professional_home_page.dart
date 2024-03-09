@@ -397,7 +397,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: menuAppBar("Bienvenu dans votre tableau de bord !", context),
+        appBar: userAppBar("Bienvenu dans votre tableau de bord !", context),
         body: Center(
             child: Column(
           children: [
