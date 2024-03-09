@@ -89,7 +89,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
 
             List<Widget> dropDownButtons = [];
 
-            for (String key in ["sex", "study_level"]) {
+            for (String key in _profileChoices.keys) {
               if (profileJsonDropDown.containsKey(key)) {
                 profileJson[key] = profileJsonDropDown[key];
               } else {
