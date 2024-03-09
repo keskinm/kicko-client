@@ -139,7 +139,10 @@ class ChatRoomsTile extends StatelessWidget {
             const SizedBox(
               width: 12,
             ),
-            Text(unReadMessages > 0 ? userName + " | Non lus: " + unReadMessages.toString() : userName,
+            Text(
+                unReadMessages > 0
+                    ? userName + " | Non lus: " + unReadMessages.toString()
+                    : userName,
                 textAlign: TextAlign.start,
                 style: const TextStyle(
                     color: Colors.white,
