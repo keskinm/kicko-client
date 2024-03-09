@@ -32,15 +32,16 @@ Future<void> main() async {
         debugShowCheckedModeBanner: false,
         home: const KickoApp(),
         theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
           textTheme: const TextTheme(
-              displayLarge: TextStyle(backgroundColor: Colors.deepOrangeAccent),
+              displayLarge: TextStyle(backgroundColor: Color.fromARGB(255, 240, 236, 10)),
               displayMedium:
-                  TextStyle(backgroundColor: Colors.deepOrangeAccent),
+                  TextStyle(backgroundColor: Color.fromARGB(255, 240, 236, 10)),
               displaySmall:
-                  TextStyle(backgroundColor: Colors.deepOrangeAccent)),
+                  TextStyle(backgroundColor: Color.fromARGB(255, 240, 236, 10))),
           appBarTheme: const AppBarTheme(
             iconTheme: IconThemeData(color: Colors.black),
-            backgroundColor: Colors.deepOrangeAccent,
+            backgroundColor: Colors.white,
           ),
         ),
       ),
@@ -62,22 +63,12 @@ class _KickoApp extends State<KickoApp> {
   }
 
   Widget buildRow(String text, String userGroup) {
-    Widget child = DefaultTextStyle(
-      style: const TextStyle(fontSize: 40.0, color: Colors.deepOrangeAccent),
-      child: AnimatedTextKit(
-        animatedTexts: [
-          WavyAnimatedText(text),
-        ],
-        isRepeatingAnimation: true,
-        onTap: () {
-          Navigator.push(
+    Widget child = TextButton(onPressed: () => Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => LoginPage(userGroup: userGroup)),
-          );
-        },
-      ),
-    );
+          ),
+          child: Text(text, style: TextStyle(fontSize: 50)));
 
     return DefaultTextStyle(
       style: const TextStyle(
@@ -90,7 +81,20 @@ class _KickoApp extends State<KickoApp> {
 
   Widget buildBottomPanel() {
     return Column(
-      children: const [
+      children: [
+        AnimatedTextKit(
+          isRepeatingAnimation: true,
+          animatedTexts: [
+            ColorizeAnimatedText(
+              "The job is yours",
+              textStyle: const TextStyle(
+                fontSize: 30.0,
+                fontFamily: 'Horizon',
+              ),
+              colors: [const Color.fromARGB(255, 23, 10, 6), Colors.yellow],
+            ),
+          ],
+        ),
         Text("3 rue du 11 Novembre 42500 Le Chambon-Feugerolles"),
         Text("Contact: 07 80 13 56 88"),
       ],
@@ -103,19 +107,6 @@ class _KickoApp extends State<KickoApp> {
         child: SingleChildScrollView(
             child: Column(
       children: [
-        AnimatedTextKit(
-          repeatForever: true,
-          animatedTexts: [
-            ColorizeAnimatedText(
-              "Je suis :",
-              textStyle: const TextStyle(
-                fontSize: 30.0,
-                fontFamily: 'Horizon',
-              ),
-              colors: [Colors.deepOrange, Colors.yellow],
-            ),
-          ],
-        ),
         SizedBox(height: MediaQuery.of(context).size.height / 8),
         buildRow("CANDIDAT", userGroupSyntax.candidate),
         SizedBox(height: MediaQuery.of(context).size.height / 8),

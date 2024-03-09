@@ -12,7 +12,6 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:kicko/get_it_service_locator.dart';
 import 'package:kicko/services/app_state.dart';
 
-
 void main() {
   setupFirebaseAuthMocks();
   late DioAdapter dioAdapter;
