@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/user/ui/my_account.dart';
 
-AppBar protoAppBar(String text) {
+AppBar simpleAppBar(String text) {
   return AppBar(
     // backgroundColor: Colors.deepOrangeAccent,
     // No need backgroundColor because done in ThemData of MaterialApp.

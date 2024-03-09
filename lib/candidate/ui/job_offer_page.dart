@@ -92,7 +92,7 @@ class _CandidateJobOfferPage extends State<CandidateJobOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: protoAppBar("Offre d'emploi"),
+        appBar: simpleAppBar("Offre d'emploi"),
         body: Center(
             child: Wrap(
           spacing: 100,

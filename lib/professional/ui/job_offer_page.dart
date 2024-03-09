@@ -206,7 +206,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: protoAppBar("Bienvenu dans votre tableau de bord !"),
+        appBar: simpleAppBar("Bienvenu dans votre tableau de bord !"),
         body: Center(
             child: Wrap(
           spacing: 100,

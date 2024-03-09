@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     String title = userGroupSyntax.titleMap[widget.userGroup];
     return Scaffold(
-      appBar: protoAppBar("Connexion espace $title"),
+      appBar: simpleAppBar("Connexion espace $title"),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
