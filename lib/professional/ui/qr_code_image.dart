@@ -20,7 +20,7 @@ class DisplayQRCodeImage extends StatefulWidget {
 class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   bool inProcess = false;
   late dynamic qrCodeImage;
-  late Future<Map> getPdf;
+  late Future<dynamic> getPdf;
 
   buildQrCodeDisplay(dynamic storageReference) {
     return Container(
