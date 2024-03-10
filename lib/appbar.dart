@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/user/ui/my_account.dart';
 
-AppBar simpleAppBar(BuildContext context, [String? text]) {
-  List<Widget> rowChildren = [
-    Flexible(
-        child: IconButton(
+AppBar simpleAppBar(BuildContext context,
+    {String? text, bool allowGoHome = true}) {
+  List<Widget> rowChildren = [];
+
+  if (Navigator.canPop(context)) {
+    rowChildren.add(Flexible(
+      child: IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () => Navigator.of(context).pop(),
+    )));
+  }
+
+  if (allowGoHome) {
+    rowChildren.add(Flexible(
+      child: IconButton(
       icon: Icon(Icons.home),
       onPressed: () {
         Navigator.popUntil(context, (route) => route.isFirst);
       },
-    ))
-  ];
-
-  if (Navigator.canPop(context)) {
-    rowChildren.insert(
-        0,
-        Flexible(
-            child: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        )));
+    )));
   }
 
   return AppBar(
