@@ -118,7 +118,9 @@ final Map<String, UrlPattern> urlPatterns = {
   "get_current_user": UrlPattern(url: "<userGroup>", token: true),
   "get_candidate_syntax": UrlPattern(url: "get_candidate_syntax"),
   "candidate_get_job_offer":
-    UrlPattern(url: "candidate_get_job_offer/<j_o_id>"),
+      UrlPattern(url: "candidate_get_job_offer/<j_o_id>"),
+  "professional_get_job_offer":
+      UrlPattern(url: "professional_get_job_offer/<j_o_id>"),
   // -----------POST METHODS-----------------
   "candidate_update_profile": UrlPattern(
     url: "candidate_update_profile/<id>",

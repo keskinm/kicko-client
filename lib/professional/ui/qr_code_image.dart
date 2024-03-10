@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
+import 'package:kicko/end_point.dart';
 import 'package:kicko/services/firebase.dart';
 
 import '../../services/app_state.dart';
@@ -19,6 +20,7 @@ class DisplayQRCodeImage extends StatefulWidget {
 class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   bool inProcess = false;
   late dynamic qrCodeImage;
+  late Future<Map> getPdf;
 
   buildQrCodeDisplay(dynamic storageReference) {
     return Container(
@@ -39,10 +41,15 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
         .downloadFile(bucket, widget.jobOfferId);
   }
 
+  onRebuild() {
+    getPdf = getRequest("professional_get_job_offer", [widget.jobOfferId]);
+  }
+
   @override
   void initState() {
     super.initState();
     qrCodeImage = getQrCodeImage();
+    onRebuild();
   }
 
   @override
