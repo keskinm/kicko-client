@@ -23,7 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     String title = userGroupSyntax.titleMap[widget.userGroup];
     return Scaffold(
-      appBar: simpleAppBar(),
+      appBar: simpleAppBar(context),
       backgroundColor: Colors.white,
       body: Center(
         child: Column(

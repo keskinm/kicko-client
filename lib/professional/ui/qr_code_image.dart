@@ -48,7 +48,7 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: simpleAppBar(),
+        appBar: simpleAppBar(context),
         body: Center(
           child: Column(
             children: [

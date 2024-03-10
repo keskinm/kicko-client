@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/user/ui/my_account.dart';
 
-AppBar simpleAppBar([String? text]) {
+AppBar simpleAppBar(BuildContext context, [String? text]) {
+  List<Widget> rowChildren = [
+    Flexible(
+      child: IconButton(
+      icon: Icon(Icons.home),
+      onPressed: () {
+        Navigator.popUntil(context, (route) => route.isFirst);
+      },
+    ))
+  ];
+
+  if (Navigator.canPop(context)) {
+    rowChildren.insert(
+        0,
+        Flexible(
+          child: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        )));
+  }
+
   return AppBar(
-      // backgroundColor: Colors.white,
-      // No need backgroundColor because done in ThemData of MaterialApp.
-      title: text != null ? Center(child: Text(text)) : null);
+    title: text != null ? Center(child: Text(text)) : null,
+    leading: Row(mainAxisSize: MainAxisSize.min, children: rowChildren),
+  );
 }
 
 AppBar userAppBar(String text, BuildContext pageContext) {

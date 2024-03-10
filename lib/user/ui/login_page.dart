@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     String title = userGroupSyntax.titleMap[widget.userGroup];
     return Scaffold(
-      appBar: simpleAppBar(),
+      appBar: simpleAppBar(context),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(

@@ -206,7 +206,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: simpleAppBar(),
+        appBar: simpleAppBar(context),
         body: Center(
             child: Wrap(
           spacing: 100,

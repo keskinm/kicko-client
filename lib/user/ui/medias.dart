@@ -121,7 +121,7 @@ class _DisplayResumes extends State<DisplayResumes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: simpleAppBar("Mes CV"),
+      appBar: simpleAppBar(context),
       body: Column(
         children: [
           Center(
