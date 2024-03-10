@@ -120,7 +120,7 @@ final Map<String, UrlPattern> urlPatterns = {
   "candidate_get_job_offer":
       UrlPattern(url: "candidate_get_job_offer/<j_o_id>"),
   "professional_get_job_offer":
-      UrlPattern(url: "professional_get_job_offer/<j_o_id>"),
+      UrlPattern(url: "professional_get_job_offer/<username_id>/<j_o_id>"),
   // -----------POST METHODS-----------------
   "candidate_update_profile": UrlPattern(
     url: "candidate_update_profile/<id>",

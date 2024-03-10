@@ -42,7 +42,7 @@ class _DisplayQRCodeImage extends State<DisplayQRCodeImage> {
   }
 
   onRebuild() {
-    getPdf = getRequest("professional_get_job_offer", [widget.jobOfferId]);
+    getPdf = getRequest("professional_get_job_offer", [appState.currentUser.username, widget.jobOfferId]);
   }
 
   @override
