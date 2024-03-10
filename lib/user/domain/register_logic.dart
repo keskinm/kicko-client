@@ -4,12 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/shared/validator.dart';
 import 'package:kicko/end_point.dart';
+import 'package:kicko/shared/route.dart';
 
 import '../../services/firebase.dart';
-import '../../syntax.dart';
-import '../../candidate/ui/candidate_home_page.dart';
 import 'package:kicko/shared/common.dart';
-import '../../professional/ui/professional_home_page.dart';
 import 'package:provider/provider.dart';
 
 class RegisterLogic {
@@ -105,18 +103,7 @@ class RegisterLogic {
 
             appState.currentUser.setParameters(res["data"]);
             appState.appStatus = AppStatus.connected;
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) {
-                if (userGroup == userGroupSyntax.professional) {
-                  return const ProHome();
-                } else if (userGroup == userGroupSyntax.candidate) {
-                  return const CandidateHome();
-                } else {
-                  return Text("unknown user group $userGroup");
-                }
-              }),
-            );
+            goHome(context, userGroup);
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Connexion impossible')),

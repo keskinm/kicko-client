@@ -4,7 +4,7 @@ import 'package:kicko/user/ui/my_account.dart';
 AppBar simpleAppBar(BuildContext context, [String? text]) {
   List<Widget> rowChildren = [
     Flexible(
-      child: IconButton(
+        child: IconButton(
       icon: Icon(Icons.home),
       onPressed: () {
         Navigator.popUntil(context, (route) => route.isFirst);
@@ -16,7 +16,7 @@ AppBar simpleAppBar(BuildContext context, [String? text]) {
     rowChildren.insert(
         0,
         Flexible(
-          child: IconButton(
+            child: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         )));

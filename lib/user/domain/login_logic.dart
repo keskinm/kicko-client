@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/candidate/ui/candidate_home_page.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/shared/common.dart';
 import 'package:kicko/services/app_state.dart';
+import 'package:kicko/shared/route.dart';
 import 'package:kicko/shared/validator.dart';
-
-import '../../syntax.dart';
-import '../../professional/ui/professional_home_page.dart';
 
 class LoginLogic {
   final formKey = GlobalKey<FormState>();
@@ -61,18 +58,7 @@ class LoginLogic {
         appState.currentUser.setParameters(res["data"]);
         appState.appStatus = AppStatus.connected;
         //Lancement app
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) {
-            if (userGroup == userGroupSyntax.professional) {
-              return const ProHome();
-            } else if (userGroup == userGroupSyntax.candidate) {
-              return const CandidateHome();
-            } else {
-              return Text("unknown user group $userGroup");
-            }
-          }),
-        );
+        goHome(context, userGroup);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Connexion impossible')),
