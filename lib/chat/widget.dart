@@ -2,14 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kicko/chat/ui/chatroom_page.dart';
 import 'package:kicko/shared/route.dart';
 
-PreferredSizeWidget? appBarMain(BuildContext context) {
-  return AppBar(
-    title: Text(""),
-    elevation: 0.0,
-    centerTitle: false,
-  );
-}
-
 InputDecoration textFieldInputDecoration(String hintText) {
   return InputDecoration(
       hintText: hintText,

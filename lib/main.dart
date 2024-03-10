@@ -1,8 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:kicko/appbar.dart';
 import 'package:kicko/user/ui/login_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:kicko/shared/route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kicko/syntax.dart';
 import 'firebase_options.dart';
@@ -22,13 +21,14 @@ Future<void> main() async {
   );
 
 // @todo USE MULTIPROVIDER https://pub.dev/documentation/provider/latest/provider/MultiProvider-class.html
-// IF WE OPT FOR THIS SOLUTION !!
 
   runApp(
     Provider<FireBaseServiceInterface>(
       create: (_) => FireBaseService(), // Provide your Firestore service
       child: MaterialApp(
         title: 'KICKO!',
+        initialRoute: "/",
+        routes: routes,
         debugShowCheckedModeBanner: false,
         home: const KickoApp(),
         theme: ThemeData(

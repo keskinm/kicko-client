@@ -1,3 +1,4 @@
+import 'package:kicko/appbar.dart';
 import 'package:kicko/services/firebase.dart';
 import 'package:kicko/chat/theme.dart';
 
@@ -60,23 +61,7 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("ChatRoom"),
-        elevation: 0.0,
-        centerTitle: false,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              // appState.authMethods.signOut();
-              // Navigator.pushReplacement(context,
-              //     MaterialPageRoute(builder: (context) => LoginPage()));
-            },
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Icon(Icons.exit_to_app)),
-          )
-        ],
-      ),
+      appBar: simpleAppBar(context),
 
       // @todo have to make work this:
       body: Container(

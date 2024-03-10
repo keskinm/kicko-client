@@ -24,7 +24,7 @@ AppBar simpleAppBar(BuildContext context,
         child: IconButton(
       icon: Icon(Icons.home),
       onPressed: () {
-        goHome(context, appState.userGroup);
+        popUntilHome(context, appState.userGroup);
       },
     )));
   }

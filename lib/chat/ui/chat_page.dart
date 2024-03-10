@@ -4,6 +4,7 @@ import 'package:kicko/chat/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:kicko/appbar.dart';
 
 class Chat extends StatefulWidget {
   final String chatRoomId;
@@ -82,7 +83,7 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
+      appBar: simpleAppBar(context),
       body: Stack(
         children: [
           chatMessages(),
