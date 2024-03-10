@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kicko/user/ui/my_account.dart';
+import 'package:kicko/services/app_state.dart';
+import 'package:kicko/shared/route.dart';
 
 AppBar simpleAppBar(BuildContext context,
     {String? text, bool allowGoHome = true}) {
@@ -7,18 +9,22 @@ AppBar simpleAppBar(BuildContext context,
 
   if (Navigator.canPop(context)) {
     rowChildren.add(Flexible(
-      child: IconButton(
+        child: IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () => Navigator.of(context).pop(),
     )));
   }
 
   if (allowGoHome) {
+    // INSTEAD OF THIS, USE
+    // Navigator.popUntil(context, ModalRoute.withName('/candidate_home'));
+    // AFTER DEFINING ROUTES IN MATERIAL APP (ONE CAN ALSO USE DYNAMIC ROUTING
+    // WITH onGenerateRoute: (settings))
     rowChildren.add(Flexible(
-      child: IconButton(
+        child: IconButton(
       icon: Icon(Icons.home),
       onPressed: () {
-        Navigator.popUntil(context, (route) => route.isFirst);
+        goHome(context, appState.userGroup);
       },
     )));
   }
