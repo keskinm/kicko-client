@@ -1,8 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/professional/domain/professional_home_logic.dart';
 import 'package:kicko/styles/professional_home_style.dart';
-import 'package:kicko/professional/ui/qr_code_image.dart';
+
+import 'open_pdf_stub.dart'
+    if (dart.library.html) 'package:kicko/professional/ui/web_display_image.dart'
+    if (dart.library.io) 'package:kicko/professional/ui/mobile_display_pdf.dart';
+
 import 'package:kicko/chat/widget.dart';
 import 'package:kicko/services/app_state.dart';
 
@@ -258,9 +263,9 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    DisplayQRCodeImage(jobOfferId: jobOfferId)),
+                            MaterialPageRoute(builder: (context) {
+                              return OpenPDF(jobOfferId: jobOfferId);
+                            }),
                           );
                         },
                         child: const Text("Imprimer mon QR Code")),
