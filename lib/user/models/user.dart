@@ -2,13 +2,11 @@ class User {
   late String id;
   late String username;
   late String email;
-  late String password;
   late String token;
 
   User(
       {this.username = '',
       this.email = '',
-      this.password = '',
       this.token = '',
       this.id = ''});
 
@@ -24,10 +22,6 @@ class User {
     email = value;
   }
 
-  void setPassword(value) {
-    password = value;
-  }
-
   void setToken(value) {
     token = value;
   }
@@ -37,7 +31,6 @@ class User {
       'id': setId,
       'username': setUsername,
       'email': setEmail,
-      'password': setPassword,
       'token': setToken
     };
   }
@@ -51,7 +44,6 @@ class User {
   Map<String, dynamic> toJson() => {
         'username': username,
         'email': email,
-        'password': password,
         'id': id,
       };
 

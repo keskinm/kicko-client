@@ -60,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                                   bottom: BorderSide(color: Colors.purple),
                                   top: BorderSide(color: Colors.purple))),
                           child: TextFormField(
+                            obscureText: true,
                             validator: (value) =>
                                 logic.validatePassword(value: value),
                             decoration:

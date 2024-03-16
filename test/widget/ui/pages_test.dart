@@ -42,7 +42,6 @@ void main() {
           'id': '5',
           'firebase_id': 'AMMRFGuk88ZCuoL5bPkfCmCOoe13',
           'username': 'bachata6',
-          'password': 'bachata6',
           'email': 'bachata6@gmail.com',
           'study_level': 'Master',
           'sex': 'Homme',

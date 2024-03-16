@@ -21,17 +21,7 @@ class AuthMethods {
         "email": email,
         "firebase_id": firebaseUid
       });
-      if (response.statusCode == 200) {
-        appState.addCredentials(keys: {
-          'username': username,
-          'password': password,
-          'email': email,
-          'id': firebaseUid
-        });
-        return response;
-      } else {
-        return response;
-      }
+      return response;
     } catch (e) {
       return null;
     }
