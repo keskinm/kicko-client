@@ -24,7 +24,6 @@ void main() {
         (server) {
       server.reply(200, {"": ""});
     });
-    // dio.httpClientAdapter = dioAdapter;
 
     final result = await getRequest('candidate_get_profile', ["123"]);
     expect(result, isA<Map>());
@@ -38,7 +37,6 @@ void main() {
         (server) {
       server.reply(200, {"": ""});
     }, data: json.encode({"k": "v"}));
-    // dio.httpClientAdapter = dioAdapter;
 
     final result =
         await postRequest('candidate_update_profile', ["123"], {"k": "v"});
