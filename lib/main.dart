@@ -19,8 +19,6 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-// @todo USE MULTIPROVIDER https://pub.dev/documentation/provider/latest/provider/MultiProvider-class.html
-
   runApp(MultiProvider(
       providers: [
         Provider<FireBaseServiceInterface>(create: (_) => FireBaseService()),
