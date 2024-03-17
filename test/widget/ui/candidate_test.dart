@@ -33,6 +33,7 @@ void main() {
     final fakeFirestore = FakeFirebaseFirestore();
 
     appState.currentUser.id = "5";
+    String firstJobOfferId = "1";
 
     dioAdapter
       ..onGet(
@@ -56,7 +57,7 @@ void main() {
       ..onPost("http://10.0.2.2:5000/api/candidate_get_job_offers", (server) {
         server.reply(200, [
           {
-            'id': '1',
+            'id': firstJobOfferId,
             'name': 'post ingénieur développement',
             'description': '',
             'requires': '',
@@ -79,13 +80,22 @@ void main() {
 
     dioAdapter
       ..onGet(
-          "http://10.0.2.2:5000/api/applied_job_offer/${appState.currentUser.id}/1",
+          "http://10.0.2.2:5000/api/applied_job_offer/${appState.currentUser.id}/${firstJobOfferId}",
           (server) {
         server.reply(200, false);
       })
-      ..onGet("http://10.0.2.2:5000/api/candidate_get_job_offer/1", (server) {
+      ..onGet("http://10.0.2.2:5000/api/candidate_get_job_offer/${firstJobOfferId}", (server) {
         server.reply(200, {
-          'id': '1',
+          'id': firstJobOfferId,
+          'name': 'post ingénieur développement',
+          'description': '',
+          'requires': '',
+          'business_id': '1'
+        });
+      })
+      ..onGet("http://10.0.2.2:5000/api/apply_job_offer/${appState.currentUser.id}/${firstJobOfferId}", (server) {
+        server.reply(200, {
+          'id': firstJobOfferId,
           'name': 'post ingénieur développement',
           'description': '',
           'requires': '',
@@ -136,6 +146,8 @@ void main() {
     await tester.drag(find.byType(ListView), Offset(0, -300));
     await tester.pumpAndSettle();
     expect(find.textContaining('Je suis intéressé par cette offre'), findsOneWidget);
+    await tester.tap(find.textContaining('Je suis intéressé par cette offre'));
+    await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();
   });
