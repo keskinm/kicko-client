@@ -5,6 +5,7 @@ import 'package:kicko/shared/validator.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/firebase.dart';
 import 'package:kicko/shared/common.dart';
+import 'package:provider/provider.dart';
 
 class ProfessionalHomeLogic {
   final jobOfferForm = GlobalKey<FormState>();
@@ -95,6 +96,7 @@ class ProfessionalHomeLogic {
       bucket = imagesBucket;
     }
 
-    return FireBaseService().downloadFile(bucket, profileImageId);
+    return Provider.of<FireBaseServiceInterface>(context, listen: false)
+        .downloadFile(bucket, profileImageId);
   }
 }

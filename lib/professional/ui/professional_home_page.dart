@@ -71,11 +71,6 @@ class _ProHome extends State<ProHome> with UserStateMixin {
         Widget body;
         if (snapshot.hasData) {
           logic.businessJson["id"] = snapshot.data![0]["id"];
-          List<Widget> regularFields = [];
-          List<String> fields = ["name"];
-          for (final String field in fields) {
-            // regularFields.add(value);
-          }
 
           String cityInitialValue = '';
           String nameInitialValue = '';

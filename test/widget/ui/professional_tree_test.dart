@@ -14,7 +14,6 @@ import 'package:kicko/services/app_state.dart';
 // import 'package:firebase_storage/firebase_storage.dart' as fs;
 // import 'package:flutter/services.dart' show rootBundle;
 
-
 // class CustomMockFirebaseStorage extends MockFirebaseStorage {
 //   @override
 //   fs.Reference ref([String? path]) {
@@ -27,11 +26,10 @@ import 'package:kicko/services/app_state.dart';
 //   Future<String> getDownloadURL() async {
 //     return "http://example.com/mockImage.jpg";
 //   }
-  
+
 //   @override
 //   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 // }
-
 
 void main() {
   setupFirebaseAuthMocks();
@@ -62,17 +60,25 @@ void main() {
     appState.currentUser.id = "5";
 
     dioAdapter
-      ..onGet("http://10.0.2.2:5000/api/get_business/${appState.currentUser.id}", (server) {
-        server.reply(200, 
-          {'id': '1', 'professional_id': '1', 'name': 'kicko corp'}
-        );
+      ..onGet(
+          "http://10.0.2.2:5000/api/get_business/${appState.currentUser.id}",
+          (server) {
+        server.reply(
+            200, {'id': '1', 'professional_id': '1', 'name': 'kicko corp'});
       })
-      ..onGet("http://10.0.2.2:5000/api/professional_get_job_offers/${appState.currentUser.id}", (server) {
-        server.reply(200, 
-          [{'id': '1', 'name': 'chargé de recrutements', 'description': '', 'requires': 'empathie, bonne gestion des émotions', 'business_id': '1'}]
-        );
+      ..onGet(
+          "http://10.0.2.2:5000/api/professional_get_job_offers/${appState.currentUser.id}",
+          (server) {
+        server.reply(200, [
+          {
+            'id': '1',
+            'name': 'chargé de recrutements',
+            'description': '',
+            'requires': 'empathie, bonne gestion des émotions',
+            'business_id': '1'
+          }
+        ]);
       });
-
 
     // await tester.pumpWidget(
     //   Provider<FireBaseServiceInterface>(
@@ -93,6 +99,5 @@ void main() {
     //       (Widget widget) => widget is Text && widget.data!.contains('Error'),
     //     ),
     //     findsNothing);
-
   });
 }
