@@ -113,9 +113,9 @@ void main() {
     // ---------------------------------------------------------
 
     expect(find.byType(IconButton), findsWidgets);
-    await tester.ensureVisible(find.byKey(Key('CandidateJobOfferPage')));
+    await tester.ensureVisible(find.byKey(Key('go_candidate_job_offer_page')));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(Key('CandidateJobOfferPage')).first);
+    await tester.tap(find.byKey(Key('go_candidate_job_offer_page')).first);
     await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();
