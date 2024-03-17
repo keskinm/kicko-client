@@ -11,6 +11,27 @@ import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:kicko/get_it_service_locator.dart';
 import 'package:kicko/services/app_state.dart';
+// import 'package:firebase_storage/firebase_storage.dart' as fs;
+// import 'package:flutter/services.dart' show rootBundle;
+
+
+// class CustomMockFirebaseStorage extends MockFirebaseStorage {
+//   @override
+//   fs.Reference ref([String? path]) {
+//     return CustomMockReference();
+//   }
+// }
+
+// class CustomMockReference implements fs.Reference {
+//   @override
+//   Future<String> getDownloadURL() async {
+//     return "http://example.com/mockImage.jpg";
+//   }
+  
+//   @override
+//   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+// }
+
 
 void main() {
   setupFirebaseAuthMocks();
@@ -30,6 +51,12 @@ void main() {
 
   testWidgets('Candidate Home', (WidgetTester tester) async {
     final fakeStorage = MockFirebaseStorage();
+
+    // const filename = 'PNG_transparency_demonstration_1.png';
+    // final storageRef = fakeStorage.ref().child(filename);
+    // final localImage = await rootBundle.load("assets/images/$filename");
+    // final task = await storageRef.putData(localImage.buffer.asUint8List());
+
     final fakeFirestore = FakeFirebaseFirestore();
 
     appState.currentUser.id = "5";
