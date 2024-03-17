@@ -133,6 +133,7 @@ final Map<String, UrlPattern> urlPatterns = {
   "update_business_fields":
       UrlPattern(url: "update_business_fields/<professional_id>"),
   "user_register": UrlPattern(url: "<user_group>_register", getData: false),
-  "authentication_token": UrlPattern(url: "user_authentication_token/<user_group>"),
+  "authentication_token":
+      UrlPattern(url: "user_authentication_token/<user_group>"),
   "add_job_offer": UrlPattern(url: "add_job_offer", getData: false),
 };

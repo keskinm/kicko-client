@@ -45,76 +45,76 @@ class _MyAccount extends State<MyAccount> {
   //       });
   // }
 
-Widget buildDeleteAccount() {
-  TextEditingController passwordController = TextEditingController();
+  Widget buildDeleteAccount() {
+    TextEditingController passwordController = TextEditingController();
 
-  return TextButton(
-    onPressed: () {
-      showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Mot de passe',
+    return TextButton(
+      onPressed: () {
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: 'Mot de passe',
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                TextButton(
-                  onPressed: () async {
-                    String password = passwordController.text;
+                  SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () async {
+                      String password = passwordController.text;
 
-                    if (password.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Veuillez entrer votre mot de passe.'),
-                        ),
+                      if (password.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content:
+                                Text('Veuillez entrer votre mot de passe.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      await appState.deleteAccount(context, password);
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (_) => const KickoApp()),
+                        (route) => false,
                       );
-                      return;
-                    }
-
-                    await appState.deleteAccount(context, password);
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (_) => const KickoApp()),
-                      (route) => false,
-                    );
+                    },
+                    child: Text(
+                      "Supprimer mon compte",
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
+                  ),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
                   },
                   child: Text(
-                    "Supprimer mon compte",
-                    style: Theme.of(context).textTheme.displayMedium,
+                    "Retour",
+                    style: Theme.of(context).textTheme.displaySmall,
                   ),
                 ),
               ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Retour",
-                  style: Theme.of(context).textTheme.displaySmall,
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    },
-    child: Text(
-      "Supprimer mon compte",
-      style: Theme.of(context).textTheme.displayMedium,
-    ),
-  );
-}
-
+            );
+          },
+        );
+      },
+      child: Text(
+        "Supprimer mon compte",
+        style: Theme.of(context).textTheme.displayMedium,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

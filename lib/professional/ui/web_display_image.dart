@@ -49,7 +49,8 @@ class _DisplayPDFState extends State<OpenPDF> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             openPdf(snapshot.data!);
-            return Center(child: Text("Le pdf s'est ouvert dans un nouvel onglet."));
+            return Center(
+                child: Text("Le pdf s'est ouvert dans un nouvel onglet."));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {

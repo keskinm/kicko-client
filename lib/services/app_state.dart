@@ -34,8 +34,6 @@ class AppState {
 
   AuthMethods authMethods = AuthMethods();
 
-
-
   bool checkToken(token) {
     if (token.containsKey('token')) {
       currentUser.token = token['token'];

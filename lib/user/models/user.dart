@@ -4,11 +4,7 @@ class User {
   late String email;
   late String token;
 
-  User(
-      {this.username = '',
-      this.email = '',
-      this.token = '',
-      this.id = ''});
+  User({this.username = '', this.email = '', this.token = '', this.id = ''});
 
   void setId(value) {
     id = value;
