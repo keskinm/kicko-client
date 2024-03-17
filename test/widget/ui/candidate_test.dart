@@ -77,6 +77,22 @@ void main() {
         server.reply(200, {"success": true});
       }, data: Matchers.any);
 
+    dioAdapter
+      ..onGet(
+          "http://10.0.2.2:5000/api/applied_job_offer/${appState.currentUser.id}/1",
+          (server) {
+        server.reply(200, false);
+      })
+      ..onGet("http://10.0.2.2:5000/api/candidate_get_job_offer/1", (server) {
+        server.reply(200, {
+          'id': '1',
+          'name': 'post ingénieur développement',
+          'description': '',
+          'requires': '',
+          'business_id': '1'
+        });
+      });
+
     await tester.pumpWidget(
       Provider<FireBaseServiceInterface>(
         create: (_) => FireBaseService(
@@ -117,6 +133,9 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(Key('go_candidate_job_offer_page')).first);
     await tester.pumpAndSettle();
+    await tester.drag(find.byType(ListView), Offset(0, -300));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Je suis intéressé par cette offre'), findsOneWidget);
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();
   });
