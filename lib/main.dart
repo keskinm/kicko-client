@@ -9,8 +9,7 @@ import 'package:kicko/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:kicko/services/firebase.dart';
 import 'package:kicko/get_it_service_locator.dart';
-
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kicko/services/network_image.dart';
 
 Future<void> main() async {
   setupServiceLocator();
@@ -22,9 +21,13 @@ Future<void> main() async {
 
 // @todo USE MULTIPROVIDER https://pub.dev/documentation/provider/latest/provider/MultiProvider-class.html
 
-  runApp(
-    Provider<FireBaseServiceInterface>(
-      create: (_) => FireBaseService(), // Provide your Firestore service
+  runApp(MultiProvider(
+      providers: [
+        Provider<FireBaseServiceInterface>(create: (_) => FireBaseService()),
+        Provider<ImageNetworkServiceInterface>(
+          create: (_) => ImageNetworkService(),
+        ),
+      ],
       child: MaterialApp(
         title: 'KICKO!',
         initialRoute: "/",
@@ -45,9 +48,7 @@ Future<void> main() async {
             backgroundColor: Colors.white,
           ),
         ),
-      ),
-    ),
-  );
+      )));
 }
 
 class KickoApp extends StatefulWidget {

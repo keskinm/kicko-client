@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/professional/domain/professional_home_logic.dart';
 import 'package:kicko/styles/professional_home_style.dart';
-
+import 'package:provider/provider.dart';
 import 'open_pdf_stub.dart'
     if (dart.library.html) 'package:kicko/professional/ui/web_display_image.dart'
     if (dart.library.io) 'package:kicko/professional/ui/mobile_display_pdf.dart';
@@ -18,6 +17,35 @@ import 'package:kicko/user/ui/medias.dart';
 import 'package:kicko/user/ui/user.dart';
 import 'package:kicko/shared/route.dart';
 import 'package:kicko/end_point.dart';
+import 'package:kicko/services/network_image.dart';
+
+class CustomCircleAvatar extends StatelessWidget {
+  final String imageUrl;
+  final ImageNetworkServiceInterface imageService;
+
+  const CustomCircleAvatar({
+    Key? key,
+    required this.imageUrl,
+    required this.imageService,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 75,
+      backgroundColor: Colors.grey.shade200,
+      child: CircleAvatar(
+        radius: 70,
+        child: ClipOval(
+          child: Image(
+            image: imageService.getImageProvider(imageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
@@ -127,17 +155,10 @@ class _ProHome extends State<ProHome> with UserStateMixin {
 
           Widget businessAvatar = Stack(
             children: [
-              CircleAvatar(
-                radius: 75,
-                backgroundColor: Colors.grey.shade200,
-                child: CircleAvatar(
-                  radius: 70,
-                  child: ClipOval(
-                    child: Image.network(
-                      snapshot.data![1],
-                    ),
-                  ),
-                ),
+              CustomCircleAvatar(
+                imageUrl: snapshot.data![1],
+                imageService: Provider.of<ImageNetworkServiceInterface>(context,
+                    listen: false),
               ),
               Positioned(
                 bottom: 1,
