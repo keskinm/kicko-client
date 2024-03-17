@@ -38,12 +38,6 @@ void main() {
 
   testWidgets('Candidate Home', (WidgetTester tester) async {
     final fakeStorage = MockFirebaseStorage();
-
-    // const filename = 'PNG_transparency_demonstration_1.png';
-    // final storageRef = fakeStorage.ref().child(filename);
-    // final localImage = await rootBundle.load("assets/images/$filename");
-    // final task = await storageRef.putData(localImage.buffer.asUint8List());
-
     final fakeFirestore = FakeFirebaseFirestore();
 
     appState.currentUser.id = "5";
