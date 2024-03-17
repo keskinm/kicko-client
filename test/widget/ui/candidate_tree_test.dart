@@ -84,7 +84,9 @@ void main() {
           (server) {
         server.reply(200, false);
       })
-      ..onGet("http://10.0.2.2:5000/api/candidate_get_job_offer/${firstJobOfferId}", (server) {
+      ..onGet(
+          "http://10.0.2.2:5000/api/candidate_get_job_offer/${firstJobOfferId}",
+          (server) {
         server.reply(200, {
           'id': firstJobOfferId,
           'name': 'post ingénieur développement',
@@ -93,7 +95,9 @@ void main() {
           'business_id': '1'
         });
       })
-      ..onGet("http://10.0.2.2:5000/api/apply_job_offer/${appState.currentUser.id}/${firstJobOfferId}", (server) {
+      ..onGet(
+          "http://10.0.2.2:5000/api/apply_job_offer/${appState.currentUser.id}/${firstJobOfferId}",
+          (server) {
         server.reply(200, {
           'id': firstJobOfferId,
           'name': 'post ingénieur développement',
@@ -145,10 +149,24 @@ void main() {
     await tester.pumpAndSettle();
     await tester.drag(find.byType(ListView), Offset(0, -300));
     await tester.pumpAndSettle();
-    expect(find.textContaining('Je suis intéressé par cette offre'), findsOneWidget);
+    expect(find.textContaining('Je suis intéressé par cette offre'),
+        findsOneWidget);
+    dioAdapter
+      ..onGet(
+          "http://10.0.2.2:5000/api/applied_job_offer/${appState.currentUser.id}/${firstJobOfferId}",
+          (server) {
+        server.reply(200, true);
+      });
     await tester.tap(find.textContaining('Je suis intéressé par cette offre'));
     await tester.pumpAndSettle();
+    expect(find.textContaining('vous avez déjà postulé'), findsOneWidget);
+    await tester.pumpAndSettle();
+
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();
+
+    // ---------------------------------------------------------
+
+
   });
 }
