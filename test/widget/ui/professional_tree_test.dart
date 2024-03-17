@@ -41,9 +41,9 @@ void main() {
         });
       })
       ..onGet("http://10.0.2.2:5000/api/professional_get_job_offers/${appState.currentUser.id}", (server) {
-        server.reply(200, {
+        server.reply(200, 
           [{'id': '1', 'name': 'chargé de recrutements', 'description': '', 'requires': 'empathie, bonne gestion des émotions', 'business_id': '1'}]
-        });
+        );
       });
 
 
