@@ -54,7 +54,22 @@ void main() {
         });
       })
       ..onPost("http://10.0.2.2:5000/api/candidate_get_job_offers", (server) {
-        server.reply(200, []);
+        server.reply(200, [
+          {
+            'id': '1',
+            'name': 'post ingénieur développement',
+            'description': '',
+            'requires': '',
+            'business_id': '1'
+          },
+          {
+            'id': '2',
+            'name': 'post chargé de marketing',
+            'description': '',
+            'requires': '',
+            'business_id': '1'
+          }
+        ]);
       }, data: Matchers.any)
       ..onPost(
           "http://10.0.2.2:5000/api/candidate_update_profile/${appState.currentUser.id}",
@@ -96,5 +111,13 @@ void main() {
     await tester.pumpAndSettle();
 
     // ---------------------------------------------------------
+
+    expect(find.byType(IconButton), findsWidgets);
+    await tester.ensureVisible(find.byKey(Key('CandidateJobOfferPage')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(Key('CandidateJobOfferPage')).first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.pumpAndSettle();
   });
 }

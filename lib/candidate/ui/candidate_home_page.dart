@@ -211,7 +211,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
                       child: Text(jobOffer['requires']),
                     ),
                     IconButton(
-                      // APPLYING TO THE JOB
+                      key: Key("CandidateJobOfferPage"),
                       icon: const Icon(Icons.panorama_fish_eye_sharp),
                       onPressed: () {
                         Navigator.push(
