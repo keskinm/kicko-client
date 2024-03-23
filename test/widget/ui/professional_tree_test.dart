@@ -36,7 +36,7 @@ void main() {
     getIt.unregister<Dio>();
   });
 
-  testWidgets('Candidate Home', (WidgetTester tester) async {
+  testWidgets('Professional Home', (WidgetTester tester) async {
     final fakeStorage = MockFirebaseStorage();
     final fakeFirestore = FakeFirebaseFirestore();
 

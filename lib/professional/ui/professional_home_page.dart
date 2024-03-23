@@ -19,34 +19,6 @@ import 'package:kicko/shared/route.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/network_image.dart';
 
-class CustomCircleAvatar extends StatelessWidget {
-  final String imageUrl;
-  final ImageNetworkServiceInterface imageService;
-
-  const CustomCircleAvatar({
-    Key? key,
-    required this.imageUrl,
-    required this.imageService,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 75,
-      backgroundColor: Colors.grey.shade200,
-      child: CircleAvatar(
-        radius: 70,
-        child: ClipOval(
-          child: Image(
-            image: imageService.getImageProvider(imageUrl),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
 
@@ -155,7 +127,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
 
           Widget businessAvatar = Stack(
             children: [
-              CustomCircleAvatar(
+              PageCircleAvatar(
                 imageUrl: snapshot.data![1],
                 imageService: Provider.of<ImageNetworkServiceInterface>(context,
                     listen: false),
@@ -418,7 +390,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: userAppBar("", context),
+        appBar: userAppBar("", context, avatarBuilder: avatarFutureBuilder()),
         body: Center(
             child: Column(
           children: [
