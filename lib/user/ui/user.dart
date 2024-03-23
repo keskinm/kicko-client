@@ -14,8 +14,9 @@ mixin UserStateMixin<T extends StatefulWidget> on State<T> {
     // ------- ASYNC setSTates -------
     updateMessagesNotification();
     setState(() {
-      // A REMPLACER PAR VRAIE IMPL.
-      userImageUrl = (Future(() => "https://via.placeholder.com/150"));
+      userImageUrl =
+          Provider.of<FireBaseServiceInterface>(context, listen: false)
+              .downloadFile('default', 'ca_default_profile.jpg');
     });
   }
 
