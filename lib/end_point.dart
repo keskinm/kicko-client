@@ -106,6 +106,9 @@ final Map<String, UrlPattern> urlPatterns = {
   "candidate_get_profile": UrlPattern(
     url: "candidate_get_profile/<id>",
   ),
+  "professional_get_profile": UrlPattern(
+    url: "professional_get_profile/<id>",
+  ),
   "apply_job_offer":
       UrlPattern(url: "apply_job_offer/<candidate_id>/<job_offer_id>"),
   "applied_job_offer":

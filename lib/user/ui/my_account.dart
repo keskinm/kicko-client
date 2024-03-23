@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
+import 'package:kicko/end_point.dart';
+import 'package:kicko/services/app_state.dart';
+import 'package:kicko/user/domain/my_account_logic.dart';
+import 'package:kicko/syntax.dart';
 import 'package:kicko/services/app_state.dart';
 
 import 'package:kicko/main.dart';
@@ -16,8 +20,18 @@ class MyAccount extends StatefulWidget {
 
 class _MyAccount extends State<MyAccount> {
   late Map<String, dynamic> userJson;
+  late Future<String> imageDownloadURL;
+  late Future<Map<String, dynamic>> profile;
+  AccountLogic logic = AccountLogic();
 
-  onReBuild() {}
+  String get imagesBucket =>
+      '${userGroupSyntax.professional}/${appState.userGroup}/profile_images';
+
+  onReBuild() {
+    String profileUrl = "${appState.userGroup}_get_profile";
+    profile = getRequest(profileUrl, [appState.currentUser.id]);
+    imageDownloadURL = logic.getProfileImage(profile, imagesBucket, context);
+  }
 
   @override
   void initState() {
