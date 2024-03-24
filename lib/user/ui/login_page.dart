@@ -7,7 +7,7 @@ import 'package:kicko/appbar.dart';
 import 'package:kicko/syntax.dart';
 
 
-String maVar = String.fromEnvironment('API_TARGET_ENV', defaultValue: 'dev');
+String maDebugVar = String.fromEnvironment('API_TARGET_ENV', defaultValue: 'dev');
 
 
 class LoginPage extends StatefulWidget {
@@ -39,7 +39,8 @@ class _LoginPageState extends State<LoginPage> {
                   child: AnimatedTextKit(
                     repeatForever: true,
                     animatedTexts: [
-                      ColorizeAnimatedText("Connexion espace ${maVar}",
+                      // ColorizeAnimatedText("Connexion espace ${title}",
+                      ColorizeAnimatedText("Connexion espace ${maDebugVar}",
                           textStyle: style.colorizeTitleTextStyle,
                           colors: style.colorizeColors,
                           textAlign: TextAlign.center),
