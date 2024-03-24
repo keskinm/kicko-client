@@ -16,10 +16,6 @@ AppBar simpleAppBar(BuildContext context,
   }
 
   if (allowGoHome) {
-    // INSTEAD OF THIS, USE
-    // Navigator.popUntil(context, ModalRoute.withName('/candidate_home'));
-    // AFTER DEFINING ROUTES IN MATERIAL APP (ONE CAN ALSO USE DYNAMIC ROUTING
-    // WITH onGenerateRoute: (settings))
     rowChildren.add(Flexible(
         child: IconButton(
       icon: Icon(Icons.home),
