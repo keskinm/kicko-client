@@ -79,8 +79,14 @@ Future<T> postRequest<T>(String url, List<dynamic> args, Map jsonData) async {
 
   Dio dio = getDio(token: pattern.token);
   String serverUrl;
+  final String apiTargetEnv =
+      const String.fromEnvironment('API_TARGET_ENV', defaultValue: 'dev');
   if (kIsWeb) {
-    serverUrl = 'http://127.0.0.1:5000/api/';
+    if (apiTargetEnv == "dev") {
+      serverUrl = 'http://127.0.0.1:5000/api/';
+    } else {
+      serverUrl = 'https://shashou.pythonanywhere.com/api';
+    }
   } else {
     serverUrl = 'http://10.0.2.2:5000/api/';
   }
