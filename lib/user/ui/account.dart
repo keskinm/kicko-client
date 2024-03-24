@@ -8,16 +8,16 @@ import 'package:kicko/user/domain/medias_domain.dart';
 
 import 'medias.dart';
 
-class MyAccount extends StatefulWidget {
-  const MyAccount({Key? key}) : super(key: key);
+class Account extends StatefulWidget {
+  const Account({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _MyAccount();
+    return _Account();
   }
 }
 
-class _MyAccount extends State<MyAccount> {
+class _Account extends State<Account> {
   late Map<String, dynamic> userJson;
   late Future<String> imageDownloadURL;
   late Future<Map<String, dynamic>> profile;

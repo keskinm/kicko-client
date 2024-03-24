@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/user/ui/my_account.dart';
+import 'package:kicko/user/ui/account.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/shared/route.dart';
 
@@ -66,7 +66,7 @@ AppBar userAppBar(String text, BuildContext pageContext,
           onSelected: (value) {
             if (value == 0) {
               Navigator.push(pageContext, MaterialPageRoute(builder: (context) {
-                return const MyAccount();
+                return const Account();
               }));
             } else if (value == 1) {
             } else if (value == 2) {}
