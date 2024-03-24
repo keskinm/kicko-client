@@ -34,4 +34,3 @@ To change server target env:
 - Simply specify `flutter build web` as build command
 - Specify `build/web` as publish directory
 - Enable `Flutter SDK` in integration page
-- Set environment variables (`API_TARGET_ENV=prod`)
