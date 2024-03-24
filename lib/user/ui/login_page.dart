@@ -28,104 +28,103 @@ class _LoginPageState extends State<LoginPage> {
       appBar: simpleAppBar(context, allowGoHome: false),
       body: SingleChildScrollView(
         child: Center(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width / 3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                (apiTargetEnv == "dev")
-                    ? Text("-- dev api target environment --")
-                    : SizedBox.shrink(),
-                Container(
-                  padding: const EdgeInsets.only(top: 90),
-                  child: AnimatedTextKit(
-                    repeatForever: true,
-                    animatedTexts: [
-                      ColorizeAnimatedText("Connexion espace ${title}",
-                          textStyle: style.colorizeTitleTextStyle,
-                          colors: style.colorizeColors,
-                          textAlign: TextAlign.center),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              (apiTargetEnv == "dev")
+                  ? Text("-- dev api target environment --")
+                  : SizedBox.shrink(),
+              Container(
+                padding: const EdgeInsets.only(top: 90),
+                child: AnimatedTextKit(
+                  repeatForever: true,
+                  animatedTexts: [
+                    ColorizeAnimatedText("Connexion espace ${title}",
+                        textStyle: style.colorizeTitleTextStyle,
+                        colors: style.colorizeColors,
+                        textAlign: TextAlign.center),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 3,
+                child: Form(
+                  key: logic.formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        validator: (value) =>
+                            logic.validateUsername(value: value),
+                        decoration: style.inputDecoration(
+                            hintText: 'Nom d\'utilisateur'),
+                      ),
+                      Container(
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Colors.purple),
+                                top: BorderSide(color: Colors.purple))),
+                        child: TextFormField(
+                          obscureText: true,
+                          validator: (value) =>
+                              logic.validatePassword(value: value),
+                          decoration:
+                              style.inputDecoration(hintText: 'Mot de passe'),
+                        ),
+                      )
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(60),
-                  child: Form(
-                    key: logic.formKey,
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          validator: (value) =>
-                              logic.validateUsername(value: value),
-                          decoration: style.inputDecoration(
-                              hintText: 'Nom d\'utilisateur'),
-                        ),
-                        Container(
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(color: Colors.purple),
-                                  top: BorderSide(color: Colors.purple))),
-                          child: TextFormField(
-                            obscureText: true,
-                            validator: (value) =>
-                                logic.validatePassword(value: value),
-                            decoration:
-                                style.inputDecoration(hintText: 'Mot de passe'),
-                          ),
-                        )
-                      ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 20),
+              ),
+              MaterialButton(
+                onPressed: () => logic.validateLogin(
+                    context: context, userGroup: widget.userGroup),
+                child: Container(
+                  height: 50,
+                  width: 200,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      gradient: const LinearGradient(
+                          colors: [Colors.purple, Colors.red])),
+                  child: const Center(
+                    child: Text(
+                      'Se connecter',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
-                MaterialButton(
-                  onPressed: () => logic.validateLogin(
-                      context: context, userGroup: widget.userGroup),
-                  child: Container(
-                    height: 50,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: const LinearGradient(
-                            colors: [Colors.purple, Colors.red])),
-                    child: const Center(
-                      child: Text(
-                        'Se connecter',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
+              ),
+              MaterialButton(
+                padding: const EdgeInsets.all(40),
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Mot de passe oublié')),
+                  );
+                },
+                child: const Text(
+                  'Mot de passe oublié?',
+                  style: TextStyle(color: Color.fromRGBO(143, 148, 251, 1)),
                 ),
-                MaterialButton(
-                  padding: const EdgeInsets.all(40),
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Mot de passe oublié')),
-                    );
-                  },
-                  child: const Text(
-                    'Mot de passe oublié?',
-                    style: TextStyle(color: Color.fromRGBO(143, 148, 251, 1)),
+              ),
+              AnimatedTextKit(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return RegisterPage(userGroup: widget.userGroup);
+                  }));
+                },
+                repeatForever: true,
+                animatedTexts: [
+                  ColorizeAnimatedText(
+                    "Pas encore de compte ? S'inscrire",
+                    textStyle: style.colorizeTextStyle,
+                    colors: style.colorizeColors,
                   ),
-                ),
-                AnimatedTextKit(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return RegisterPage(userGroup: widget.userGroup);
-                    }));
-                  },
-                  repeatForever: true,
-                  animatedTexts: [
-                    ColorizeAnimatedText(
-                      "Pas encore de compte ? S'inscrire",
-                      textStyle: style.colorizeTextStyle,
-                      colors: style.colorizeColors,
-                    ),
-                  ],
-                )
-              ],
-            ),
+                ],
+              )
+            ],
           ),
         ),
       ),
