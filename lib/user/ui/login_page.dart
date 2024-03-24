@@ -6,6 +6,10 @@ import 'package:kicko/styles/login_style.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/syntax.dart';
 
+
+String maVar = String.fromEnvironment('API_TARGET_ENV', defaultValue: 'dev');
+
+
 class LoginPage extends StatefulWidget {
   final String userGroup;
   const LoginPage({Key? key, required this.userGroup}) : super(key: key);
@@ -35,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: AnimatedTextKit(
                     repeatForever: true,
                     animatedTexts: [
-                      ColorizeAnimatedText("Connexion espace $title",
+                      ColorizeAnimatedText("Connexion espace ${maVar}",
                           textStyle: style.colorizeTitleTextStyle,
                           colors: style.colorizeColors,
                           textAlign: TextAlign.center),
