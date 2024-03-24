@@ -7,8 +7,10 @@ import 'package:kicko/appbar.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/firebase.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:kicko/services/network_image.dart';
+import 'package:kicko/shared/route.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:kicko/services/app_state.dart';
 
 Future selectFiles(int position) async {
@@ -279,8 +281,8 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       String imageName = "post_$postId.jpg";
       await Provider.of<FireBaseServiceInterface>(context, listen: false)
           .uploadFile(widget.bucket, imageName, image.readAsBytes());
-      Map res = await postRequest(updateRoute,
-          [appState.currentUser.id], {"image_id": imageName});
+      Map res = await postRequest(
+          updateRoute, [appState.currentUser.id], {"image_id": imageName});
       if (res.containsKey("success") && res["success"]) {
         setState(() {});
       } else {}
@@ -336,4 +338,101 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       ),
     );
   }
+}
+
+class CustomCircleAvatar extends StatelessWidget {
+  final String imageUrl;
+  final ImageNetworkServiceInterface imageService;
+
+  const CustomCircleAvatar({
+    Key? key,
+    required this.imageUrl,
+    required this.imageService,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipOval(
+      child: Image(
+        image: imageService.getImageProvider(imageUrl),
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+}
+
+class PageCircleAvatar extends StatelessWidget {
+  final String imageUrl;
+  final ImageNetworkServiceInterface imageService;
+
+  const PageCircleAvatar({
+    Key? key,
+    required this.imageUrl,
+    required this.imageService,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 150,
+      width: 150,
+      child: ClipOval(
+        child: Image(
+          image: imageService.getImageProvider(imageUrl),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+}
+
+Widget UIImage(String imageUrl, BuildContext context, String imagesBucket,
+    String updateRoute, Function onReBuild) {
+  return Stack(
+    children: [
+      PageCircleAvatar(
+        imageUrl: imageUrl,
+        imageService:
+            Provider.of<ImageNetworkServiceInterface>(context, listen: false),
+      ),
+      Positioned(
+        bottom: 1,
+        right: 1,
+        child: Container(
+          child: IconButton(
+            icon: const Icon(Icons.add_a_photo, color: Colors.black),
+            onPressed: () {
+              pushSetStateWhenBack(
+                  context,
+                  (context) => DisplayProfileImages(
+                        bucket: imagesBucket,
+                        updateRoute: updateRoute,
+                      ),
+                  onReBuild);
+            },
+          ),
+          decoration: BoxDecoration(
+              border: Border.all(
+                width: 3,
+                color: Colors.white,
+              ),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(
+                  50,
+                ),
+              ),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(2, 4),
+                  color: Colors.black.withOpacity(
+                    0.3,
+                  ),
+                  blurRadius: 3,
+                ),
+              ]),
+        ),
+      ),
+    ],
+  );
 }

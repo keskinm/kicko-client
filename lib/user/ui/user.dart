@@ -4,6 +4,8 @@ import 'package:kicko/services/firebase.dart';
 import 'package:provider/provider.dart';
 import 'package:kicko/services/network_image.dart';
 
+import 'medias.dart';
+
 mixin UserStateMixin<T extends StatefulWidget> on State<T> {
   late String userName;
   bool? messagesNotification;
