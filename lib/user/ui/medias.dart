@@ -169,7 +169,9 @@ class _DisplayResumes extends State<DisplayResumes> {
 
 class DisplayProfileImages extends StatefulWidget {
   final String bucket;
-  const DisplayProfileImages({Key? key, required this.bucket})
+  final String updateRoute;
+  const DisplayProfileImages(
+      {Key? key, required this.bucket, required this.updateRoute})
       : super(key: key);
 
   @override
@@ -206,7 +208,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
                         TextButton(
                             onPressed: () async {
                               await postRequest(
-                                  "update_business_fields",
+                                  widget.updateRoute,
                                   [appState.currentUser.id],
                                   {"image_id": storageReferenceBasename});
                               Navigator.of(context).pop();

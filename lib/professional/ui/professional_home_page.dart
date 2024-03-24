@@ -144,8 +144,8 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      UIImage(
-                          snapshot.data![1], context, imagesBucket, onReBuild),
+                      UIImage(snapshot.data![1], context, imagesBucket,
+                          "update_business_fields", onReBuild),
                       nameChild,
                       cityChild,
                       endChild,

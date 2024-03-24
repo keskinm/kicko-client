@@ -26,7 +26,9 @@ class _MyAccount extends State<MyAccount> {
   AccountLogic logic = AccountLogic();
 
   String get imagesBucket =>
-      '${userGroupSyntax.professional}/${appState.userGroup}/profile_images';
+      '${appState.userGroup}/${appState.currentUser.username}/profile_images';
+
+  String updateRoute = "${appState.userGroup}_update_profile";
 
   onReBuild() {
     String profileUrl = "${appState.userGroup}_get_profile";
@@ -46,7 +48,8 @@ class _MyAccount extends State<MyAccount> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           Widget body;
           if (snapshot.hasData) {
-            body = UIImage(snapshot.data!, context, imagesBucket, onReBuild);
+            body = UIImage(
+                snapshot.data!, context, imagesBucket, updateRoute, onReBuild);
           } else if (snapshot.hasError) {
             body = Text('Error: ${snapshot.error}');
           } else {
@@ -138,7 +141,6 @@ class _MyAccount extends State<MyAccount> {
             child: Column(
           children: [
             buildAccount(),
-
             buildDeleteAccount(),
           ],
         )));

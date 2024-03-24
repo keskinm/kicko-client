@@ -62,7 +62,7 @@ class PageCircleAvatar extends StatelessWidget {
 }
 
 Widget UIImage(String imageUrl, BuildContext context, String imagesBucket,
-    Function onReBuild) {
+    String updateRoute, Function onReBuild) {
   return Stack(
     children: [
       PageCircleAvatar(
@@ -79,7 +79,10 @@ Widget UIImage(String imageUrl, BuildContext context, String imagesBucket,
             onPressed: () {
               pushSetStateWhenBack(
                   context,
-                  (context) => DisplayProfileImages(bucket: imagesBucket),
+                  (context) => DisplayProfileImages(
+                        bucket: imagesBucket,
+                        updateRoute: updateRoute,
+                      ),
                   onReBuild);
             },
           ),
