@@ -27,11 +27,13 @@ class _MyAccount extends State<MyAccount> {
       '${appState.userGroup}/${appState.currentUser.username}/profile_images';
 
   String updateRoute = "${appState.userGroup}_update_profile";
+  String profileUrl = "${appState.userGroup}_get_profile";
 
   onReBuild() {
-    String profileUrl = "${appState.userGroup}_get_profile";
-    profile = getRequest(profileUrl, [appState.currentUser.id]);
-    imageDownloadURL = logic.getProfileImage(profile, imagesBucket, context);
+    setState(() {
+      profile = getRequest(profileUrl, [appState.currentUser.id]);
+      imageDownloadURL = logic.getProfileImage(profile, imagesBucket, context);
+    });
   }
 
   @override
