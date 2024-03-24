@@ -83,10 +83,10 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
+      style: const TextStyle(color: Color.fromARGB(255, 10, 24, 229)),
       underline: Container(
         height: 2,
-        color: Colors.deepPurpleAccent,
+        color: Color.fromARGB(255, 7, 59, 231),
       ),
       onChanged: (String? value) {
         setState(() {
@@ -137,7 +137,7 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
                           onReBuild();
                         });
                       },
-                      child: const Text("Appliquer filtres"))
+                      child: const Text("Appliquer filtres", style: TextStyle(color: Color.fromARGB(255, 10, 24, 229))))
                 ],
           );
 
