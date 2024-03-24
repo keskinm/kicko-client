@@ -24,3 +24,9 @@
 `flutter build web`
 `cd build/web`
 `python3 -m http.server 8000`
+
+## Deploy with Netifly 
+
+- Simply specify `flutter build web` as build command
+- Specify `build/web` as publish directory
+- Enable `Flutter SDK` in integration page
