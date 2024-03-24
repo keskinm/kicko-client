@@ -26,8 +26,8 @@ Widget blockLine(String text, Color bgColor, Color textColor) {
 
 List<Widget> block(List<String> texts) {
   List<Color> colors = [
-    Color.fromARGB(255, 2, 6, 12),
     Color.fromARGB(255, 241, 249, 5),
+    Color.fromARGB(255, 2, 6, 12),
   ];
   List<Widget> blocks = [];
   for (int i = 0; i < texts.length; i++) {
