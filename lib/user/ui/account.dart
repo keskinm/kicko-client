@@ -135,7 +135,8 @@ class _Account extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: userAppBar("", context),
+        appBar: userAppBar("", context,
+            avatarBuilder: avatarFutureBuilder(imageDownloadURL)),
         body: Center(
             child: Column(
           children: [

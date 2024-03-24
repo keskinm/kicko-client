@@ -344,7 +344,8 @@ class _ProHome extends State<ProHome> with UserStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: userAppBar("", context, avatarBuilder: avatarFutureBuilder()),
+        appBar: userAppBar("", context,
+            avatarBuilder: avatarFutureBuilder(userImageUrl)),
         body: Center(
             child: Column(
           children: [

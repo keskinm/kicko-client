@@ -436,3 +436,25 @@ Widget UIImage(String imageUrl, BuildContext context, String imagesBucket,
     ],
   );
 }
+
+avatarFutureBuilder(Future userImageUrl) {
+  return FutureBuilder<dynamic>(
+      future: userImageUrl,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        Widget failingBody;
+        if (snapshot.hasData) {
+          return CustomCircleAvatar(
+            imageUrl: snapshot.data!,
+            imageService: Provider.of<ImageNetworkServiceInterface>(context,
+                listen: false),
+          );
+        } else if (snapshot.hasError) {
+          failingBody = Text('Error: ${snapshot.error}');
+        } else {
+          failingBody = const CircularProgressIndicator(
+            color: Colors.orangeAccent,
+          );
+        }
+        return Scaffold(body: failingBody);
+      });
+}
