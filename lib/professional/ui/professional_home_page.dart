@@ -125,52 +125,6 @@ class _ProHome extends State<ProHome> with UserStateMixin {
             ),
           );
 
-          Widget businessAvatar = Stack(
-            children: [
-              PageCircleAvatar(
-                imageUrl: snapshot.data![1],
-                imageService: Provider.of<ImageNetworkServiceInterface>(context,
-                    listen: false),
-              ),
-              Positioned(
-                bottom: 1,
-                right: 1,
-                child: Container(
-                  child: IconButton(
-                    icon: const Icon(Icons.add_a_photo, color: Colors.black),
-                    onPressed: () {
-                      pushSetStateWhenBack(
-                          context,
-                          (context) =>
-                              DisplayProfileImages(bucket: imagesBucket),
-                          onReBuild);
-                    },
-                  ),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 3,
-                        color: Colors.white,
-                      ),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(
-                          50,
-                        ),
-                      ),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          offset: const Offset(2, 4),
-                          color: Colors.black.withOpacity(
-                            0.3,
-                          ),
-                          blurRadius: 3,
-                        ),
-                      ]),
-                ),
-              ),
-            ],
-          );
-
           return SingleChildScrollView(
             physics:
                 AlwaysScrollableScrollPhysics(), // Use this to enable scrolling only when needed
@@ -190,7 +144,8 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      businessAvatar,
+                      UIImage(
+                          snapshot.data![1], context, imagesBucket, onReBuild),
                       nameChild,
                       cityChild,
                       endChild,

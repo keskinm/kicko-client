@@ -8,15 +8,13 @@ import 'package:kicko/shared/common.dart';
 import 'package:provider/provider.dart';
 
 class AccountLogic {
-  Future<String> getProfileImage(
-      Future<Map<String, dynamic>> futureBusinessJson,
-      String imagesBucket,
-      BuildContext context) async {
+  Future<String> getProfileImage(Future<Map<String, dynamic>> profile,
+      String imagesBucket, BuildContext context) async {
     String bucket;
 
-    Map<String, dynamic> businessJson = await futureBusinessJson;
+    Map<String, dynamic> profileJson = await profile;
 
-    String? profileImageId = businessJson['image_id'];
+    String? profileImageId = profileJson['image_id'];
 
     if (profileImageId == null) {
       bucket = 'default';

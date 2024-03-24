@@ -6,6 +6,7 @@ import 'package:kicko/services/app_state.dart';
 import 'package:kicko/user/domain/my_account_logic.dart';
 import 'package:kicko/syntax.dart';
 import 'package:kicko/services/app_state.dart';
+import 'package:kicko/services/network_image.dart';
 
 import 'package:kicko/main.dart';
 
@@ -39,25 +40,24 @@ class _MyAccount extends State<MyAccount> {
     onReBuild();
   }
 
-  // Widget buildAccount() {
-  //   return FutureBuilder<dynamic>(
-  //       future: userJson,
-  //       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-  //         Widget body;
-  //         if (snapshot.hasData) {
-  //
-  //           body = const Text("");
-  //         } else if (snapshot.hasError) {
-  //           body = Text('Error: ${snapshot.error}');
-  //         } else {
-  //           body = const CircularProgressIndicator(
-  //             color: Colors.orangeAccent,
-  //           );
-  //         }
-  //
-  //         return body;
-  //       });
-  // }
+  Widget buildAccount() {
+    return FutureBuilder<dynamic>(
+        future: imageDownloadURL,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          Widget body;
+          if (snapshot.hasData) {
+            body = UIImage(snapshot.data!, context, imagesBucket, onReBuild);
+          } else if (snapshot.hasError) {
+            body = Text('Error: ${snapshot.error}');
+          } else {
+            body = const CircularProgressIndicator(
+              color: Colors.orangeAccent,
+            );
+          }
+
+          return body;
+        });
+  }
 
   Widget buildDeleteAccount() {
     TextEditingController passwordController = TextEditingController();
@@ -137,7 +137,7 @@ class _MyAccount extends State<MyAccount> {
         body: Center(
             child: Column(
           children: [
-            // buildAccount(),
+            buildAccount(),
 
             buildDeleteAccount(),
           ],

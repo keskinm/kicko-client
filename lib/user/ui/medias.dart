@@ -180,6 +180,12 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
   bool inProcess = false;
   late dynamic profileImages;
 
+  onReBuild() {
+    profileImages =
+        Provider.of<FireBaseServiceInterface>(context, listen: false)
+            .downloadFiles(widget.bucket);
+  }
+
   buildImageProfileWraps(dynamic storageReferences) {
     List<Widget> r = [];
 
@@ -237,12 +243,6 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     }
 
     return r;
-  }
-
-  onReBuild() {
-    profileImages =
-        Provider.of<FireBaseServiceInterface>(context, listen: false)
-            .downloadFiles(widget.bucket);
   }
 
   @override

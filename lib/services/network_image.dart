@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+import 'package:kicko/user/ui/medias.dart';
+import 'package:kicko/shared/route.dart';
+
 abstract class ImageNetworkServiceInterface {
   ImageProvider getImageProvider(String imageUrl);
 }
@@ -55,4 +59,52 @@ class PageCircleAvatar extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget UIImage(String imageUrl, BuildContext context, String imagesBucket,
+    Function onReBuild) {
+  return Stack(
+    children: [
+      PageCircleAvatar(
+        imageUrl: imageUrl,
+        imageService:
+            Provider.of<ImageNetworkServiceInterface>(context, listen: false),
+      ),
+      Positioned(
+        bottom: 1,
+        right: 1,
+        child: Container(
+          child: IconButton(
+            icon: const Icon(Icons.add_a_photo, color: Colors.black),
+            onPressed: () {
+              pushSetStateWhenBack(
+                  context,
+                  (context) => DisplayProfileImages(bucket: imagesBucket),
+                  onReBuild);
+            },
+          ),
+          decoration: BoxDecoration(
+              border: Border.all(
+                width: 3,
+                color: Colors.white,
+              ),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(
+                  50,
+                ),
+              ),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(2, 4),
+                  color: Colors.black.withOpacity(
+                    0.3,
+                  ),
+                  blurRadius: 3,
+                ),
+              ]),
+        ),
+      ),
+    ],
+  );
 }
