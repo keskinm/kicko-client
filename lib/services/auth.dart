@@ -1,5 +1,4 @@
 import 'package:kicko/end_point.dart';
-import 'package:kicko/services/app_state.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

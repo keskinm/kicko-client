@@ -4,8 +4,6 @@ import 'package:kicko/appbar.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/user/domain/my_account_logic.dart';
-import 'package:kicko/syntax.dart';
-import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/network_image.dart';
 
 import 'package:kicko/main.dart';

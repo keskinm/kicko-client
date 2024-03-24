@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kicko/professional/domain/models.dart';
-import 'package:kicko/professional/ui/professional_home_page.dart';
-import 'package:kicko/shared/validator.dart';
-import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/firebase.dart';
-import 'package:kicko/shared/common.dart';
 import 'package:provider/provider.dart';
 
 class AccountLogic {
