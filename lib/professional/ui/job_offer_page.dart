@@ -60,21 +60,11 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
             shrinkWrap: true,
             padding: const EdgeInsets.all(8),
             children: <Widget>[
-              Container(
-                height: 50,
-                color: Colors.amber[600],
-                child: Text(_jobOffer['name']),
-              ),
-              Container(
-                height: 50,
-                color: Colors.amber[500],
-                child: Text(_jobOffer['description']),
-              ),
-              Container(
-                height: 50,
-                color: Colors.amber[100],
-                child: Text(_jobOffer['requires']),
-              ),
+              ...block([
+                _jobOffer['name'],
+                _jobOffer['description'],
+                _jobOffer['requires']
+              ]),
             ],
           );
           // body = listView;
