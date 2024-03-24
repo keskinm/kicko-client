@@ -16,7 +16,11 @@ String getServerUrl() {
       serverUrl = 'https://shashou.pythonanywhere.com/api/';
     }
   } else {
-    serverUrl = 'http://10.0.2.2:5000/api/';
+    if (apiTargetEnv == "dev") {
+      serverUrl = 'http://10.0.2.2:5000/api/';
+    } else {
+      throw ("Mobile client serving does not exists yet");
+    }
   }
   return serverUrl;
 }

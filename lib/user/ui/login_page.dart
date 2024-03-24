@@ -6,9 +6,8 @@ import 'package:kicko/styles/login_style.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/syntax.dart';
 
-
-String maDebugVar = String.fromEnvironment('API_TARGET_ENV', defaultValue: 'dev');
-
+String apiTargetEnv =
+    const String.fromEnvironment('API_TARGET_ENV', defaultValue: 'dev');
 
 class LoginPage extends StatefulWidget {
   final String userGroup;
@@ -34,13 +33,15 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                (apiTargetEnv == "dev")
+                    ? Text("-- dev api target environment --")
+                    : SizedBox.shrink(),
                 Container(
                   padding: const EdgeInsets.only(top: 90),
                   child: AnimatedTextKit(
                     repeatForever: true,
                     animatedTexts: [
-                      // ColorizeAnimatedText("Connexion espace ${title}",
-                      ColorizeAnimatedText("Connexion espace ${maDebugVar}",
+                      ColorizeAnimatedText("Connexion espace ${title}",
                           textStyle: style.colorizeTitleTextStyle,
                           colors: style.colorizeColors,
                           textAlign: TextAlign.center),
