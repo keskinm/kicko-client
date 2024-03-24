@@ -13,7 +13,7 @@ String getServerUrl() {
     if (apiTargetEnv == "dev") {
       serverUrl = 'http://127.0.0.1:5000/api/';
     } else {
-      serverUrl = 'https://shashou.pythonanywhere.com/api';
+      serverUrl = 'https://shashou.pythonanywhere.com/api/';
     }
   } else {
     serverUrl = 'http://10.0.2.2:5000/api/';
