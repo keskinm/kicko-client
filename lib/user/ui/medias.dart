@@ -269,7 +269,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
     return xFile;
   }
 
-  Future<void> addProfileImage() async {
+  Future<void> addProfileImage(String updateRoute) async {
     XFile? image = await selectImageFromGallery();
 
     if (image == null) {
@@ -279,7 +279,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
       String imageName = "post_$postId.jpg";
       await Provider.of<FireBaseServiceInterface>(context, listen: false)
           .uploadFile(widget.bucket, imageName, image.readAsBytes());
-      Map res = await postRequest("update_business_fields",
+      Map res = await postRequest(updateRoute,
           [appState.currentUser.id], {"image_id": imageName});
       if (res.containsKey("success") && res["success"]) {
         setState(() {});
@@ -305,7 +305,7 @@ class _DisplayProfileImages extends State<DisplayProfileImages> {
           Center(
               child: ElevatedButton(
             onPressed: () async {
-              await addProfileImage();
+              await addProfileImage(widget.updateRoute);
               setState(() {
                 onReBuild();
               });
