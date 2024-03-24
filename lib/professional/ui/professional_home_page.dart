@@ -35,7 +35,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
   late Future<String> imageDownloadURL;
   late Future<List<dynamic>> jobOffers;
 
-  String get imagesBucket =>
+  String get businessImagesBucket =>
       '${userGroupSyntax.professional}/$userName/business_images';
 
   @override
@@ -47,7 +47,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
   onReBuild() {
     setState(() {
       business = getRequest("get_business", [appState.currentUser.id]);
-      imageDownloadURL = logic.getProfileImage(business, imagesBucket, context);
+      imageDownloadURL = logic.getProfileImage(business, businessImagesBucket, context);
       jobOffers =
           getRequest("professional_get_job_offers", [appState.currentUser.id]);
     });
@@ -144,7 +144,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      UIImage(snapshot.data![1], context, imagesBucket,
+                      UIImage(snapshot.data![1], context, businessImagesBucket,
                           "update_business_fields", onReBuild),
                       nameChild,
                       cityChild,
