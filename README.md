@@ -19,6 +19,10 @@
 
 `flutter run -d chrome`
 
+To change server target env:
+
+`flutter run -d chrome --dart-define=API_TARGET_ENV=prod (or env)`
+
 ## Deploy
 
 `flutter build web`

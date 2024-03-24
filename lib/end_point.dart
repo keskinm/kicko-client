@@ -5,6 +5,22 @@ import 'package:kicko/get_it_service_locator.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
+String getServerUrl() {
+  String serverUrl;
+  final String apiTargetEnv =
+      const String.fromEnvironment('API_TARGET_ENV', defaultValue: 'dev');
+  if (kIsWeb) {
+    if (apiTargetEnv == "dev") {
+      serverUrl = 'http://127.0.0.1:5000/api/';
+    } else {
+      serverUrl = 'https://shashou.pythonanywhere.com/api';
+    }
+  } else {
+    serverUrl = 'http://10.0.2.2:5000/api/';
+  }
+  return serverUrl;
+}
+
 Dio getDio({required bool token}) {
   final dio = getIt<Dio>();
   dio.options = BaseOptions(
@@ -44,15 +60,9 @@ Future<T> getRequest<T>(
   }
 
   Dio dio = getDio(token: pattern.token);
-  String serverUrl;
-  if (kIsWeb) {
-    serverUrl = 'http://127.0.0.1:5000/api/';
-  } else {
-    serverUrl = 'http://10.0.2.2:5000/api/';
-  }
 
   try {
-    final response = await dio.get(serverUrl + compiledUrl);
+    final response = await dio.get(getServerUrl() + compiledUrl);
     if (!pattern.getData) {
       return response as T;
     }
@@ -78,22 +88,10 @@ Future<T> postRequest<T>(String url, List<dynamic> args, Map jsonData) async {
   }
 
   Dio dio = getDio(token: pattern.token);
-  String serverUrl;
-  final String apiTargetEnv =
-      const String.fromEnvironment('API_TARGET_ENV', defaultValue: 'dev');
-  if (kIsWeb) {
-    if (apiTargetEnv == "dev") {
-      serverUrl = 'http://127.0.0.1:5000/api/';
-    } else {
-      serverUrl = 'https://shashou.pythonanywhere.com/api';
-    }
-  } else {
-    serverUrl = 'http://10.0.2.2:5000/api/';
-  }
 
   try {
-    final response =
-        await dio.post(serverUrl + compiledUrl, data: json.encode(jsonData));
+    final response = await dio.post(getServerUrl() + compiledUrl,
+        data: json.encode(jsonData));
     if (!pattern.getData) {
       return response as T;
     }
