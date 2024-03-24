@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:kicko/appbar.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
-import 'package:kicko/user/domain/my_account_logic.dart';
 import 'package:kicko/main.dart';
+import 'package:kicko/user/domain/medias_domain.dart';
 
 import 'medias.dart';
 
@@ -21,7 +21,6 @@ class _MyAccount extends State<MyAccount> {
   late Map<String, dynamic> userJson;
   late Future<String> imageDownloadURL;
   late Future<Map<String, dynamic>> profile;
-  AccountLogic logic = AccountLogic();
 
   String get imagesBucket =>
       '${appState.userGroup}/${appState.currentUser.username}/profile_images';
@@ -32,7 +31,7 @@ class _MyAccount extends State<MyAccount> {
   onReBuild() {
     setState(() {
       profile = getRequest(profileUrl, [appState.currentUser.id]);
-      imageDownloadURL = logic.getProfileImage(profile, imagesBucket, context);
+      imageDownloadURL = getProfileImage(profile, imagesBucket, context);
     });
   }
 

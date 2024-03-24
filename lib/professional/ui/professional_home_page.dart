@@ -15,6 +15,7 @@ import 'package:kicko/shared/common.dart';
 import 'job_offer_page.dart';
 import 'package:kicko/user/ui/user.dart';
 import 'package:kicko/end_point.dart';
+import 'package:kicko/user/domain/medias_domain.dart';
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
@@ -45,7 +46,7 @@ class _ProHome extends State<ProHome> with UserStateMixin {
     setState(() {
       business = getRequest("get_business", [appState.currentUser.id]);
       imageDownloadURL =
-          logic.getProfileImage(business, businessImagesBucket, context);
+          getProfileImage(business, businessImagesBucket, context);
       jobOffers =
           getRequest("professional_get_job_offers", [appState.currentUser.id]);
     });
