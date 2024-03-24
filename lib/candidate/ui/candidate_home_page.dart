@@ -278,7 +278,7 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
     children.addAll(chatWidgetsList(context, messagesNotification, this));
 
     return Scaffold(
-        appBar: userAppBar("", context, avatarBuilder: avatarFutureBuilder()),
+        appBar: userAppBar("", context),
         body: Center(
             child: Column(
           children: children,
