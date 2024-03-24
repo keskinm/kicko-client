@@ -187,26 +187,11 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final jobOffer = snapshot.data![index];
-                return ListView(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
+                return Column(
                   children: <Widget>[
-                    Container(
-                      height: 50,
-                      color: Colors.amber[600],
-                      child: Text(jobOffer['name']),
-                    ),
-                    Container(
-                      height: 50,
-                      color: Colors.amber[500],
-                      child: Text(jobOffer['description']),
-                    ),
-                    Container(
-                      height: 50,
-                      color: Colors.amber[100],
-                      child: Text(jobOffer['requires']),
-                    ),
+                    jobOfferBlock(jobOffer['name'], Color(0xFF2979FF)),
+                    jobOfferBlock(jobOffer['description'], Color(0xFF75A8FF)),
+                    jobOfferBlock(jobOffer['requires'], Color(0xFFBDD6FF)),
                     IconButton(
                       key: Key("go_candidate_job_offer_page"),
                       icon: const Icon(Icons.panorama_fish_eye_sharp),
@@ -253,8 +238,8 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
           child:
               Text("Mes CV", style: Theme.of(context).textTheme.displayMedium)),
       SizedBox(
-          width: MediaQuery.of(context).size.width / 4,
-          height: MediaQuery.of(context).size.height / 4,
+          width: MediaQuery.of(context).size.width / 3,
+          height: MediaQuery.of(context).size.height / 3,
           child: buildJobOffers()),
     ];
 

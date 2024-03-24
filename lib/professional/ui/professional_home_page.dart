@@ -181,26 +181,11 @@ class _ProHome extends State<ProHome> with UserStateMixin {
               itemBuilder: (context, index) {
                 final jobOffer = snapshot.data![index];
                 String jobOfferId = jobOffer["id"];
-                return ListView(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(8),
+                return Column(
                   children: <Widget>[
-                    Container(
-                      height: 50,
-                      color: Colors.amber[600],
-                      child: Text(jobOffer['name']),
-                    ),
-                    Container(
-                      height: 50,
-                      color: Colors.amber[500],
-                      child: Text(jobOffer['description']),
-                    ),
-                    Container(
-                      height: 50,
-                      color: Colors.amber[100],
-                      child: Text(jobOffer['requires']),
-                    ),
+                    jobOfferBlock(jobOffer['name'], Color(0xFF2979FF)),
+                    jobOfferBlock(jobOffer['description'], Color(0xFF75A8FF)),
+                    jobOfferBlock(jobOffer['requires'], Color(0xFFBDD6FF)),
                     TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -357,8 +342,8 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                 spacing: 100,
                 children: [buildJobOffers(), buildAddJobOffer(context)]
                     .map((child) => SizedBox(
-                          width: MediaQuery.of(context).size.width / 4,
-                          height: MediaQuery.of(context).size.height / 4,
+                          width: MediaQuery.of(context).size.width / 3,
+                          height: MediaQuery.of(context).size.height / 3,
                           child: child,
                         ))
                     .toList(),
