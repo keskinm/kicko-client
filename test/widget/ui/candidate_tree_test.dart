@@ -12,13 +12,7 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:kicko/get_it_service_locator.dart';
 import 'package:kicko/services/app_state.dart';
 import 'package:kicko/services/network_image.dart';
-
-class MockImageNetworkService implements ImageNetworkServiceInterface {
-  @override
-  ImageProvider getImageProvider(String imageUrl) {
-    return AssetImage('assets/images/PNG_transparency_demonstration_1.png');
-  }
-}
+import 'utils.dart';
 
 void main() {
   setupFirebaseAuthMocks();
