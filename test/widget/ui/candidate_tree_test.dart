@@ -35,6 +35,7 @@ void main() {
     final fakeFirestore = FakeFirebaseFirestore();
 
     appState.currentUser.id = "5";
+    appState.userGroup = "candidate";
     String firstJobOfferId = "1";
 
     dioAdapter

@@ -35,8 +35,20 @@ void main() {
     final fakeFirestore = FakeFirebaseFirestore();
 
     appState.currentUser.id = "5";
+    appState.userGroup = "professional";
 
     dioAdapter
+      ..onGet(
+          "http://10.0.2.2:5000/api/professional_get_profile/${appState.currentUser.id}",
+          (server) {
+        server.reply(200, {
+          "email": "bachata7@gmail.com",
+          "username": "bachata7",
+          "firebase_id": "pi1L32q35BMz9y0ay0QgyNrlB8a2",
+          "id": "1",
+          "image_id": "post_1711277686477.jpg",
+        });
+      })
       ..onGet(
           "http://10.0.2.2:5000/api/get_business/${appState.currentUser.id}",
           (server) {
