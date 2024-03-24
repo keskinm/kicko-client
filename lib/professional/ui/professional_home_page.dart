@@ -58,8 +58,8 @@ class _ProHome extends State<ProHome> with UserStateMixin {
     return Container(
       decoration: const BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: Colors.purple),
-              top: BorderSide(color: Colors.purple))),
+              bottom: BorderSide(color: Color.fromARGB(255, 2, 6, 12)),
+              top: BorderSide(color: Color.fromARGB(255, 2, 6, 12)))),
       child: Text(text),
     );
   }
@@ -95,8 +95,8 @@ class _ProHome extends State<ProHome> with UserStateMixin {
           Widget nameChild = Container(
             decoration: const BoxDecoration(
                 border: Border(
-                    bottom: BorderSide(color: Colors.purple),
-                    top: BorderSide(color: Colors.purple))),
+                    bottom: BorderSide(color: Color.fromARGB(255, 2, 6, 12)),
+                    top: BorderSide(color: Color.fromARGB(255, 2, 6, 12)))),
             child: TextFormField(
               initialValue: nameInitialValue,
               validator: (value) => logic.nonNullable(
@@ -113,8 +113,10 @@ class _ProHome extends State<ProHome> with UserStateMixin {
               width: 200,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  gradient: const LinearGradient(
-                      colors: [Colors.purple, Colors.red])),
+                  gradient: const LinearGradient(colors: [
+                    Color.fromARGB(255, 2, 6, 12),
+                    Color.fromARGB(255, 241, 249, 5)
+                  ])),
               child: const Center(
                 child: Text(
                   'Enregistrer les modifications',
@@ -266,8 +268,9 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                 margin: const EdgeInsets.only(bottom: 8.0),
                 decoration: BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(color: Colors.purple),
-                        top: BorderSide(color: Colors.purple))),
+                        bottom:
+                            BorderSide(color: Color.fromARGB(255, 2, 6, 12)),
+                        top: BorderSide(color: Color.fromARGB(255, 2, 6, 12)))),
                 child: TextFormField(
                   validator: (value) => logic.nonNullable(
                       value: value, key: "name", jsonModel: logic.jobOfferJson),
@@ -279,8 +282,9 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
                 decoration: BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(color: Colors.purple),
-                        top: BorderSide(color: Colors.purple))),
+                        bottom:
+                            BorderSide(color: Color.fromARGB(255, 2, 6, 12)),
+                        top: BorderSide(color: Color.fromARGB(255, 2, 6, 12)))),
                 child: TextFormField(
                   validator: (value) => logic.nonNullable(
                       value: value,
@@ -293,8 +297,9 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                 margin: const EdgeInsets.only(bottom: 8.0),
                 decoration: BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(color: Colors.purple),
-                        top: BorderSide(color: Colors.purple))),
+                        bottom:
+                            BorderSide(color: Color.fromARGB(255, 2, 6, 12)),
+                        top: BorderSide(color: Color.fromARGB(255, 2, 6, 12)))),
                 child: TextFormField(
                   validator: (value) => logic.nonNullable(
                       value: value,
@@ -311,8 +316,10 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      gradient: const LinearGradient(
-                          colors: [Colors.purple, Colors.red])),
+                      gradient: const LinearGradient(colors: [
+                        Color.fromARGB(255, 2, 6, 12),
+                        Color.fromARGB(255, 241, 249, 5)
+                      ])),
                   child: const Center(
                     child: Text(
                       'Valider',

@@ -29,6 +29,6 @@ class CandidateHomeStyle {
     return InputDecoration(
         border: InputBorder.none,
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.purple));
+        hintStyle: const TextStyle(color: Color.fromARGB(255, 10, 24, 229)));
   }
 }
