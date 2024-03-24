@@ -43,16 +43,6 @@ mixin UserStateMixin<T extends StatefulWidget> on State<T> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           Widget failingBody;
           if (snapshot.hasData) {
-            Widget businessAvatar = Stack(
-              children: [
-                CustomCircleAvatar(
-                  imageUrl: snapshot.data!,
-                  imageService: Provider.of<ImageNetworkServiceInterface>(
-                      context,
-                      listen: false),
-                ),
-              ],
-            );
             return CustomCircleAvatar(
               imageUrl: snapshot.data!,
               imageService: Provider.of<ImageNetworkServiceInterface>(context,
