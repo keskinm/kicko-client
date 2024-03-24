@@ -13,6 +13,7 @@ import 'job_offer_page.dart';
 import 'package:kicko/user/ui/user.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/services/app_state.dart';
+import 'package:kicko/mixins/ui/block.dart';
 
 class CandidateHome extends StatefulWidget {
   const CandidateHome({Key? key}) : super(key: key);
@@ -189,9 +190,11 @@ class _CandidateHome extends State<CandidateHome> with UserStateMixin {
                 final jobOffer = snapshot.data![index];
                 return Column(
                   children: <Widget>[
-                    jobOfferBlock(jobOffer['name'], Color(0xFF2979FF)),
-                    jobOfferBlock(jobOffer['description'], Color(0xFF75A8FF)),
-                    jobOfferBlock(jobOffer['requires'], Color(0xFFBDD6FF)),
+                    ...block([
+                      jobOffer['name'],
+                      jobOffer['description'],
+                      jobOffer['requires']
+                    ]),
                     IconButton(
                       key: Key("go_candidate_job_offer_page"),
                       icon: const Icon(Icons.panorama_fish_eye_sharp),

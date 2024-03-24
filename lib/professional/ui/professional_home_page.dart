@@ -16,6 +16,7 @@ import 'job_offer_page.dart';
 import 'package:kicko/user/ui/user.dart';
 import 'package:kicko/end_point.dart';
 import 'package:kicko/user/domain/medias_domain.dart';
+import 'package:kicko/mixins/ui/block.dart';
 
 class ProHome extends StatefulWidget {
   const ProHome({Key? key}) : super(key: key);
@@ -183,9 +184,11 @@ class _ProHome extends State<ProHome> with UserStateMixin {
                 String jobOfferId = jobOffer["id"];
                 return Column(
                   children: <Widget>[
-                    jobOfferBlock(jobOffer['name'], Color(0xFF2979FF)),
-                    jobOfferBlock(jobOffer['description'], Color(0xFF75A8FF)),
-                    jobOfferBlock(jobOffer['requires'], Color(0xFFBDD6FF)),
+                    ...block([
+                      jobOffer['name'],
+                      jobOffer['description'],
+                      jobOffer['requires']
+                    ]),
                     TextButton(
                         onPressed: () {
                           Navigator.push(
