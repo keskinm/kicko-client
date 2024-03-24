@@ -8,6 +8,7 @@ import 'package:kicko/shared/domain/chat.dart';
 
 import 'package:kicko/professional/domain/professional_home_logic.dart';
 import 'package:kicko/styles/professional_home_style.dart';
+import 'package:kicko/mixins/ui/block.dart';
 
 class ProfessionalJobOfferPage extends StatefulWidget {
   final String jobOfferId;
@@ -160,21 +161,11 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(8),
                   children: <Widget>[
-                    Container(
-                      height: 50,
-                      color: Colors.amber[600],
-                      child: Text(_applier['username']),
-                    ),
-                    Container(
-                      height: 50,
-                      color: Colors.amber[500],
-                      child: Text(_applier['study_level']),
-                    ),
-                    Container(
-                      height: 50,
-                      color: Colors.amber[100],
-                      child: Text(_applier['sex']),
-                    ),
+                    ...block([
+                      _applier['username'],
+                      _applier['study_level'],
+                      _applier['sex']
+                    ]),
                     IconButton(
                       icon: Icon(Icons.message),
                       onPressed: () {
