@@ -31,6 +31,6 @@ To change server target env:
 
 ## Deploy with Netifly 
 
-- Simply specify `flutter build web` as build command
+- Simply specify `flutter build web --dart-define=API_TARGET_ENV=prod` as build command
 - Specify `build/web` as publish directory
 - Enable `Flutter SDK` in integration page
