@@ -29,7 +29,7 @@ To change server target env:
 `cd build/web`
 `python3 -m http.server 8000`
 
-## Deploy with Netifly 
+## Deploy with Netlify
 
 - Simply specify `flutter build web --dart-define=API_TARGET_ENV=prod` as build command
 - Specify `build/web` as publish directory
