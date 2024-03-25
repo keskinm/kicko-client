@@ -55,17 +55,24 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
         if (snapshot.hasData) {
           Map _jobOffer = snapshot.data!;
 
-          body = ListView(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(8),
-            children: <Widget>[
-              ...block([
-                _jobOffer['name'],
-                _jobOffer['description'],
-                _jobOffer['requires']
-              ]),
-            ],
+          dynamic _block = block([
+            _jobOffer['name'],
+            _jobOffer['description'],
+            _jobOffer['requires']
+          ]);
+
+          body = Center(
+            child: Expanded(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(8),
+                  children: _block,
+                ),
+              ),
+            ),
           );
           // body = listView;
         } else if (snapshot.hasError) {
@@ -137,7 +144,9 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
                           onReBuild();
                         });
                       },
-                      child: const Text("Appliquer filtres", style: TextStyle(color: Color.fromARGB(255, 10, 24, 229))))
+                      child: const Text("Appliquer filtres",
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 10, 24, 229))))
                 ],
           );
 
@@ -171,8 +180,23 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
                 "Aucun candidat n'a encore postulé à cette offre ou ne correspond à vos critères de recherche.");
           }
 
-          body = Column(
-            children: [filters, Expanded(child: appliers)],
+          body = Center(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: filters,
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: appliers,
+                  ),
+                ),
+              ],
+            ),
           );
         } else if (snapshot.hasError) {
           body = Text('Error: ${snapshot.error}');
@@ -189,18 +213,12 @@ class _ProfessionalJobOfferPage extends State<ProfessionalJobOfferPage> {
     return Scaffold(
         appBar: simpleAppBar(context),
         body: Center(
-            child: Wrap(
-          spacing: 100,
-          children: [
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                height: MediaQuery.of(context).size.height / 4,
-                child: buildJobOffer()),
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                height: MediaQuery.of(context).size.height / 4,
-                child: buildAppliers()),
-          ],
-        )));
+          child: Column(
+            children: [
+              Flexible(child: buildJobOffer()),
+              Flexible(child: buildAppliers())
+            ],
+          ),
+        ));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget blockLine(String text, Color bgColor, Color textColor) {
+Widget blockLine(String text, Color bgColor) {
   return Container(
     width: double.infinity,
     height: 50,
@@ -17,22 +17,18 @@ Widget blockLine(String text, Color bgColor, Color textColor) {
         ),
       ],
     ),
-    child: Text(
-      text,
-      style: TextStyle(color: textColor),
-    ),
+    child: Text(text),
   );
 }
 
 List<Widget> block(List<String> texts) {
   List<Color> colors = [
-    Color.fromARGB(255, 241, 249, 5),
-    Color.fromARGB(255, 2, 6, 12),
+    Color.fromARGB(255, 202, 202, 198),
+    Color.fromARGB(255, 255, 255, 255),
   ];
   List<Widget> blocks = [];
   for (int i = 0; i < texts.length; i++) {
-    blocks.add(blockLine(
-        texts[i], colors[i % colors.length], colors[(i + 1) % colors.length]));
+    blocks.add(blockLine(texts[i], colors[i % colors.length]));
   }
   return blocks;
 }
